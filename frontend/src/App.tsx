@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import React, {useEffect, useState} from "react";
 
 const App: React.FC = () => {
     const [message, setMessage] = useState('');
@@ -10,7 +10,7 @@ const App: React.FC = () => {
                 setMessage(response.data);
             })
             .catch(error => {
-                console.error('There was an error fetching the data test!', error);
+                console.error('There was an error fetching the data!', error);
             });
     }, []);
 

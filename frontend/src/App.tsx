@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, {useEffect, useState} from "react";
+import Inventory from "./components/Inventory";
 
 const App: React.FC = () => {
     const [message, setMessage] = useState('');
@@ -16,7 +17,8 @@ const App: React.FC = () => {
 
     return (
         <div>
-            <h1>{message}</h1>
+            <div>test</div>
+            <Inventory></Inventory>
         </div>
     );
 };

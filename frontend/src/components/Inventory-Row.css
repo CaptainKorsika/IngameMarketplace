@@ -1,0 +1,7 @@
+.inventory-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 5%;
+    max-height: 200px;
+}

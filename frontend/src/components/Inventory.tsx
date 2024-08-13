@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
+import {Component, useEffect, useState} from "react";
 import "./InventoryStyle.css"
+import Item from "./Item";
+import InventoryRow from "./InventoryRow";
 
 
 class FocusItem extends Component {
     render() {
         return (
-            <div className="container">
-               <div>
+            <div className="inventory-container">
+               <div className="inventory-menu">
                    <div className="item-info">
                        <div className="name">sword</div>
                        <div className="purchase-price">2</div>
@@ -15,9 +17,9 @@ class FocusItem extends Component {
                    <div className="blanace"></div>
                </div>
                 <div className="grid-container">
-                    <div className="inventory-row" id="row1"></div>
-                    <div className="inventory-row" id="row2"></div>
-                    <div className="inventory-row" id="row3"></div>
+                    <InventoryRow></InventoryRow>
+                    <InventoryRow></InventoryRow>
+                    <InventoryRow></InventoryRow>
                 </div>
             </div>
         );

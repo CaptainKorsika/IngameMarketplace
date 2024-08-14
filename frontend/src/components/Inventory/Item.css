@@ -1,0 +1,11 @@
+.item {
+    height: 100px;
+    background-color: #603904;
+    border: 2px solid black;
+    border-radius: 10px;
+    box-sizing: border-box;
+    margin: 1px;
+    flex-basis: calc((100% / 5) - 3px);
+    flex-shrink: 0;
+    overflow: hidden;
+}

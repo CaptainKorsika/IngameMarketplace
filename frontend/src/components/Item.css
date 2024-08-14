@@ -1,9 +1,0 @@
-.item {
-    height: 100px;
-    background-color: #0b980d;
-    border: 1px solid black;
-    box-sizing: border-box;
-    margin: 1px;
-    flex-basis: calc((100% / 5) - 5px);
-    flex-shrink: 0;
-}

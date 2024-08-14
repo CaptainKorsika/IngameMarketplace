@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, {useEffect, useState} from "react";
-import Inventory from "./components/Inventory";
-import Menu from "./components/Menu";
-import Marketplace from "./components/Marketplace";
+import Inventory from "./components/Inventory/Inventory";
+import Menu from "./components/Menu/Menu";
+import Marketplace from "./components/Marketplace/Marketplace";
 import './App.css'
 
 const App: React.FC = () => {
@@ -20,13 +20,16 @@ const App: React.FC = () => {
 
     return (
         <div className="window-container">
-            <Inventory></Inventory>
+            <Inventory
+                entity="Merchant"
+            />
             <div className="game-container">
-                <Marketplace></Marketplace>
-                <Menu></Menu>
+                <Marketplace/>
+                <Menu/>
             </div>
-
-            <Inventory></Inventory>
+            <Inventory
+                entity="Player"
+            />
         </div>
     );
 };

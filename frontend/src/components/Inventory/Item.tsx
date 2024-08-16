@@ -4,8 +4,8 @@ import "./Item.css"
 class Item extends Component {
     render() {
         return (
-            <div className="item">
-                Item
+            <div className="item-container">
+                <img src="" alt="Item" className="item-image"/>
             </div>
         );
     }

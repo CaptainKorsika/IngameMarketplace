@@ -6,9 +6,10 @@ class PlayerMenu extends Component {
     render() {
         return (
             <div className="inventory-menu">
-                <div className="name">player</div>
-                <div className="purchase-price">5</div>
-                <div className="amount">3</div>
+                <div className="player-money">
+                    <h2>Money: 5$</h2>
+                </div>
+                <button>Buy Inventory Space</button>
             </div>
         );
     }

@@ -7,24 +7,118 @@
     justify-content: space-between;
 }
 
-.item-info {
+.focus-item {
+    display: flex;
+    justify-content: space-between;
+    height: 100px;
+    flex-basis: calc((100% / 5) - 3px);
+    flex-shrink: 0;
+    overflow: hidden;
+    margin: 0 10px;
+}
+
+.focus-item-image-container, .focus-item-amount{
+    width: 100px;
+    height: 100px;
+    background-color: #0c27be;
+    border: 2px solid black;
+    border-radius: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.focus-item-amount > h2{
+    text-align: center;
+    font-size: 30px;
+    margin: 23px auto;
+}
+
+.focus-item-image{
+    background-size: cover;
+}
+
+.focus-item-name{
+    width: 350px;
+}
+
+.focus-item-amount{
+    width: 100px;
+    justify-content: end;
+}
+
+.focus-item-information{
+    display: flex;
+    justify-content: space-around;
+    height: 100px;
+}
+
+.focus-item-player-interaction{
+    height: 130px;
+    margin: 0 0 20px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.focus-item-price, .focus-item-average{
+    padding: 10px;
+}
+
+.focus-item-price{
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.focus-item-average{
+    width: 50%;
+    box-sizing: border-box;
+}
+
+
+.price-history {
     width: 50%;
     justify-content: space-around;
     display: flex;
     flex-direction: column;
     flex-grow: 0;
+    border-right: 2px dashed black;
 }
 
 .interaction-container {
     width: 50%;
     justify-content: space-around;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 0;
+}
+
+.focus-item-wrapper{
+    margin: 100px 0 0 0;
 }
 
 button, input {
     max-width: 200px;
-    margin: auto
 }
 
+.amount-input{
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-around;
+    height: 40px;
+    width: 300px;
+    margin: auto;
+}
+
+button{
+    margin: auto;
+}
+
+input{
+    height: 30px;
+}
+
+h4{
+    margin: 5px 0 0 0;
+}
+
+.focus-item-button-wrapper{
+    width: 300px;
+    display: flex;
+    margin: auto
+}

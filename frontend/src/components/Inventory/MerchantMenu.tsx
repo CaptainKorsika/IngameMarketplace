@@ -6,9 +6,21 @@ class PlayerMenu extends Component {
     render() {
         return (
             <div className="inventory-menu">
-                <div className="name">merchant</div>
-                <div className="purchase-price">2</div>
-                <div className="amount">3</div>
+                <h2 className="statistics-header">Statistics</h2>
+                <div className="statistics">
+                    <div className="statistic-items">
+                        <h4 className="most-money">Most Money:</h4>
+                        <h4 className="most-profit">Most profitable Day:</h4>
+                        <h4 className="number-trades">Number of Trades:</h4>
+                    </div>
+                    <div className="statistic-data">
+                        <h4>$1000</h4>
+                        <h4>$103</h4>
+                        <h4>5</h4>
+                    </div>
+                </div>
+
+
             </div>
         );
     }

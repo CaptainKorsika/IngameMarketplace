@@ -10,6 +10,6 @@ class HelloController {
 
     @GetMapping("/hello")
     fun sayHello(): String {
-        return "Hello from Kotlin Spring Boota!"
+        return "Hello from Kotlin Spring Boot!"
     }
 }

@@ -7,9 +7,14 @@ class PlayerMenu extends Component {
         return (
             <div className="inventory-menu">
                 <div className="player-money">
-                    <h2>Money: 5$</h2>
+                    <h2>Money: 100$</h2>
                 </div>
-                <button>Buy Inventory Space</button>
+                <div className="buy-inventory-container">
+                    <h3>$1000</h3>
+                    <button className="buy-inventory-button">Unlock Inventory Space</button>
+
+                </div>
+
             </div>
         );
     }

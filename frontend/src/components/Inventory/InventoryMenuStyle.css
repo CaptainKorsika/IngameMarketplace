@@ -5,3 +5,50 @@
     border: 3px solid white;
     box-sizing: border-box;
 }
+
+.statistics-header{
+    height: 30px;
+    margin: 10px 0 20px 10px;
+}
+
+.statistics{
+    display: flex;
+    flex-direction: row;
+}
+
+.statistic-items, .statistic-data{
+    margin: 10px;
+    width: 200px;
+}
+
+
+.buy-inventory-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 350px;
+    margin: 0 0 0 150px;
+    height: 50px;
+}
+
+.buy-inventory-container > h3 {
+    height: 30px;
+    margin: 10px;
+    box-sizing: border-box;
+}
+
+.player-money{
+    justify-content: end;
+}
+
+.player-money > h2 {
+    text-align: end;
+    margin: 20px 50px 50px 0;
+}
+
+.buy-inventory-button {
+    justify-content: end;
+    min-width: 250px;
+    height: 50px;
+    margin: 0;
+}

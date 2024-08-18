@@ -1,22 +1,26 @@
 import axios from 'axios';
 import React, {useEffect, useState} from "react";
 import Inventory from "./components/Inventory/Inventory";
-import Menu from "./components/Menu/Menu";
 import Marketplace from "./components/Marketplace/Marketplace";
 import './App.css'
+import MenuScreen from "./components/MenuScreen/MenuScreen";
 
 const App: React.FC = () => {
-    const [message, setMessage] = useState('');
+    const [isCurrentlyPlaying, setIsCurrentlyPlaying] = useState()
 
     useEffect(() => {
-        axios.get('/api/hello')
-            .then(response => {
-                setMessage(response.data);
+        // Fetch the data from the backend when the component is mounted
+        const fetchData = () => {
+            const response = axios.get('http://localhost:8080/api/game-status');
+
+            response.then(function(response) {
+                setIsCurrentlyPlaying(response.data);
             })
-            .catch(error => {
-                console.error('There was an error fetching the data!', error);
-            });
-    }, []);
+        };
+        fetchData();
+    }, []); // Empty dependency array
+
+
 
     return (
         <div className="window-container">
@@ -25,7 +29,7 @@ const App: React.FC = () => {
             />
             <div className="game-container">
                 <Marketplace/>
-                <Menu/>
+                <MenuScreen isCurrentlyPlaying={isCurrentlyPlaying}/>
             </div>
             <Inventory
                 entity="Player"

@@ -1,5 +1,5 @@
 import {Component, useEffect, useState} from "react";
-import "./InventoryMenuStyle.css"
+import "./InventoryMenu.css"
 
 
 class PlayerMenu extends Component {

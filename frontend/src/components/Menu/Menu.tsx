@@ -6,8 +6,8 @@ class Menu extends Component {
         return (
             <div className="menu">
                 <div className="price-history">
-                    Average Price
-                    Documented Price History
+                    <h2>Average Price Documented Price History</h2>
+
                 </div>
                 <div className="interaction-container">
                     <div className="focus-item-wrapper">

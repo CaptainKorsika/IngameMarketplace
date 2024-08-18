@@ -2,7 +2,7 @@ import {Component, useEffect, useState} from "react";
 import "./InventoryStyle.css"
 import InventoryRow from "./InventoryRow";
 import PlayerMenu from "./PlayerMenu";
-import MerchantMenu from "./MerchantMenu";
+import MerchantMenu from "./StatisticsMenu";
 
 
 interface InventoryProps {

@@ -2,25 +2,8 @@
     margin: 15% 0 0 0;
     padding: 10px;
     height: 200px;
-    border: 3px solid white;
     box-sizing: border-box;
 }
-
-.statistics-header{
-    height: 30px;
-    margin: 10px 0 20px 10px;
-}
-
-.statistics{
-    display: flex;
-    flex-direction: row;
-}
-
-.statistic-items, .statistic-data{
-    margin: 10px;
-    width: 200px;
-}
-
 
 .buy-inventory-container {
     display: flex;

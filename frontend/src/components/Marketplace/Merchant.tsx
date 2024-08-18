@@ -5,7 +5,6 @@ class Merchant extends Component {
     render() {
         return (
             <div className="merchant">
-                Merchant
             </div>
         );
     }

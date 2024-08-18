@@ -1,0 +1,38 @@
+.statistics-menu {
+    display: flex;
+    margin: 15% 0 0 0;
+    padding: 10px;
+    height: 200px;
+    box-sizing: border-box;
+}
+
+.statistics-container {
+    width: 70%;
+}
+
+.meta-data{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+
+.settings-button{
+    width: 100px;
+    margin: 60px 0 0 30px;
+}
+
+.statistics-header, .days{
+    height: 30px;
+    margin: 10px 0 20px 10px;
+}
+
+.statistics-data{
+    display: flex;
+    flex-direction: row;
+}
+
+.statistic-items, .statistic-data{
+    margin: 10px;
+    width: 200px;
+}
+

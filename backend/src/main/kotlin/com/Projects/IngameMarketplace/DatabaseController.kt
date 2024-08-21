@@ -9,7 +9,7 @@ import javax.xml.crypto.Data
 class DatabaseController {
 
     fun connectToDatabase(): Connection {
-        val url = "jdbc:sqlite:E:\\Work\\Programmieren\\Projects\\IngameMarketplace\\backend\\src\\main\\resources\\database.sql"
+        val url = "jdbc:sqlite:E:src/main/resources/database.sql"
         return DriverManager.getConnection(url)
     }
 

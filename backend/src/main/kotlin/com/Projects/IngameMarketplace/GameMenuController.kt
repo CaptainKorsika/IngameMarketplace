@@ -14,7 +14,6 @@ class GameMenuController {
     @GetMapping("/game-status")
     final fun gameCurrentlyRunning(): Boolean {
         val isRunning = !databaseController.getPlayer().isNullOrEmpty()
-        println(isRunning)
         return isRunning
     }
 }

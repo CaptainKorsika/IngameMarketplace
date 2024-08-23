@@ -1,4 +1,4 @@
-import {Component, useEffect, useState} from "react";
+import {Component} from "react";
 import "./Marketplace.css"
 import Merchant from "./Merchant";
 

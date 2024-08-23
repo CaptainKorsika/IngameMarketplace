@@ -1,0 +1,45 @@
+.start-game-modal{
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 200px;
+    background-color: #532a17;
+    border: 2px solid #000
+}
+
+.name-header{
+    margin: 0 0 20px 0;
+    text-align: center;
+}
+
+.name-input{
+    margin: 0 0 70px 100px;
+    padding: 0 10px;
+    width: 200px;
+    border: 1px rgba(255, 255, 255, 0.48) solid;
+    border-radius: 5px;
+    background-color: #3b3b3b;
+    box-sizing: border-box;
+}
+
+.start-game-button-wrapper{
+    display: flex;
+    justify-content: space-around;
+}
+
+.back-button{
+    background-color: #b40000;
+}
+
+
+.starting-screen{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 50vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.25)), url("../../../assets/starting-screen-background.png");
+    background-size: cover;
+}

@@ -1,7 +1,7 @@
 import {Component, useEffect, useState} from "react";
-import "./Menu.css"
+import "./MenuScreen.css"
 
-class Menu extends Component {
+class MenuScreen extends Component {
     render() {
         return (
             <div className="menu">
@@ -48,4 +48,4 @@ class Menu extends Component {
     }
 }
 
-export default Menu;
+export default MenuScreen;

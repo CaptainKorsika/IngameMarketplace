@@ -1,4 +1,4 @@
-import {Component, useEffect, useState} from "react";
+import {Component} from "react";
 import "./InventoryStyle.css"
 import InventoryRow from "./InventoryRow";
 import PlayerMenu from "./Data Sections/PlayerMenu";
@@ -6,12 +6,18 @@ import MerchantMenu from "./Data Sections/StatisticsMenu";
 
 
 interface InventoryProps {
-    entity: string
+    entity: string,
+    isCurrentlyPlaying: boolean
 }
 
 class Inventory extends Component<InventoryProps> {
     render() {
-        const {entity} = this.props;
+        const {entity, isCurrentlyPlaying} = this.props
+
+        if (!isCurrentlyPlaying) {
+            return <div className="inventory-container"></div>
+        }
+
         return (
             <div className="inventory-container">
                 {entity === "Player" && <PlayerMenu/>}

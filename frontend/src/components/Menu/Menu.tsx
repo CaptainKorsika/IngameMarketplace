@@ -1,19 +1,19 @@
 import {Component, useEffect, useState} from "react";
-import Menu from "./Menu/Menu";
+import MenuScreen from "./MenuScreen/MenuScreen";
 import StartingScreen from "./StartingScreen/StartingScreen";
 
 
-interface MenuScreenProps {
-    isCurrentlyPlaying: boolean
+interface MenuProps {
+    isCurrentlyPlaying: boolean,
 }
 
-class MenuScreen extends Component<MenuScreenProps> {
+class Menu extends Component<MenuProps> {
     render() {
         const {isCurrentlyPlaying} = this.props;
         return (
             <div className="menu-screen-container">
                 {isCurrentlyPlaying ? (
-                    <Menu/>
+                    <MenuScreen/>
                 ) : (
                     <StartingScreen/>
                 )}
@@ -22,4 +22,4 @@ class MenuScreen extends Component<MenuScreenProps> {
     }
 }
 
-export default MenuScreen;
+export default Menu;

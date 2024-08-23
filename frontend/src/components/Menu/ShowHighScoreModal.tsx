@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Modal, Box, Typography } from '@mui/material';
 import "./ShowHighScoreModal.css"
 
@@ -19,6 +19,7 @@ class ShowHighScoreModal extends Component {
     };
 
     render() {
+        // @ts-ignore
         const { open } = this.state;
 
         const style = {

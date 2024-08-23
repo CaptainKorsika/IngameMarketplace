@@ -1,5 +1,8 @@
 package com.Projects.IngameMarketplace
 
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
@@ -22,6 +25,7 @@ class DatabaseController {
 
         // Execute the query
         val resultSet: ResultSet = statement.executeQuery(query)
+        connection.close()
 
         // Store the first entry in a variable
         return if (resultSet.next()) {
@@ -37,6 +41,29 @@ class DatabaseController {
             null
         }
     }
+
+
+    fun createPlayerEntry(player: Player) {
+        val connection = connectToDatabase()
+        val statement: Statement = connection.createStatement()
+
+        val itemJSON = Json.parseToJsonElement(player.inventoryItems.toString())
+        // val itemJSON = Json.encodeToString(player.inventoryItems)
+
+        val query = """
+            INSERT INTO PLAYER(PLAYER_NAME, MONEY, INVENTORY_SPACE, INVENTORY_ITEMS, DAY, IS_PLAYING) VALUES(
+            ${player.name}, 
+            ${player.money}, 
+            ${player.inventorySpace}, 
+            ${itemJSON}, 
+            ${player.day}, 
+            ${player.isPlaying})
+        """
+
+        statement.executeQuery(query)
+        connection.close()
+    }
+
 }
 
 val databaseController: DatabaseController = DatabaseController()

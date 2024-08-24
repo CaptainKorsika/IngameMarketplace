@@ -1,11 +1,11 @@
-package com.Projects.IngameMarketplace
+package com.projects.inGameMarketplace
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class IngameMarketplaceApplication
+class MainApplication
 
 fun main(args: Array<String>) {
-	runApplication<IngameMarketplaceApplication>(*args)
+	runApplication<MainApplication>(*args)
 }

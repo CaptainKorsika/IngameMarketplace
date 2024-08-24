@@ -1,23 +1,21 @@
-package com.Projects.IngameMarketplace
+package com.projects.inGameMarketplace
 
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-
 @CrossOrigin
 @RestController
-@RequestMapping("/startGame")
-class StartGameController {
+@RequestMapping("/api")
+class GameStateController {
+    @GetMapping("/gameStatus")
+    final fun gameCurrentlyRunning(): Boolean {
+        return databaseController.checkForPlayer()
+    }
 
     @PostMapping("/createPlayer")
     fun createPlayer(@RequestBody playerName: String): ResponseEntity<String> {
-        val newPlayer = Player()
-        newPlayer.submitName(playerName)
+        val newPlayer = Player(playerName)
         databaseController.createPlayerEntry(newPlayer)
         return ResponseEntity.ok("Player built successfully")
     }
 }
-
-

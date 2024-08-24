@@ -1,1 +1,1 @@
-rootProject.name = "IngameMarketplace"
+rootProject.name = "inGameMarketplace"

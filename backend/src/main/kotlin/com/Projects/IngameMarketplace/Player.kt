@@ -1,15 +1,9 @@
-package com.Projects.IngameMarketplace
+package com.projects.inGameMarketplace
 
-class Player {
-    lateinit var name: String
+class Player(playerName: String) {
+    val name: String = playerName
     var money: Int = 500
     var inventorySpace: Int = 1
     val inventoryItems: MutableMap<Item, Int> = mutableMapOf()
     var day: Int = 1
-    var isPlaying: Int = 1
-
-    fun submitName(name: String) {
-        this.name = name
-    }
-
 }

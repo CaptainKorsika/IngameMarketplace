@@ -22,13 +22,11 @@ class DatabaseController {
         val statement: Statement = connection.createStatement()
         val query = "SELECT * FROM PLAYER;"
 
-
         // Execute the query
         val resultSet: ResultSet = statement.executeQuery(query)
-        connection.close()
 
         // Store the first entry in a variable
-        return if (resultSet.next()) {
+        val result = if (resultSet.next()) {
             val metadata = resultSet.metaData
             val columnCount = metadata.columnCount
             val row = mutableMapOf<String, Any?>()
@@ -40,27 +38,30 @@ class DatabaseController {
         } else {
             null
         }
+        resultSet.close()
+        connection.close()
+        return result
     }
 
 
     fun createPlayerEntry(player: Player) {
         val connection = connectToDatabase()
-        val statement: Statement = connection.createStatement()
 
-        val itemJSON = Json.parseToJsonElement(player.inventoryItems.toString())
-        // val itemJSON = Json.encodeToString(player.inventoryItems)
+        val itemJSON = Json.encodeToString(player.inventoryItems.toString())
 
         val query = """
-            INSERT INTO PLAYER(PLAYER_NAME, MONEY, INVENTORY_SPACE, INVENTORY_ITEMS, DAY, IS_PLAYING) VALUES(
-            ${player.name}, 
-            ${player.money}, 
-            ${player.inventorySpace}, 
-            ${itemJSON}, 
-            ${player.day}, 
-            ${player.isPlaying})
+            INSERT INTO PLAYER(PLAYER_NAME, MONEY, INVENTORY_SPACE, INVENTORY_ITEMS, DAY, IS_PLAYING) VALUES(?, ?, ?, ?, ?, ?)
         """
 
-        statement.executeQuery(query)
+        val preparedStatement = connection.prepareStatement(query)
+        preparedStatement.setString(1, player.name)
+        preparedStatement.setInt(2, player.money)
+        preparedStatement.setInt(3, player.inventorySpace)
+        preparedStatement.setObject(4, itemJSON)
+        preparedStatement.setInt(5, player.day)
+        preparedStatement.setInt(6, player.isPlaying)
+
+        preparedStatement.executeUpdate()
         connection.close()
     }
 

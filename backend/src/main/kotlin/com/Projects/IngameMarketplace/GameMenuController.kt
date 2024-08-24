@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api")
 class GameMenuController {
-    var gameIsRunning: Boolean = gameCurrentlyRunning()
 
-    @GetMapping("/game-status")
+    @GetMapping("/gameStatus")
     final fun gameCurrentlyRunning(): Boolean {
         val isRunning = !databaseController.getPlayer().isNullOrEmpty()
         return isRunning

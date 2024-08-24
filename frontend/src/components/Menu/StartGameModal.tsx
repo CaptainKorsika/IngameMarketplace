@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import {Component, useState} from 'react';
 import {Modal, Box, Typography, Input} from '@mui/material';
 import "./StartGameModal.css"
 import axios from "axios";
@@ -18,14 +18,17 @@ class StartGameModal extends Component {
     handleClose = () => {
         this.setState({ open: false });
     };
-
     startGame = () => {
         // @ts-ignore
         const name = document.getElementsByClassName("name-input")[0].value
-        axios.post('http://localhost:8080/start-game/create-player', name)
+        this.handleClose()
+        axios.post('http://localhost:8080/startGame/createPlayer', name, {
+            headers: {
+                "Content-Type": "text/plain"
+            }
+        })
             .then(response => {
                 console.log(response.data);
-                this.handleClose()
             })
             .catch(error => {
                 console.error("There was an error!", error.response ? error.response.data : error.message);

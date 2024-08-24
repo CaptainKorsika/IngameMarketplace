@@ -8,16 +8,13 @@ import org.springframework.web.bind.annotation.*
 
 @CrossOrigin
 @RestController
-@RequestMapping("/start-game")
+@RequestMapping("/startGame")
 class StartGameController {
-    lateinit var playerName: String
 
-
-    @PostMapping("/create-player")
+    @PostMapping("/createPlayer")
     fun createPlayer(@RequestBody playerName: String): ResponseEntity<String> {
         val newPlayer = Player()
         newPlayer.submitName(playerName)
-        println(playerName)
         databaseController.createPlayerEntry(newPlayer)
         return ResponseEntity.ok("Player built successfully")
     }

@@ -22,7 +22,7 @@ class StartGameModal extends Component {
         // @ts-ignore
         const name = document.getElementsByClassName("name-input")[0].value
         this.handleClose()
-        axios.post('http://localhost:8080/startGame/createPlayer', name, {
+        axios.post('http://localhost:8080/api/createPlayer', name, {
             headers: {
                 "Content-Type": "text/plain"
             }

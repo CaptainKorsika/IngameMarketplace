@@ -1,5 +1,6 @@
 import {Component, useEffect, useState} from "react";
 import "./StatisticsMenu.css"
+import SettingsScreenModal from "../../Menu/SettingsScreen/SettingsScreenModal";
 
 
 class PlayerMenu extends Component {
@@ -23,7 +24,7 @@ class PlayerMenu extends Component {
                 </div>
                 <div className="meta-data">
                     <h2 className="days"> Day 1/100</h2>
-                    <button className="settings-button">Settings</button>
+                    <SettingsScreenModal></SettingsScreenModal>
                 </div>
 
             </div>

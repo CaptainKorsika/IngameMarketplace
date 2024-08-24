@@ -24,8 +24,8 @@ class Inventory extends Component<InventoryProps> {
                 {entity === "Merchant" && <MerchantMenu/>}
                 <div className="grid-container">
                     <InventoryRow/>
-                    <InventoryRow/>
-                    <InventoryRow/>
+                    {entity === "Player" && <InventoryRow/>}
+                    {entity === "Player" && <InventoryRow/>}
                 </div>
             </div>
         );

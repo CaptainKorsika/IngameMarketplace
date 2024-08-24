@@ -18,4 +18,10 @@ class GameStateController {
         databaseController.createPlayerEntry(newPlayer)
         return ResponseEntity.ok("Player built successfully")
     }
+
+    @PostMapping("/deletePlayer")
+    fun deletePlayer(): ResponseEntity<String> {
+        databaseController.deletePlayerEntry()
+        return ResponseEntity.ok("Player deleted successfully")
+    }
 }

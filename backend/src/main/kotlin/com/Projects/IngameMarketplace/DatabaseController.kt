@@ -44,6 +44,17 @@ class DatabaseController {
         val url = "jdbc:sqlite:E:src/main/resources/database.sql"
         return DriverManager.getConnection(url)
     }
+
+    fun deletePlayerEntry() {
+        val connection = connectToDatabase()
+        val query = """
+            DELETE FROM PLAYER;
+        """
+
+        val preparedStatement = connection.prepareStatement(query)
+        preparedStatement.executeUpdate()
+        connection.close()
+    }
 }
 
 val databaseController: DatabaseController = DatabaseController()

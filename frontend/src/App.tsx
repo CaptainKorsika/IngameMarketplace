@@ -24,7 +24,7 @@ class App extends Component<{}, AppState> {
     }
 
     fetchData = () => {
-        axios.get('http://localhost:8080/api/gameStatus')
+        axios.get('http://localhost:8080/playerService/gameRunning')
             .then(response => {
                 this.setState({ isCurrentlyPlaying: response.data });
             })

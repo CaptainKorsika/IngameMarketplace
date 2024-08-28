@@ -3,8 +3,6 @@ package com.projects.inGameMarketplace
 import kotlinx.serialization.Serializable
 
 @Serializable
-class Item {
-    val name: String = "banana"
-    val image: String = ""
-    val price: Int = 2
+class Item(val name: String, val image: String, val averagePrice: Double) {
+    var currentPrice: Double = averagePrice
 }

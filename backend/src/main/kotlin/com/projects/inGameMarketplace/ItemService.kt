@@ -38,6 +38,11 @@ class ItemService {
     val availableItems: MutableList<Item>? = null
 
 
+
+    fun getAllItems(): List<Item> {
+        return this.existingItems
+    }
+
     fun createAvailableItems(existingItems: List<Item> = this.existingItems): List<Item> {
         val listBuilder: MutableList<Item> = mutableListOf()
         for (i in 1..10) {

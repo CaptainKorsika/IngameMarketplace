@@ -1,4 +1,4 @@
-package com.Projects.IngameMarketplace
+package com.projects.inGameMarketplace
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

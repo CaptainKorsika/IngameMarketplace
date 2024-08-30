@@ -8,11 +8,12 @@ import MerchantMenu from "./Data Sections/StatisticsMenu";
 interface InventoryProps {
     entity: string,
     isCurrentlyPlaying: boolean
+    inventorySpace: number
 }
 
 class Inventory extends Component<InventoryProps> {
     render() {
-        const {entity, isCurrentlyPlaying} = this.props
+        const {entity, isCurrentlyPlaying, inventorySpace} = this.props
 
         if (!isCurrentlyPlaying) {
             return <div className="inventory-container"></div>
@@ -24,8 +25,8 @@ class Inventory extends Component<InventoryProps> {
                 {entity === "Merchant" && <MerchantMenu/>}
                 <div className="grid-container">
                     <InventoryRow/>
-                    {entity === "Player" && <InventoryRow/>}
-                    {entity === "Player" && <InventoryRow/>}
+                    {entity === "Player" && inventorySpace > 1 && <InventoryRow/>}
+                    {entity === "Player" && inventorySpace > 2 && <InventoryRow/>}
                 </div>
             </div>
         );

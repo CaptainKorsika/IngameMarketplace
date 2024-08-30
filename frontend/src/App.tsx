@@ -8,6 +8,7 @@ import axios from "axios";
 
 interface AppState {
     isCurrentlyPlaying: boolean;
+    inventorySpace: number;
 }
 
 
@@ -15,12 +16,14 @@ class App extends Component<{}, AppState> {
     constructor(props) {
         super(props);
         this.state = {
-            isCurrentlyPlaying: undefined
+            isCurrentlyPlaying: undefined,
+            inventorySpace: 1
         };
     }
 
     componentDidMount() {
         this.fetchData();
+        this.getPlayerData()
     }
 
     fetchData = () => {
@@ -33,20 +36,32 @@ class App extends Component<{}, AppState> {
             });
     };
 
+
+    getPlayerData = () => {
+        axios.get('http://localhost:8080/playerService/getPlayer')
+            .then(response => {
+                this.setState({ inventorySpace: response.data.inventorySpace });
+            })
+            .catch(error => {
+                console.error('There was an error fetching the game status!', error);
+            });
+    }
+
     render() {
-        const { isCurrentlyPlaying } = this.state;
+        const { isCurrentlyPlaying, inventorySpace } = this.state;
 
         return (
             <div className="window-container">
                 <Inventory
                     entity="Merchant"
                     isCurrentlyPlaying={isCurrentlyPlaying}
+                    inventorySpace={inventorySpace}
                 />
                 <div className="game-container">
                     <Marketplace />
                     <Menu isCurrentlyPlaying={isCurrentlyPlaying} />
                 </div>
-                <Inventory entity="Player" isCurrentlyPlaying={isCurrentlyPlaying} />
+                <Inventory entity="Player" isCurrentlyPlaying={isCurrentlyPlaying} inventorySpace={inventorySpace} />
             </div>
         );
     }

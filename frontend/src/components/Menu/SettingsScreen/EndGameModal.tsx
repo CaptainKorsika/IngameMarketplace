@@ -2,7 +2,6 @@ import {Component, useEffect, useState} from 'react';
 import {Modal, Box, Typography, Input} from '@mui/material';
 import './EndGameModal.css'
 import axios from "axios";
-import SettingsScreenModal from "./SettingsScreenModal";
 
 class StartGameModal extends Component {
     constructor(props) {

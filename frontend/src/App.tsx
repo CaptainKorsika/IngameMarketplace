@@ -22,8 +22,8 @@ class App extends Component<{}, AppState> {
     }
 
     componentDidMount() {
-        this.fetchData();
-        this.getPlayerData()
+        this.fetchData()
+        this.getInventorySpace()
     }
 
     fetchData = () => {
@@ -37,7 +37,7 @@ class App extends Component<{}, AppState> {
     };
 
 
-    getPlayerData = () => {
+    getInventorySpace = () => {
         axios.get('http://localhost:8080/playerService/getPlayer')
             .then(response => {
                 this.setState({ inventorySpace: response.data.inventorySpace });

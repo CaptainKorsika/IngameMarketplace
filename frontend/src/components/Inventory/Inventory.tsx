@@ -22,7 +22,7 @@ class Inventory extends Component<InventoryProps> {
 
         return (
             <div className="inventory-container">
-                {entity === "Player" && <PlayerMenu unlockInventory={unlockInventory}/>}
+                {entity === "Player" && <PlayerMenu inventorySpace={inventorySpace} unlockInventory={unlockInventory}/>}
                 {entity === "Merchant" && <MerchantMenu/>}
                 <div className="grid-container">
                     <InventoryRow/>

@@ -21,23 +21,27 @@ class InventoryService(@Autowired val restTemplate: RestTemplate) {
     fun buyInventory(): Int {
         val player: Player? = callGetPlayerDataApi()
         if (player != null && player.inventorySpace < 3) {
+            var wasUpdated = false
             when(player.inventorySpace) {
                 1 -> {
                     if (player.money >= firstExtensionPrice) {
                         player.inventorySpace = 2
                         player.money -= firstExtensionPrice
+                        wasUpdated = true
                     }
                 }
                 2 -> {
                     if (player.money >= secondExtensionPrice) {
                         player.inventorySpace = 3
                         player.money -= secondExtensionPrice
+                        wasUpdated = true
                     }
                 }
             }
-            this.updatePlayer(player)
+            if (wasUpdated) {
+                this.updatePlayer(player)
+            }
         }
-//        databaseService.buyInventory(player!!.inventorySpace)
         return callGetPlayerDataApi()!!.inventorySpace
     }
 

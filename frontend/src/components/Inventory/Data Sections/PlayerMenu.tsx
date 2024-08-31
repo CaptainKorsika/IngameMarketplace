@@ -4,29 +4,23 @@ import axios from "axios";
 
 
 interface PlayerMenuProps {
+    inventorySpace: number
     unlockInventory(): void;
 }
 
 class PlayerMenu extends Component<PlayerMenuProps> {
-
-    unlockInventory = () => {
-        axios.get('http://localhost:8080/inventoryService/buyInventorySpace')
-            .then(response => {
-                this.setState({ inventorySpace: response.data });
-            })
-    }
-
     render() {
+        const {inventorySpace, unlockInventory} = this.props
         return (
             <div className="inventory-menu">
                 <div className="player-money">
                     <h2>Money: 100$</h2>
                 </div>
-                <div className="buy-inventory-container">
-                    <h3>$1000</h3>
-                    <button className="buy-inventory-button" onClick={this.unlockInventory}>Unlock Inventory Space</button>
-                </div>
-
+                {inventorySpace !== 3 && <div
+                    className="buy-inventory-container">
+                    <h3>${inventorySpace * 1000}</h3>
+                    <button className="buy-inventory-button" onClick={unlockInventory}>Unlock Inventory Space</button>
+                </div>}
             </div>
         );
     }

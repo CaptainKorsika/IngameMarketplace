@@ -1,5 +1,6 @@
 package com.projects.inGameMarketplace
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.web.bind.annotation.*
 
 @CrossOrigin
@@ -9,8 +10,12 @@ class PlayerService {
     var player: Player? = getPlayers()
 
     private fun getPlayers(): Player? {
-        println("i am here")
         return databaseService.getPlayerIfAvailable()
+    }
+
+    @GetMapping("/getPlayer")
+    fun fetchPlayerData(): Player? {
+        return this.player
     }
 
     @GetMapping("/gameRunning")
@@ -20,7 +25,7 @@ class PlayerService {
 
     @PostMapping("/createPlayer")
     fun createPlayer(@RequestBody playerName: String) {
-        this.player = Player(playerName = playerName)
+        this.player = Player(name = playerName)
         databaseService.createPlayerEntry(this.player!!)
     }
 
@@ -28,5 +33,10 @@ class PlayerService {
     fun deletePlayer() {
         databaseService.deletePlayerEntry()
         this.player = null
+    }
+
+    @PostMapping("/updatePlayer")
+    fun updatePlayerData(@RequestBody updatedPlayer: Player) {
+        this.player = updatedPlayer
     }
 }

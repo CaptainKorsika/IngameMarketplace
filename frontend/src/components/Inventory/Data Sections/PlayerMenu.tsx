@@ -3,12 +3,16 @@ import "./InventoryMenu.css"
 import axios from "axios";
 
 
-class PlayerMenu extends Component {
+interface PlayerMenuProps {
+    unlockInventory(): void;
+}
+
+class PlayerMenu extends Component<PlayerMenuProps> {
 
     unlockInventory = () => {
         axios.get('http://localhost:8080/inventoryService/buyInventorySpace')
             .then(response => {
-                this.setState({ inventorySpace: response.data.inventorySpace });
+                this.setState({ inventorySpace: response.data });
             })
     }
 

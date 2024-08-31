@@ -9,11 +9,12 @@ interface InventoryProps {
     entity: string,
     isCurrentlyPlaying: boolean
     inventorySpace: number
+    unlockInventory(): void
 }
 
 class Inventory extends Component<InventoryProps> {
     render() {
-        const {entity, isCurrentlyPlaying, inventorySpace} = this.props
+        const {entity, isCurrentlyPlaying, inventorySpace, unlockInventory} = this.props
 
         if (!isCurrentlyPlaying) {
             return <div className="inventory-container"></div>
@@ -21,7 +22,7 @@ class Inventory extends Component<InventoryProps> {
 
         return (
             <div className="inventory-container">
-                {entity === "Player" && <PlayerMenu/>}
+                {entity === "Player" && <PlayerMenu unlockInventory={unlockInventory}/>}
                 {entity === "Merchant" && <MerchantMenu/>}
                 <div className="grid-container">
                     <InventoryRow/>

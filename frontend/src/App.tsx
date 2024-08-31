@@ -47,6 +47,16 @@ class App extends Component<{}, AppState> {
             });
     }
 
+    unlockInventory = () => {
+        console.log(this.state.inventorySpace);
+        axios.get('http://localhost:8080/inventoryService/buyInventorySpace')
+            .then(response => {
+                this.setState({ inventorySpace: response.data });
+            })
+    }
+
+
+
     render() {
         const { isCurrentlyPlaying, inventorySpace } = this.state;
 
@@ -56,12 +66,13 @@ class App extends Component<{}, AppState> {
                     entity="Merchant"
                     isCurrentlyPlaying={isCurrentlyPlaying}
                     inventorySpace={inventorySpace}
+                    unlockInventory={this.unlockInventory}
                 />
                 <div className="game-container">
                     <Marketplace />
                     <Menu isCurrentlyPlaying={isCurrentlyPlaying} />
                 </div>
-                <Inventory entity="Player" isCurrentlyPlaying={isCurrentlyPlaying} inventorySpace={inventorySpace} />
+                <Inventory entity="Player" isCurrentlyPlaying={isCurrentlyPlaying} inventorySpace={inventorySpace} unlockInventory={this.unlockInventory} />
             </div>
         );
     }

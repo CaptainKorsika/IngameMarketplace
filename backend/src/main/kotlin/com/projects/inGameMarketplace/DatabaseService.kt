@@ -68,6 +68,17 @@ class DatabaseService {
         connection.close()
     }
 
+//    fun buyInventory(newSpace: Int) {
+//        val connection = connectToDatabase()
+//        val query = """
+//            UPDATE PLAYER SET INVENTORY_SPACE = ?
+//        """
+//        val preparedStatement = connection.prepareStatement(query)
+//        preparedStatement.setInt(1, newSpace)
+//        preparedStatement.executeUpdate()
+//        connection.close()
+//    }
+
 
 
     private fun connectToDatabase(): Connection {

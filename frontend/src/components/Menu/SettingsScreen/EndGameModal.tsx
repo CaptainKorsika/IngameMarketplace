@@ -21,7 +21,6 @@ class StartGameModal extends Component {
     };
 
     endGame = () => {
-        // @ts-ignore
         this.handleClose()
         axios.post('http://localhost:8080/playerService/deletePlayer', {
             headers: {
@@ -31,9 +30,6 @@ class StartGameModal extends Component {
             .then(response => {
                 console.log(response.data);
             })
-            .catch(error => {
-                console.error("There was an error!", error.response ? error.response.data : error.message);
-            });
         useEffect(() => {
 
         }, []);

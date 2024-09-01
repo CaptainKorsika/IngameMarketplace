@@ -35,27 +35,11 @@ class ItemService {
         Item("Mysterious Dust", "", 40.0),
         Item("Dragon Scale", "", 100.0)
     )
-    val availableItems: MutableList<Item>? = null
 
 
 
     fun getAllItems(): List<Item> {
         return this.existingItems
-    }
-
-    fun createAvailableItems(existingItems: List<Item> = this.existingItems): List<Item> {
-        val listBuilder: MutableList<Item> = mutableListOf()
-        for (i in 1..10) {
-            while (true) {
-                val randomNumber = Random.nextInt(1, existingItems.size)
-                val itemToAdd = existingItems[randomNumber]
-                if (!listBuilder.map { item -> item.name }.contains(itemToAdd.name)) {
-                    listBuilder.add(itemToAdd)
-                    break
-                }
-            }
-        }
-        return listBuilder
     }
 
     fun changeDailyPrice() {

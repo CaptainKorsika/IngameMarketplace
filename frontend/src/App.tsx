@@ -16,7 +16,7 @@ class App extends Component<{}, AppState> {
     constructor(props) {
         super(props);
         this.state = {
-            isCurrentlyPlaying: undefined,
+            isCurrentlyPlaying: true,
             inventorySpace: 1
         };
     }

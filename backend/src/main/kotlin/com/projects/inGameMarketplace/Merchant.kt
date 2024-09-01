@@ -15,7 +15,7 @@ class Merchant {
                 val itemToAdd = allItems[randomNumber]
                 if (!listBuilder.map { item -> item.first.name }.contains(itemToAdd.name)) {
                     itemToAdd.currentPrice = this.changePrices(itemToAdd.averagePrice)
-                    val itemAmount = Random.nextInt(10, 100)
+                    val itemAmount = Random.nextInt(20, 100)
                     val itemPair: Pair<Item, Int> = itemToAdd to itemAmount
                     listBuilder.add(itemPair)
                     break

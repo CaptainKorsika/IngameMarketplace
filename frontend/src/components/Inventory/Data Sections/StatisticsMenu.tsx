@@ -3,8 +3,14 @@ import "./StatisticsMenu.css"
 import SettingsScreenModal from "../../Menu/SettingsScreen/SettingsScreenModal";
 
 
-class PlayerMenu extends Component {
+interface StatisticsMenuProps {
+    day: number
+}
+
+
+class StatisticsMenu extends Component<StatisticsMenuProps> {
     render() {
+        const { day } = this.props;
         return (
             <div className="statistics-menu">
                 <div className="statistics-container">
@@ -23,7 +29,7 @@ class PlayerMenu extends Component {
                     </div>
                 </div>
                 <div className="meta-data">
-                    <h2 className="days"> Day 1/100</h2>
+                    <h2 className="days"> Day {day}/100</h2>
                     <SettingsScreenModal></SettingsScreenModal>
                 </div>
 
@@ -32,4 +38,4 @@ class PlayerMenu extends Component {
     }
 }
 
-export default PlayerMenu;
+export default StatisticsMenu;

@@ -4,11 +4,15 @@ import Marketplace from "./components/Marketplace/Marketplace";
 import './App.css';
 import Menu from "./components/Menu/Menu";
 import axios from "axios";
+import {ItemProps} from "./Interfaces/ItemProps";
 
 
 interface AppState {
-    isCurrentlyPlaying: boolean;
-    inventorySpace: number;
+    isCurrentlyPlaying: boolean
+    inventorySpace: number
+    money: number
+    inventoryItems: [ItemProps, number][]
+    day: number
 }
 
 
@@ -17,13 +21,16 @@ class App extends Component<{}, AppState> {
         super(props);
         this.state = {
             isCurrentlyPlaying: true,
-            inventorySpace: 1
+            money: 1,
+            inventorySpace: 1,
+            inventoryItems: [],
+            day: 1
         };
     }
 
     componentDidMount() {
         this.fetchData()
-        this.getInventorySpace()
+        this.getPlayerData()
     }
 
     fetchData = () => {
@@ -37,10 +44,13 @@ class App extends Component<{}, AppState> {
     };
 
 
-    getInventorySpace = () => {
+    getPlayerData = () => {
         axios.get('http://localhost:8080/playerService/getPlayer')
             .then(response => {
+                this.setState({ money: response.data.money });
                 this.setState({ inventorySpace: response.data.inventorySpace });
+                this.setState({ inventoryItems: response.data.inventoryItems });
+                this.setState({ day: response.data.day });
             })
             .catch(error => {
                 console.error('There was an error fetching the game status!', error);
@@ -48,7 +58,6 @@ class App extends Component<{}, AppState> {
     }
 
     unlockInventory = () => {
-        console.log(this.state.inventorySpace);
         axios.get('http://localhost:8080/inventoryService/buyInventorySpace')
             .then(response => {
                 this.setState({ inventorySpace: response.data });
@@ -58,8 +67,7 @@ class App extends Component<{}, AppState> {
 
 
     render() {
-        const { isCurrentlyPlaying, inventorySpace } = this.state;
-
+        const { isCurrentlyPlaying, money, inventorySpace, inventoryItems, day } = this.state;
         return (
             <div className="window-container">
                 <Inventory
@@ -67,12 +75,13 @@ class App extends Component<{}, AppState> {
                     isCurrentlyPlaying={isCurrentlyPlaying}
                     inventorySpace={inventorySpace}
                     unlockInventory={this.unlockInventory}
+                    day={day}
                 />
                 <div className="game-container">
                     <Marketplace />
                     <Menu isCurrentlyPlaying={isCurrentlyPlaying} />
                 </div>
-                <Inventory entity="Player" isCurrentlyPlaying={isCurrentlyPlaying} inventorySpace={inventorySpace} unlockInventory={this.unlockInventory} />
+                <Inventory entity="Player" isCurrentlyPlaying={isCurrentlyPlaying} money={money} inventorySpace={inventorySpace} unlockInventory={this.unlockInventory} />
             </div>
         );
     }

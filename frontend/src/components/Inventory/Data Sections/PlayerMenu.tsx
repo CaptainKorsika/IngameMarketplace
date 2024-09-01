@@ -4,17 +4,18 @@ import axios from "axios";
 
 
 interface PlayerMenuProps {
+    money: number;
     inventorySpace: number
     unlockInventory(): void;
 }
 
 class PlayerMenu extends Component<PlayerMenuProps> {
     render() {
-        const {inventorySpace, unlockInventory} = this.props
+        const {money, inventorySpace, unlockInventory} = this.props
         return (
             <div className="inventory-menu">
                 <div className="player-money">
-                    <h2>Money: 100$</h2>
+                    <h2>Money: ${money}</h2>
                 </div>
                 {inventorySpace !== 3 && <div
                     className="buy-inventory-container">

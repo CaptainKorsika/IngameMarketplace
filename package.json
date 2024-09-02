@@ -1,0 +1,10 @@
+{
+  "name": "inGameMarketplace",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "cd src/main/resources/frontend && npm run dev",
+    "build": "cd src/main/resources/frontend && npm run build",
+    "lint": "cd src/main/resources/frontend && npm run lint",
+    "preview": "cd src/main/resources/frontend && npm run preview"
+  }
+}

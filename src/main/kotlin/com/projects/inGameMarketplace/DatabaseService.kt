@@ -41,7 +41,6 @@ class DatabaseService {
 
     fun createPlayerEntry(player: Player) {
         val connection = connectToDatabase()
-        val itemJSON = Json.encodeToString(player.inventoryItems.toString())
         val query = """
             INSERT INTO PLAYER(PLAYER_NAME, MONEY, INVENTORY_SPACE, INVENTORY_ITEMS, DAY) VALUES(?, ?, ?, ?, ?)
         """

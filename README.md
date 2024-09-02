@@ -8,20 +8,18 @@ To setup you environment, simply use:
 ```sh
 npm install
 ```
-After everything has been installed successfully:
-- Navigate into your backend folder, then execute:
+After everything has been installed successfully, execute to setup the backend:
 ```sh
 ./gradlew clean build
 ```
 ---
 ## Running Project
 To start the Backend Server:
-- Navigate into your backend folder, then execute:
 ```sh
 ./gradlew bootRun
 ```
 To start the Frontend Server:
-- Open a new terminal and navigate to the frontend Folder, then execute:
+- Open a new terminal and execute:
 
 ```sh
 npm run dev

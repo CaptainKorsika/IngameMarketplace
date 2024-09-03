@@ -1,7 +1,14 @@
 package com.projects.inGameMarketplace
 
-class GameLogicService {
+import org.springframework.web.client.RestTemplate
 
+class GameLogicService {
+    val restTemplate = RestTemplate()
+
+    val databaseService = DatabaseService()
+    val playerService = PlayerService()
+    val itemService = ItemService()
+    val inventoryService = InventoryService(restTemplate)
 
 
     fun nextDay() {

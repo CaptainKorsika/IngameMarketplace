@@ -1,6 +1,7 @@
 package com.projects.inGameMarketplace
 
-class Repository {
+class PlayerRepository {
+
 
     fun convertPlayerToEntity(player: Player): PlayerEntity {
 
@@ -16,9 +17,5 @@ class Repository {
 
         return Player("Placeholder")
     }
-
-
-
-
 
 }

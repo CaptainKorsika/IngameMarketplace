@@ -5,11 +5,22 @@ import org.springframework.web.client.RestTemplate
 class GameLogicService {
     val restTemplate = RestTemplate()
 
-    val databaseService = DatabaseService()
     val playerService = PlayerService()
     val itemService = ItemService()
     val inventoryService = InventoryService(restTemplate)
 
+
+
+    fun startGame() {
+        playerService.createPlayer("Placeholder")
+
+    }
+
+    fun endGame() {
+        // Write Name and Money into DB
+        // Show Highscore Screen
+        // Delete Player Object
+    }
 
     fun nextDay() {
         // update player Day
@@ -19,11 +30,33 @@ class GameLogicService {
         // update item prices
     }
 
-    fun endGame() {
-        // Write Name and Money into DB
-        // Show Highscore Screen
-        // Delete Player Object
+
+    fun selectMerchant() {
+
     }
 
 
+    fun selectItem() {
+
+    }
+
+    fun buyItem() {
+
+    }
+
+
+    fun sellItem() {
+
+    }
+
+
+
+    fun unlockInventory() {
+
+    }
+
+
+    fun showHighScore() {
+
+    }
 }

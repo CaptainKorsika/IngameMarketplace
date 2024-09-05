@@ -37,6 +37,10 @@ jobs:
         run: npm install
 
 
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+
       # Clean and build the Gradle project
       - name: Clean and build Gradle project
         run: |

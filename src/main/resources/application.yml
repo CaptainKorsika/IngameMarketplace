@@ -6,13 +6,7 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-  profiles:
-    active: development
+    properties:
+      hibernate:
+        dialect: org.yank.sqlite:sqlite-dialect:1.0.0
 
-server:
-  port: 8080
-
-logging:
-  level:
-    root: INFO
-    org.springframework.web: DEBUG

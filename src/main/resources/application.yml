@@ -10,4 +10,7 @@ spring:
       hibernate:
         dialect: org.hibernate.community.dialect.SQLiteDialect
         hbm2ddl: update
+        connection:
+          datasource: jdbc:sqlite:E:src/main/resources/database.sql
+          driver_class: org.sqlite.JDBC
 

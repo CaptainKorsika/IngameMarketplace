@@ -27,12 +27,13 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+	implementation("org.hibernate:hibernate-core:6.2.7.Final")
 	implementation("org.xerial:sqlite-jdbc:3.45.1.0")
+	implementation("org.hibernate.orm:hibernate-community-dialects:6.2.7.Final")
 	runtimeOnly("com.h2database:h2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-	implementation ("org.yank.sqlite:sqlite-dialect:1.0.0")
 }
 
 kotlin {

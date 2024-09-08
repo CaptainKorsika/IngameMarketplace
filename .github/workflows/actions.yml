@@ -9,10 +9,18 @@ jobs:
   build_application:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:5.7
+      env:
+        DB_USER: ${{secrets.USERNAME}}
+        DB_PW: ${{secrets.WORD}}
+      ports:
+        - 3306: 3306
+
     env:
       DB_DATABASE: marketplace_database
-      DB_USER: ${{secrets.USERNAME}}
-      DB_PW: ${{secrets.WORD}}
+
 
     steps:
       - name: Checkout repository
@@ -41,13 +49,17 @@ jobs:
       - name: Install npm dependencies
         run: npm install
 
+      # Waiting for MySQL
+      - name: Waiting for MySQL
+        run: |
+          seelp 10
 
       # Set up MySQL
-      - name: Start MySQL
+      - name: Create MySQL database
         run: |
-          sudo /etc/init.d/mysql start -u ${{secrets.USERNAME}} -p ${{secrets.WORD}}
-          mysql -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;"
-          mysql -e "CREATE TABLE player (player_name VARCHAR(30) NOT NULL, money DECIMAL(10, 2) NOT NULL, inventory_space INT NOT NULL, inventory_items JSON, day INT NOT NULL);"
+          mysql -h localhost -u ${{secrets.USERNAME}} -p ${{secrets.WORD}} "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;"
+          mysql -h localhost -u ${{secrets.USERNAME}} -p ${{secrets.WORD}} "CREATE TABLE player (player_name VARCHAR(30) NOT NULL, money DECIMAL(10, 2) NOT NULL, inventory_space INT NOT NULL, inventory_items JSON, day INT NOT NULL);"
+
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew

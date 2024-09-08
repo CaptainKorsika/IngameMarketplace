@@ -13,8 +13,8 @@ jobs:
       mysql:
         image: mysql:5.7
       env:
-        DB_USER: root
-        DB_PW: root
+        MYSQL_ROOT_PASSWORD: ${{secrets.WORD}}
+        MYSQL_DATABASE: marketplace_database
       ports:
         - 3306: 3306
 
@@ -57,8 +57,8 @@ jobs:
       # Set up MySQL
       - name: Create MySQL database
         run: |
-          mysql -h localhost -u root -p root "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;"
-          mysql -h localhost -u root -p root "CREATE TABLE player (player_name VARCHAR(30) NOT NULL, money DECIMAL(10, 2) NOT NULL, inventory_space INT NOT NULL, inventory_items JSON, day INT NOT NULL);"
+          mysql -h localhost -u ${{secrets.USERNAME}} -p ${{secrets.WORD}} "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;"
+          mysql -h localhost -u ${{secrets.USERNAME}} -p ${{secrets.WORD}} "CREATE TABLE player (player_name VARCHAR(30) NOT NULL, money DECIMAL(10, 2) NOT NULL, inventory_space INT NOT NULL, inventory_items JSON, day INT NOT NULL);"
 
 
       - name: Make gradlew executable

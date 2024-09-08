@@ -48,15 +48,14 @@ jobs:
       - name: Waiting for MySQL
         run: |
           echo "Waiting for MySQL to start..."
-          until mysqladmin ping -h localhost -u root -p${{ secrets.WORD }} --silent; do
             sleep 1
-          done
 
       # Set up MySQL
       - name: Create MySQL database
         run: |
-          mysql -h localhost -u root -p${{secrets.WORD}} -e "CREATE DATABASE marketplace_database;"
-          mysql -h localhost -u root -p${{secrets.WORD}} -D marketplace_database -e "CREATE TABLE player (player_name VARCHAR(30) NOT NULL, money DECIMAL(10, 2) NOT NULL, inventory_space INT NOT NULL, inventory_items JSON, day INT NOT NULL);"
+          mysql -h localhost -u root -p${{secrets.WORD}} -e "SHOW DATABASES;"
+#          mysql -h localhost -u root -p${{secrets.WORD}} -e "CREATE DATABASE marketplace_database;"
+#          mysql -h localhost -u root -p${{secrets.WORD}} -D marketplace_database -e "CREATE TABLE player (player_name VARCHAR(30) NOT NULL, money DECIMAL(10, 2) NOT NULL, inventory_space INT NOT NULL, inventory_items JSON, day INT NOT NULL);"
 
 
       - name: Make gradlew executable

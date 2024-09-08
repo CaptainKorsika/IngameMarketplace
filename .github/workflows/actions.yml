@@ -15,6 +15,7 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: ${{secrets.WORD}}
           MYSQL_DATABASE: marketplace_database
+        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s
 
     steps:
       - name: Checkout repository
@@ -46,7 +47,10 @@ jobs:
       # Waiting for MySQL
       - name: Waiting for MySQL
         run: |
-          sleep 10
+          echo "Waiting for MySQL to start..."
+          until mysqladmin ping -h localhost -u root -p${{ secrets.WORD }} --silent; do
+            sleep 1
+          done
 
       # Set up MySQL
       - name: Create MySQL database

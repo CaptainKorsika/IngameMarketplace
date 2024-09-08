@@ -1,8 +1,12 @@
 spring:
   datasource:
-    url: jdbc:sqlite:E:src/main/resources/database.sql
-    driver-class-name: org.sqlite.JDBC
+    url: jdbc:mysql://localhost:3306/marketplace_database
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect

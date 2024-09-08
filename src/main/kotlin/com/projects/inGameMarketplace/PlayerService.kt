@@ -48,7 +48,7 @@ class PlayerService {
     private fun getPlayerIfAvailable(): Player? {
         val connection = databaseConnector.connectToDatabase()
         val statement: Statement = connection.createStatement()
-        val query = "SELECT * FROM PLAYER;"
+        val query = "SELECT * FROM player;"
 
         // Execute the query
         val resultSet: ResultSet = statement.executeQuery(query)
@@ -60,15 +60,15 @@ class PlayerService {
             return null
         }
 
-        val inventoryItems = resultSet.getString("INVENTORY_ITEMS")
+        val inventoryItems = resultSet.getString("inventory_items")
         val inventoryList: List<Pair<Item, Int>> = Json.decodeFromString(inventoryItems)
 
         val player = Player(
-            resultSet.getString("PLAYER_NAME"),
-            resultSet.getDouble("MONEY"),
-            resultSet.getInt("INVENTORY_SPACE"),
+            resultSet.getString("player_name"),
+            resultSet.getDouble("money"),
+            resultSet.getInt("inventory_space"),
             inventoryList,
-            resultSet.getInt("DAY")
+            resultSet.getInt("day")
         )
 
         resultSet.close()
@@ -79,7 +79,7 @@ class PlayerService {
     private fun createPlayerEntry(player: Player) {
         val connection = databaseConnector.connectToDatabase()
         val query = """
-            INSERT INTO PLAYER(PLAYER_NAME, MONEY, INVENTORY_SPACE, INVENTORY_ITEMS, DAY) VALUES(?, ?, ?, ?, ?)
+            INSERT INTO player(player_name, money, inventory_space, inventory_items, day) VALUES(?, ?, ?, ?, ?)
         """
 
         val preparedStatement = connection.prepareStatement(query)
@@ -96,7 +96,7 @@ class PlayerService {
     private fun deletePlayerEntry() {
         val connection = databaseConnector.connectToDatabase()
         val query = """
-            DELETE FROM PLAYER;
+            DELETE FROM player;
         """
 
         val preparedStatement = connection.prepareStatement(query)

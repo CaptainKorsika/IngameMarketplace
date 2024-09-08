@@ -45,9 +45,9 @@ jobs:
       # Set up MySQL
       - name: Start MySQL
         run: |
-          sudo /etc/init.d/mysql start
-          mysql -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;" -u$DB_USER -p$DB_PW
-          mysql -e "CREATE TABLE player (player_name VARCHAR(30) NOT NULL, money DECIMAL(10, 2) NOT NULL, inventory_space INT NOT NULL, inventory_items JSON, day INT NOT NULL);" -u$DB_USER -p$DB_PW
+          sudo /etc/init.d/mysql start -u ${{secrets.USERNAME}} -p ${{secrets.WORD}}
+          mysql -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;"
+          mysql -e "CREATE TABLE player (player_name VARCHAR(30) NOT NULL, money DECIMAL(10, 2) NOT NULL, inventory_space INT NOT NULL, inventory_items JSON, day INT NOT NULL);"
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew

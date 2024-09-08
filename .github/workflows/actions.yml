@@ -46,7 +46,7 @@ jobs:
       # Waiting for MySQL
       - name: Waiting for MySQL
         run: |
-          sleep 10
+          sleep 30
 
       # Set up MySQL
       - name: Create MySQL database

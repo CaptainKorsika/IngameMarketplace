@@ -11,8 +11,8 @@ jobs:
 
     env:
       DB_DATABASE: marketplace_database
-      DB_USER: ${{secrets.user}}
-      DB_PW: ${{secrets.word}}
+      DB_USER: ${{secrets.USERNAME}}
+      DB_PW: ${{secrets.WORD}}
 
     steps:
       - name: Checkout repository

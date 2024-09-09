@@ -3,6 +3,9 @@ name: CI
 on:
   push:
     branches:
+      - actions
+  pull_request:
+    branches:
       - main
 
 jobs:
@@ -53,7 +56,8 @@ jobs:
         run: |
           mysql -uroot -e "CREATE DATABASE marketplace_database;"
           mysql -uroot -D marketplace_database -e "CREATE TABLE player (player_name VARCHAR(30) NOT NULL, money DECIMAL(10, 2) NOT NULL, inventory_space INT NOT NULL, inventory_items JSON, day INT NOT NULL);"
-
+          mysql -uroot -e "SHOW DATABASES;"
+          
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew

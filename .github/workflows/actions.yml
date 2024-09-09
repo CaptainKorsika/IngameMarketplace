@@ -3,6 +3,9 @@ name: CI
 on:
   push:
     branches:
+      - actions
+  pull_request:
+    branches:
       - main
 
 jobs:
@@ -17,7 +20,7 @@ jobs:
         uses: shogo82148/actions-setup-mysql@v1
         with:
           mysql-version: "8.0"
-      - run: mysql -uroot -e 'SELECT version()'
+      - run: mysql --host localhost -uroot -e 'SELECT version()'
 
       # Set up JDK for Gradle
       - name: Set up JDK 21
@@ -42,25 +45,22 @@ jobs:
       - name: Install npm dependencies
         run: npm install
 
-      # Waiting for MySQL
-      - name: Waiting for MySQL
-        run: |
-          echo "Waiting for MySQL to start..."
-            sleep 5
-
       # Set up MySQL
       - name: Create MySQL database
         run: |
           mysql -uroot -e "CREATE DATABASE marketplace_database;"
-          mysql -uroot -D marketplace_database -e "CREATE TABLE player (player_name VARCHAR(30) NOT NULL, money DECIMAL(10, 2) NOT NULL, inventory_space INT NOT NULL, inventory_items JSON, day INT NOT NULL);"
-
+          mysql -uroot -D marketplace_database -e "CREATE TABLE player (player_name varchar(30) NOT NULL, money decimal(10, 2) NOT NULL, inventory_space INT NOT NULL, inventory_items JSON, day INT NOT NULL);"
+          mysql -uroot -D marketplace_database -e "SHOW TABLES;"
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-
       # Clean and build the Gradle project
       - name: Clean and build Gradle project
+        env:
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PW:
+
         run: |
           ./gradlew clean build
 

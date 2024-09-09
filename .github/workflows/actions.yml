@@ -3,9 +3,6 @@ name: CI
 on:
   push:
     branches:
-      - actions
-  pull_request:
-    branches:
       - main
 
 jobs:

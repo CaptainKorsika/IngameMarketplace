@@ -52,11 +52,6 @@ jobs:
       - name: Install npm dependencies
         run: npm install
 
-        # Starting MySQL Server
-      - name: Starting MySQL Server
-        run: |
-          sudo systemctl start mysqld
-
       # Waiting for MySQL
       - name: Waiting for MySQL
         run: |

@@ -13,12 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Set environment variables for your application
-      - name: Set environment variables
-        env:
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PW: ${{ secrets.DB_PW }}
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -63,8 +57,15 @@ jobs:
         run: chmod +x ./gradlew
 
 
+
+
+
       # Clean and build the Gradle project
       - name: Clean and build Gradle project
+        env:
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PW: ${{ secrets.DB_PW }}
+
         run: |
           ./gradlew clean build
 

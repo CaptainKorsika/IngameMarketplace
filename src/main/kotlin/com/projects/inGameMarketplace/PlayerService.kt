@@ -7,13 +7,13 @@ import java.sql.Statement
 
 @CrossOrigin
 @RestController
-@RequestMapping("/playerService")
+@RequestMapping("/interaction")
 class PlayerService {
     val playerRepository = PlayerRepository()
     val databaseConnector = DatabaseConnector()
-    var player: Player? = getPlayers()
+    var player: Player? = getPlayer()
 
-    private fun getPlayers(): Player? {
+    private fun getPlayer(): Player? {
         return getPlayerIfAvailable()
     }
 
@@ -22,18 +22,15 @@ class PlayerService {
         return this.player
     }
 
-    @GetMapping("/gameRunning")
-    fun playerAlreadyCreated(): Boolean {
+    fun gameIsRunning(): Boolean {
         return this.player != null
     }
 
-    @PostMapping("/createPlayer")
-    fun createPlayer(@RequestBody playerName: String) {
+    fun createPlayer(playerName: String) {
         this.player = Player(name = playerName)
         createPlayerEntry(this.player!!)
     }
 
-    @PostMapping("/deletePlayer")
     fun deletePlayer() {
         deletePlayerEntry()
         this.player = null

@@ -1,24 +1,44 @@
 package com.projects.inGameMarketplace
 
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.client.RestTemplate
 
+@CrossOrigin
+@RestController
+@RequestMapping("/interaction")
 class GameLogicService {
     val restTemplate = RestTemplate()
 
     val playerService = PlayerService()
     val itemService = ItemService()
     val inventoryService = InventoryService(restTemplate)
+    val highScoreService = HighScoreService()
+
+    @GetMapping("/gameRunning")
+    fun checkForRunningGame(): Boolean {
+        return playerService.gameIsRunning()
+    }
 
 
 
-    fun startGame() {
-        playerService.createPlayer("Placeholder")
+    @PostMapping("/createPlayer")
+    fun startGame(@RequestBody playerName: String) {
+        playerService.createPlayer(playerName)
 
     }
 
-    fun endGame() {
-        // Write Name and Money into DB
-        // Show Highscore Screen
+    @PostMapping("/endGame")
+    fun endGame(@RequestBody gameCancelled: Boolean, @RequestBody money: Int?) {
+        if (!gameCancelled) {
+            val name = playerService.player!!.name
+            highScoreService.addToHighScoreList(name, money!!)
+            // Show Highscore Screen
+        }
+
+        playerService.deletePlayer()
+
+
+
         // Delete Player Object
     }
 

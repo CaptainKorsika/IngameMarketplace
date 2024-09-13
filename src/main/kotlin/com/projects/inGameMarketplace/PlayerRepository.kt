@@ -1,25 +1,84 @@
 package com.projects.inGameMarketplace
 
 import kotlinx.serialization.json.Json
+import java.sql.ResultSet
+import java.sql.SQLException
+import java.sql.Statement
 
 class PlayerRepository {
+    lateinit var playerEntity: PlayerEntity
+    private val databaseConnector = DatabaseConnector()
 
 
-    fun convertPlayerToEntity(player: Player): PlayerEntity {
-        // TODO: Work in Progress
-        val items = player.inventoryItems
 
+    fun getPLayerFromDB() {
 
-        return PlayerEntity(player.name, player.money, player.inventorySpace, "items", player.day )
     }
 
-    fun convertPlayerEntityToDomain(entity: PlayerEntity): Player {
+    fun getPlayer(): PlayerEntity? {
+        val connection = databaseConnector.connectToDatabase()
+        val statement: Statement = connection.createStatement()
+        val query = "SELECT * FROM player;"
 
+        // Execute the query
+        val resultSet: ResultSet = statement.executeQuery(query)
+        val hasEntry = resultSet.next()
 
+        if (!hasEntry) {
+            resultSet.close()
+            connection.close()
+            return null
+        }
 
+        val playerEntity = PlayerEntity(
+            resultSet.getString("player_name"),
+            resultSet.getDouble("money"),
+            resultSet.getInt("inventory_space"),
+            Json.decodeFromString(resultSet.getString("inventory_items")),
+            resultSet.getInt("day")
+        )
 
-        return Player("Placeholder")
+        resultSet.close()
+        connection.close()
+        return playerEntity
     }
+
+    fun createPlayerEntry(entity: PlayerEntity): Boolean {
+        try {
+            val connection = databaseConnector.connectToDatabase()
+            val query = """
+            INSERT INTO player(player_name, money, inventory_space, inventory_items, day) VALUES(?, ?, ?, ?, ?)
+        """
+
+            val preparedStatement = connection.prepareStatement(query)
+            preparedStatement.setString(1, entity.playerName)
+            preparedStatement.setDouble(2, entity.money)
+            preparedStatement.setInt(3, entity.inventorySpace)
+            preparedStatement.setString(4, entity.inventoryItems)
+            preparedStatement.setInt(5, entity.day)
+
+            preparedStatement.executeUpdate()
+            connection.close()
+
+            return true
+        } catch (e: Exception) {
+            return false
+        }
+
+    }
+
+    fun deletePlayer() {
+        val connection = databaseConnector.connectToDatabase()
+        val query = """
+            DELETE FROM player;
+        """
+
+        val preparedStatement = connection.prepareStatement(query)
+        preparedStatement.executeUpdate()
+        connection.close()
+    }
+
+
 
 }
 

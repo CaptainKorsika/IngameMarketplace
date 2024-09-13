@@ -12,7 +12,7 @@ class HighScoreService {
 
     fun addToHighScoreList(playerName: String, finalScore: Int) {
         if (checkForNewHighScore(finalScore)) {
-            // add to HighWcore List
+            // add to HighScore List
         }
     }
 

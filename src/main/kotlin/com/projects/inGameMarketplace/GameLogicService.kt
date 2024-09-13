@@ -8,18 +8,16 @@ import org.springframework.web.client.RestTemplate
 @RequestMapping("/interaction")
 class GameLogicService {
     val restTemplate = RestTemplate()
-
     val playerService = PlayerService()
     val itemService = ItemService()
     val inventoryService = InventoryService(restTemplate)
     val highScoreService = HighScoreService()
+    var isCurrentlyRunning = this.checkForRunningGame()
 
     @GetMapping("/gameRunning")
     fun checkForRunningGame(): Boolean {
-        return playerService.gameIsRunning()
+        return playerService.player != null
     }
-
-
 
     @PostMapping("/createPlayer")
     fun startGame(@RequestBody playerName: String) {
@@ -32,6 +30,7 @@ class GameLogicService {
         if (!gameCancelled) {
             val name = playerService.player!!.name
             highScoreService.addToHighScoreList(name, money!!)
+            this.showHighScore()
             // Show Highscore Screen
         }
 

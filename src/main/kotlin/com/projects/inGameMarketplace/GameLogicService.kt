@@ -1,5 +1,9 @@
 package com.projects.inGameMarketplace
 
+import com.projects.inGameMarketplace.highScoreService.HighScoreService
+import com.projects.inGameMarketplace.inventoryService.InventoryService
+import com.projects.inGameMarketplace.itemService.ItemService
+import com.projects.inGameMarketplace.playerService.PlayerService
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.client.RestTemplate
 
@@ -31,7 +35,6 @@ class GameLogicService {
             val name = playerService.player!!.name
             highScoreService.addToHighScoreList(name, money!!)
             this.showHighScore()
-            // Show Highscore Screen
         }
 
         playerService.deletePlayer()

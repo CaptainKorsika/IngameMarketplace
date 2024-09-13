@@ -1,8 +1,8 @@
-package com.projects.inGameMarketplace
+package com.projects.inGameMarketplace.playerService
 
+import com.projects.inGameMarketplace.DatabaseConnector
 import kotlinx.serialization.json.Json
 import java.sql.ResultSet
-import java.sql.SQLException
 import java.sql.Statement
 
 class PlayerRepository {
@@ -34,7 +34,7 @@ class PlayerRepository {
             resultSet.getString("player_name"),
             resultSet.getDouble("money"),
             resultSet.getInt("inventory_space"),
-            Json.decodeFromString(resultSet.getString("inventory_items")),
+            resultSet.getString("inventory_items"),
             resultSet.getInt("day")
         )
 
@@ -64,7 +64,6 @@ class PlayerRepository {
         } catch (e: Exception) {
             return false
         }
-
     }
 
     fun deletePlayer() {
@@ -77,9 +76,6 @@ class PlayerRepository {
         preparedStatement.executeUpdate()
         connection.close()
     }
-
-
-
 }
 
 

@@ -1,5 +1,7 @@
 package com.projects.inGameMarketplace
 
+import com.projects.inGameMarketplace.itemService.Item
+import com.projects.inGameMarketplace.itemService.ItemService
 import kotlin.random.Random
 
 class Merchant {

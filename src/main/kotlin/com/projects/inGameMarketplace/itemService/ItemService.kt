@@ -1,5 +1,6 @@
-package com.projects.inGameMarketplace
+package com.projects.inGameMarketplace.itemService
 
+import kotlin.math.roundToLong
 import kotlin.random.Random
 
 class ItemService {
@@ -46,6 +47,6 @@ class ItemService {
         val lowerBoundary: Double = 0.5
         val upperBoundary: Double = 1.5
 
-        this.existingItems.forEach { it.currentPrice = Random.nextDouble(it.averagePrice * lowerBoundary, it.averagePrice * upperBoundary)}
+        this.existingItems.forEach { it.currentPrice = Random.nextDouble(it.averagePrice * lowerBoundary, it.averagePrice * upperBoundary) }
     }
 }

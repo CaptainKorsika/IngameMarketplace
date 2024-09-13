@@ -1,6 +1,7 @@
-package com.projects.inGameMarketplace
+package com.projects.inGameMarketplace.inventoryService
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.projects.inGameMarketplace.playerService.Player
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpEntity
 import org.springframework.http.MediaType

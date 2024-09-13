@@ -1,4 +1,4 @@
-package com.projects.inGameMarketplace
+package com.projects.inGameMarketplace.playerService
 
 import org.springframework.web.bind.annotation.*
 
@@ -18,7 +18,11 @@ class PlayerService {
 
     fun createPlayer(playerName: String) {
         this.player = Player(name = playerName)
-        createPlayerEntry(this.player!!)
+        val entity = playerConverter.toEntity(this.player!!)
+        val playerCreatedSuccessfully = playerRepository.createPlayerEntry(entity)
+        if (playerCreatedSuccessfully) {
+            this.player = player
+        }
     }
 
     fun deletePlayer() {
@@ -37,14 +41,6 @@ class PlayerService {
             playerConverter.toDomain(entity)
         } else {
             null
-        }
-    }
-
-    private fun createPlayerEntry(player: Player) {
-        val entity = playerConverter.toEntity(player)
-        val playerCreatedSuccessfully = playerRepository.createPlayerEntry(entity)
-        if (playerCreatedSuccessfully) {
-            this.player = player
         }
     }
 

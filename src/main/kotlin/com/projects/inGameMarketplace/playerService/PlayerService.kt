@@ -30,6 +30,10 @@ class PlayerService {
         this.player = null
     }
 
+    fun updatePlayerBalance(newBalance: Double) {
+        this.player!!.money = newBalance
+    }
+
     @PostMapping("/updatePlayer")
     fun updatePlayerData(@RequestBody updatedPlayer: Player) {
         this.player = updatedPlayer

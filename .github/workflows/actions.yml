@@ -50,7 +50,7 @@ jobs:
       - name: Create MySQL database
         run: |
           mysql -uroot -e "CREATE DATABASE marketplace_database;"
-          mysql -uroot -D marketplace_database -e "CREATE TABLE player (player_name varchar(30) NOT NULL, money decimal(10, 2) NOT NULL, inventory_space INT NOT NULL, inventory_items JSON, day INT NOT NULL);"
+          mysql -uroot -D marketplace_database -e "CREATE TABLE player (player_name varchar(30) NOT NULL, money decimal(10, 2) NOT NULL, inventory_space INT NOT NULL, day INT NOT NULL);"
           mysql -uroot -D marketplace_database -e "SHOW TABLES;"
 
       - name: Make gradlew executable

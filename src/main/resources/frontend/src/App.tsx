@@ -58,7 +58,7 @@ class App extends Component<{}, AppState> {
     }
 
     unlockInventory = () => {
-        axios.get('http://localhost:8080/inventoryService/buyInventorySpace')
+        axios.get('http://localhost:8080/interaction/buyInventorySpace')
             .then(response => {
                 this.setState({ inventorySpace: response.data });
             })

@@ -1,6 +1,7 @@
 package com.projects.inGameMarketplace.inventoryService
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.projects.inGameMarketplace.itemService.Item
 import com.projects.inGameMarketplace.playerService.Player
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpEntity
@@ -14,60 +15,73 @@ import org.springframework.web.client.RestTemplate
 @CrossOrigin
 @RestController
 @RequestMapping("/inventoryService")
-class InventoryService(@Autowired val restTemplate: RestTemplate) {
+class InventoryService(
+    @Autowired val restTemplate: RestTemplate) {
+    val inventory: Inventory? = getPlayerInventoryFromDB()
+    var inventorySpace = 10
     val firstExtensionPrice: Int = 1000
     val secondExtensionPrice: Int = 2000
 
-    @GetMapping("/buyInventorySpace")
-    fun buyInventory(): Int {
-        val player: Player? = callGetPlayerDataApi()
-        if (player != null && player.inventorySpace < 3) {
-            var wasUpdated = false
-            when(player.inventorySpace) {
-                1 -> {
-                    if (player.money >= firstExtensionPrice) {
-                        player.inventorySpace = 2
-                        player.money -= firstExtensionPrice
-                        wasUpdated = true
-                    }
-                }
-                2 -> {
-                    if (player.money >= secondExtensionPrice) {
-                        player.inventorySpace = 3
-                        player.money -= secondExtensionPrice
-                        wasUpdated = true
-                    }
+
+    fun createInventory() {
+        // create DB entry
+        this.getPlayerInventoryFromDB()
+    }
+
+
+    private final fun getPlayerInventoryFromDB(): Inventory? {
+        val inventory = Inventory()
+        return inventory
+    }
+
+    fun buyInventoryAndReturnNewBalance(money: Double): Double {
+        var currentMoney = money
+        when(this.inventorySpace) {
+            10 -> {
+                if (currentMoney >= firstExtensionPrice) {
+                    this.inventorySpace = 20
+                    currentMoney -= firstExtensionPrice
                 }
             }
-            if (wasUpdated) {
-                this.updatePlayer(player)
+            20 -> {
+                if (currentMoney >= secondExtensionPrice) {
+                    this.inventorySpace = 30
+                    currentMoney -= secondExtensionPrice
+                }
             }
         }
-        return callGetPlayerDataApi()!!.inventorySpace
+        return currentMoney
+    }
+
+    fun addItem() {
+
+    }
+
+    fun removeItem() {
+
     }
 
 
-
-    private fun callGetPlayerDataApi(): Player? {
-        val url = "http://localhost:8080/playerService/getPlayer"
-        return try {
-            restTemplate.getForObject(url, Player::class.java)
-        } catch (e: Exception) {
-            println("Error occurred while fetching player data: ${e.message}")
-            null
-        }
-    }
-
-
-    private fun updatePlayer(player: Player) {
-        val url = "http://localhost:8080/playerService/updatePlayer"
-        val playerJson = ObjectMapper().writeValueAsString(player)
-        val headers = org.springframework.http.HttpHeaders().apply {
-            contentType = MediaType.APPLICATION_JSON
-        }
-        val requestEntity = HttpEntity(playerJson, headers)
-        restTemplate.postForEntity(url, requestEntity, String::class.java)
-    }
+//    private fun callGetPlayerDataApi(): Player? {
+//        val url = "http://localhost:8080/playerService/getPlayer"
+//        return try {
+//            restTemplate.getForObject(url, Player::class.java)
+//        } catch (e: Exception) {
+//            println("Error occurred while fetching player data: ${e.message}")
+//            null
+//        }
+//    }
+//
+//
+//    private fun updatePlayer(player: Player) {
+//        val url = "http://localhost:8080/playerService/updatePlayer"
+//        val playerJson = ObjectMapper().writeValueAsString(player)
+//        val headers = org.springframework.http.HttpHeaders().apply {
+//            contentType = MediaType.APPLICATION_JSON
+//        }
+//        val requestEntity = HttpEntity(playerJson, headers)
+//        restTemplate.postForEntity(url, requestEntity, String::class.java)
+//    }
 
 
     //    fun buyInventory(newSpace: Int) {

@@ -11,17 +11,16 @@ class PlayerService {
     var player: Player? = this.getPlayerIfAvailable()
 
 
-    @GetMapping("/getPlayer")
     fun fetchPlayerData(): Player? {
         return this.player
     }
 
     fun createPlayer(playerName: String) {
-        this.player = Player(name = playerName)
+        val newPlayer = Player(name = playerName)
         val entity = playerConverter.toEntity(this.player!!)
         val playerCreatedSuccessfully = playerRepository.createPlayerEntry(entity)
         if (playerCreatedSuccessfully) {
-            this.player = player
+            this.player = newPlayer
         }
     }
 
@@ -30,11 +29,10 @@ class PlayerService {
         this.player = null
     }
 
-    fun updatePlayerBalance(newBalance: Double) {
-        this.player!!.money = newBalance
+    fun updatePlayerBalance(balanceChange: Double) {
+        this.player!!.money += balanceChange
     }
 
-    @PostMapping("/updatePlayer")
     fun updatePlayerData(@RequestBody updatedPlayer: Player) {
         this.player = updatedPlayer
     }

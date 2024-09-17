@@ -45,7 +45,7 @@ class App extends Component<{}, AppState> {
 
 
     getPlayerData = () => {
-        axios.get('http://localhost:8080/interaction/getPlayer')
+        axios.get('http://localhost:8080/interaction/getData')
             .then(response => {
                 this.setState({ money: response.data.money });
                 this.setState({ inventorySpace: response.data.inventorySpace });

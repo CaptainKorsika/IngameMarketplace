@@ -2,7 +2,9 @@ package com.projects.inGameMarketplace.gameLogicService
 
 import com.projects.inGameMarketplace.highScoreService.HighScoreService
 import com.projects.inGameMarketplace.inventoryService.InventoryService
+import com.projects.inGameMarketplace.itemService.Item
 import com.projects.inGameMarketplace.itemService.ItemService
+import com.projects.inGameMarketplace.playerService.Player
 import com.projects.inGameMarketplace.playerService.PlayerService
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.client.RestTemplate
@@ -14,7 +16,7 @@ class GameLogicService {
     private final val restTemplate = RestTemplate()
     private final val playerService = PlayerService()
     val itemService = ItemService()
-    val inventoryService = InventoryService(restTemplate)
+    val inventoryService = InventoryService()
     val highScoreService = HighScoreService()
     var isCurrentlyRunning = this.checkForRunningGame()
 
@@ -44,6 +46,12 @@ class GameLogicService {
         // Delete Player Object
     }
 
+    @GetMapping("/getData")
+    fun getGameData() {
+        val player: Player = playerService.player!!
+        val inventory = inventoryService.inventory
+    }
+
     fun nextDay() {
         // update player Day
         // if Day > 100 -> endGame
@@ -62,21 +70,36 @@ class GameLogicService {
 
     }
 
-    fun buyItem() {
-        inventoryService.addItem()
-        playerService.updatePlayerBalance(2.0)
+    fun buyItem(newItem: Pair<Item, Int>) {
+        val price = newItem.first.currentPrice * newItem.second
+        if (playerService.player!!.money >= price) {
+            val purchaseSuccessful = inventoryService.addItemAndValidate(newItem)
+            if (purchaseSuccessful) {
+                playerService.updatePlayerBalance(price * -1)
+            }
+        }
     }
 
 
-    fun sellItem() {
+    fun sellItem(soldItem: Pair<Item, Int>) {
+        val inventory = inventoryService.inventory!!
+        val itemAmount = inventory.currentItems.filter { it!!.first.name == soldItem.first.name }.sumOf { it?.second ?: 0 }
+        val amountToSell = if (soldItem.second >= itemAmount) itemAmount else soldItem.second
+        val revenue = soldItem.first.currentPrice * amountToSell
+        inventoryService.removeItem(soldItem)
+        playerService.updatePlayerBalance(revenue)
+    }
+
+    fun getCurrentInventory() {
 
     }
+
 
     @GetMapping("/buyInventorySpace")
     fun unlockInventory() {
         val money = playerService.player!!.money
-        val newBalance = inventoryService.buyInventoryAndReturnNewBalance(money)
-        playerService.updatePlayerBalance(newBalance)
+        val price = inventoryService.buyInventoryAndReturnNewBalance(money)
+        playerService.updatePlayerBalance(price * -1)
     }
 
 

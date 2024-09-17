@@ -1,4 +1,4 @@
-package com.projects.inGameMarketplace
+package com.projects.inGameMarketplace.merchantService
 
 class MerchantController {
     val firstMerchant: Merchant = Merchant()

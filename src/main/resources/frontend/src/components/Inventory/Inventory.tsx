@@ -31,8 +31,8 @@ class Inventory extends Component<InventoryProps> {
                 {entity === "Merchant" && <StatisticsMenu day={day}/>}
                 <div className="grid-container">
                     <InventoryRow/>
-                    {entity === "Player" && inventorySpace > 1 && <InventoryRow/>}
-                    {entity === "Player" && inventorySpace > 2 && <InventoryRow/>}
+                    {entity === "Player" && inventorySpace > 10 && <InventoryRow/>}
+                    {entity === "Player" && inventorySpace > 20 && <InventoryRow/>}
                 </div>
             </div>
         );

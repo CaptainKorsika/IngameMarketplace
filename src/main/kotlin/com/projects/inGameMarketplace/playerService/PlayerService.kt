@@ -33,8 +33,13 @@ class PlayerService {
         this.player!!.money += balanceChange
     }
 
-    fun updatePlayerData(@RequestBody updatedPlayer: Player) {
-        this.player = updatedPlayer
+    fun updatePlayerData() {
+        val entity = playerConverter.toEntity(this.player!!)
+        playerRepository.updatePlayerInDB(entity)
+    }
+
+    fun nextDay() {
+        this.player!!.day += 1
     }
 
     private fun getPlayerIfAvailable(): Player? {

@@ -64,6 +64,8 @@ class PlayerRepository {
         }
     }
 
+    fun updatePlayerInDB(entity: PlayerEntity): Boolean {}
+
     fun deletePlayer() {
         val connection = databaseConnector.connectToDatabase()
         val query = """

@@ -40,10 +40,6 @@ class GameLogicService {
 //        }
 
         playerService.deletePlayer()
-
-
-
-        // Delete Player Object
     }
 
     @GetMapping("/getData")
@@ -53,9 +49,14 @@ class GameLogicService {
     }
 
     fun nextDay() {
-        // update player Day
-        // if Day > 100 -> endGame
-        // write player data into DB
+        playerService.nextDay()
+        val currentDay = playerService.player!!.day
+
+        if (currentDay > 100) {
+            this.endGame()
+        }
+
+        playerService.updatePlayerData()
         // update itemList for merchants
         // update item prices
     }

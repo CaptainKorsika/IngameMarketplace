@@ -4,6 +4,7 @@ import com.projects.inGameMarketplace.highScoreService.HighScoreService
 import com.projects.inGameMarketplace.inventoryService.InventoryService
 import com.projects.inGameMarketplace.itemService.Item
 import com.projects.inGameMarketplace.itemService.ItemService
+import com.projects.inGameMarketplace.merchantService.MerchantService
 import com.projects.inGameMarketplace.playerService.Player
 import com.projects.inGameMarketplace.playerService.PlayerService
 import org.springframework.web.bind.annotation.*
@@ -15,10 +16,10 @@ import org.springframework.web.client.RestTemplate
 class GameLogicService {
     private final val restTemplate = RestTemplate()
     private final val playerService = PlayerService()
+    val merchantService = MerchantService()
     val itemService = ItemService()
     val inventoryService = InventoryService()
     val highScoreService = HighScoreService()
-    var isCurrentlyRunning = this.checkForRunningGame()
 
     @GetMapping("/gameRunning")
     fun checkForRunningGame(): Boolean {
@@ -32,13 +33,13 @@ class GameLogicService {
     }
 
     @PostMapping("/endGame")
-    fun endGame() {
-//        if (!gameCancelled) {
-//            val name = playerService.player!!.name
-//            highScoreService.addToHighScoreList(name, money!!)
-//            this.showHighScore()
-//        }
-
+    fun endGame(gameOver: Boolean = false) {
+        val money = playerService.player!!.money
+        if (gameOver) {
+            val name = playerService.player!!.name
+            highScoreService.addToHighScoreList(name, money)
+            this.showHighScore()
+        }
         playerService.deletePlayer()
     }
 
@@ -53,12 +54,12 @@ class GameLogicService {
         val currentDay = playerService.player!!.day
 
         if (currentDay > 100) {
-            this.endGame()
+            this.endGame(true)
         }
-
         playerService.updatePlayerData()
-        // update itemList for merchants
-        // update item prices
+        merchantService.createNewDailyInventory()
+
+        // Todo: export new inventory to FE
     }
 
 
@@ -71,6 +72,7 @@ class GameLogicService {
 
     }
 
+    @PostMapping("/buyItem")
     fun buyItem(newItem: Pair<Item, Int>) {
         val price = newItem.first.currentPrice * newItem.second
         if (playerService.player!!.money >= price) {
@@ -81,7 +83,7 @@ class GameLogicService {
         }
     }
 
-
+    @PostMapping("/sellItem")
     fun sellItem(soldItem: Pair<Item, Int>) {
         val inventory = inventoryService.inventory!!
         val itemAmount = inventory.currentItems.filter { it!!.first.name == soldItem.first.name }.sumOf { it?.second ?: 0 }

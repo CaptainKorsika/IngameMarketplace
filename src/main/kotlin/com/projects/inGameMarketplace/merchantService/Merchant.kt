@@ -5,10 +5,10 @@ import com.projects.inGameMarketplace.itemService.ItemService
 import kotlin.random.Random
 
 class Merchant {
-    val itemService = ItemService()
-    val dailyItemList: List<Pair<Item, Int>> = listOf()
+    private val itemService = ItemService()
+    var dailyItemList: List<Pair<Item, Int>> = listOf()
 
-    fun getNewItems(): List<Pair<Item, Int>> {
+    fun getNewItems() {
         val allItems = itemService.getAllItems()
         val listBuilder: MutableList<Pair<Item, Int>> = mutableListOf()
         for (i in 1..10) {
@@ -24,7 +24,7 @@ class Merchant {
                 }
             }
         }
-        return listBuilder
+        this.dailyItemList = listBuilder
     }
 
     private fun changePrices(price: Double): Double {

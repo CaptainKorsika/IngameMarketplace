@@ -8,13 +8,11 @@ import com.projects.inGameMarketplace.merchantService.MerchantService
 import com.projects.inGameMarketplace.playerService.Player
 import com.projects.inGameMarketplace.playerService.PlayerService
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.client.RestTemplate
 
 @CrossOrigin
 @RestController
 @RequestMapping("/interaction")
 class GameLogicService {
-    private final val restTemplate = RestTemplate()
     private final val playerService = PlayerService()
     val merchantService = MerchantService()
     val itemService = ItemService()

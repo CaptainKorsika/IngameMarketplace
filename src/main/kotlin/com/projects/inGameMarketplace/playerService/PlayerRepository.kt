@@ -30,9 +30,9 @@ class PlayerRepository {
 
         val playerEntity = PlayerEntity(
             resultSet.getString("player_name"),
-            resultSet.getDouble("money"),
             resultSet.getInt("inventory_space"),
-            resultSet.getInt("day")
+            resultSet.getInt("day"),
+            resultSet.getDouble("money"),
         )
 
         resultSet.close()
@@ -44,14 +44,14 @@ class PlayerRepository {
         try {
             val connection = databaseConnector.connectToDatabase()
             val query = """
-            INSERT INTO player(player_name, money, inventory_space, inventory_items, day) VALUES(?, ?, ?, ?, ?)
+            INSERT INTO player(player_name, inventory_space, day, money) VALUES(?, ?, ?, ?)
         """
 
             val preparedStatement = connection.prepareStatement(query)
             preparedStatement.setString(1, entity.playerName)
-            preparedStatement.setDouble(2, entity.money)
-            preparedStatement.setInt(3, entity.inventorySpace)
-            preparedStatement.setInt(4, entity.day)
+            preparedStatement.setInt(2, entity.inventorySpace)
+            preparedStatement.setInt(3, entity.day)
+            preparedStatement.setDouble(4, entity.money)
 
             preparedStatement.executeUpdate()
             connection.close()

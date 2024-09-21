@@ -29,11 +29,13 @@ class App extends Component<{}, AppState> {
     }
 
     componentDidMount() {
-        this.fetchData()
-        this.getPlayerData()
+        this.gameIsRunning()
+        if (this.state.isCurrentlyPlaying) {
+            this.getPlayerData()
+        }
     }
 
-    fetchData = () => {
+    gameIsRunning = () => {
         axios.get('http://localhost:8080/interaction/gameRunning')
             .then(response => {
                 this.setState({ isCurrentlyPlaying: response.data });

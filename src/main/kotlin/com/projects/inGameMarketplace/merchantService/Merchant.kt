@@ -9,7 +9,7 @@ class Merchant {
     var dailyItemList: List<Pair<Item, Int>> = listOf()
 
     fun getNewItems() {
-        val allItems = itemService.getAllItems()
+        val allItems = itemService.getAvailableItems()
         val listBuilder: MutableList<Pair<Item, Int>> = mutableListOf()
         for (i in 1..10) {
             while (true) {

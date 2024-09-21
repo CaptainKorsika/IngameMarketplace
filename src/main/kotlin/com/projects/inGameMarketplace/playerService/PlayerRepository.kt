@@ -1,12 +1,10 @@
 package com.projects.inGameMarketplace.playerService
 
 import com.projects.inGameMarketplace.DatabaseConnector
-import kotlinx.serialization.json.Json
 import java.sql.ResultSet
 import java.sql.Statement
 
 class PlayerRepository {
-    lateinit var playerEntity: PlayerEntity
     private val databaseConnector = DatabaseConnector()
 
 
@@ -64,7 +62,10 @@ class PlayerRepository {
         }
     }
 
-    fun updatePlayerInDB(entity: PlayerEntity): Boolean {}
+    fun updatePlayerInDB(entity: PlayerEntity): Boolean {
+        // TODO: Implement logic
+        return false
+    }
 
     fun deletePlayer() {
         val connection = databaseConnector.connectToDatabase()

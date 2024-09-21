@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/interaction")
 class PlayerService {
-    val playerRepository = PlayerRepository()
-    val playerConverter = PlayerConverter()
+    private val playerRepository = PlayerRepository()
+    private val playerConverter = PlayerConverter()
     var player: Player? = this.getPlayerIfAvailable()
 
 
@@ -17,7 +17,7 @@ class PlayerService {
 
     fun createPlayer(playerName: String) {
         val newPlayer = Player(name = playerName)
-        val entity = playerConverter.toEntity(this.player!!)
+        val entity = playerConverter.toEntity(newPlayer)
         val playerCreatedSuccessfully = playerRepository.createPlayerEntry(entity)
         if (playerCreatedSuccessfully) {
             this.player = newPlayer

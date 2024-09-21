@@ -45,7 +45,7 @@ class GameLogicService {
 
     @GetMapping("/getData")
     fun getGameData() {
-        val player: Player = playerService.player!!
+        val player: Player? = playerService.fetchPlayerData()
         val inventory = inventoryService.inventory
     }
 

@@ -32,7 +32,7 @@ class PlayerRepository {
             resultSet.getString("player_name"),
             resultSet.getInt("inventory_space"),
             resultSet.getInt("day"),
-            resultSet.getDouble("money"),
+            resultSet.getDouble("money")
         )
 
         resultSet.close()

@@ -1,35 +1,36 @@
 package com.projects.inGameMarketplace.merchantService
 
+import com.projects.inGameMarketplace.inventoryService.Inventory
 import com.projects.inGameMarketplace.itemService.Item
 import com.projects.inGameMarketplace.itemService.ItemService
 import kotlin.random.Random
 
 class Merchant {
-    val itemService = ItemService()
-    val dailyItemList: List<Pair<Item, Int>> = listOf()
+    private val itemService = ItemService()
+    var dailyInventory: Inventory = Inventory()
 
-    fun getNewItems(): List<Pair<Item, Int>> {
-        val allItems = itemService.getAllItems()
-        val listBuilder: MutableList<Pair<Item, Int>> = mutableListOf()
+    fun getNewItems() {
+        val newInventory = Inventory()
+        val allItems = itemService.getAvailableItems()
         for (i in 1..10) {
             while (true) {
                 val randomNumber = Random.nextInt(1, allItems.size)
                 val itemToAdd = allItems[randomNumber]
-                if (!listBuilder.map { item -> item.first.name }.contains(itemToAdd.name)) {
+                if (!newInventory.currentItems.map { item -> item.first.name }.contains(itemToAdd.name)) {
                     itemToAdd.currentPrice = this.changePrices(itemToAdd.averagePrice)
                     val itemAmount = Random.nextInt(20, 100)
                     val itemPair: Pair<Item, Int> = itemToAdd to itemAmount
-                    listBuilder.add(itemPair)
+                    newInventory.currentItems.add(itemPair)
                     break
                 }
             }
         }
-        return listBuilder
+        this.dailyInventory = newInventory
     }
 
     private fun changePrices(price: Double): Double {
-        val lowerBoundary: Double = 0.5
-        val upperBoundary: Double = 1.5
+        val lowerBoundary = 0.5
+        val upperBoundary = 1.5
         return Random.nextDouble(price * lowerBoundary, price * upperBoundary)
     }
 }

@@ -9,21 +9,19 @@ class PlayerConverter {
     fun toEntity(player: Player): PlayerEntity {
         return PlayerEntity(
             player.name,
-            player.money,
             player.inventorySpace,
-            player.day )
+            player.day,
+            player.money
+        )
     }
 
     fun toDomain(entity: PlayerEntity): Player {
 
-//        val itemJson = entity.inventoryItems
-//        val itemList = Json.decodeFromString<List<Pair<Item, Int>>>(itemJson)
-
         return Player(
             entity.playerName,
-            entity.money,
             entity.inventorySpace,
-            entity.day
+            entity.day,
+            entity.money
         )
     }
 

@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PlayerEntity(
     val playerName: String,
-    val money: Double,
     val inventorySpace: Int,
-    val day: Int
+    val day: Int,
+    val money: Double,
 )

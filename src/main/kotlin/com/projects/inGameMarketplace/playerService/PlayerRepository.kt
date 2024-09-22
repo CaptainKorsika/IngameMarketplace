@@ -1,12 +1,10 @@
 package com.projects.inGameMarketplace.playerService
 
 import com.projects.inGameMarketplace.DatabaseConnector
-import kotlinx.serialization.json.Json
 import java.sql.ResultSet
 import java.sql.Statement
 
 class PlayerRepository {
-    lateinit var playerEntity: PlayerEntity
     private val databaseConnector = DatabaseConnector()
 
 
@@ -32,9 +30,9 @@ class PlayerRepository {
 
         val playerEntity = PlayerEntity(
             resultSet.getString("player_name"),
-            resultSet.getDouble("money"),
             resultSet.getInt("inventory_space"),
-            resultSet.getInt("day")
+            resultSet.getInt("day"),
+            resultSet.getDouble("money")
         )
 
         resultSet.close()
@@ -46,14 +44,14 @@ class PlayerRepository {
         try {
             val connection = databaseConnector.connectToDatabase()
             val query = """
-            INSERT INTO player(player_name, money, inventory_space, inventory_items, day) VALUES(?, ?, ?, ?, ?)
+            INSERT INTO player(player_name, inventory_space, day, money) VALUES(?, ?, ?, ?)
         """
 
             val preparedStatement = connection.prepareStatement(query)
             preparedStatement.setString(1, entity.playerName)
-            preparedStatement.setDouble(2, entity.money)
-            preparedStatement.setInt(3, entity.inventorySpace)
-            preparedStatement.setInt(4, entity.day)
+            preparedStatement.setInt(2, entity.inventorySpace)
+            preparedStatement.setInt(3, entity.day)
+            preparedStatement.setDouble(4, entity.money)
 
             preparedStatement.executeUpdate()
             connection.close()
@@ -62,6 +60,11 @@ class PlayerRepository {
         } catch (e: Exception) {
             return false
         }
+    }
+
+    fun updatePlayerInDB(entity: PlayerEntity): Boolean {
+        // TODO: Implement logic
+        return false
     }
 
     fun deletePlayer() {

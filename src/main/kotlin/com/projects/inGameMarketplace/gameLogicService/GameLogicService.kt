@@ -1,24 +1,25 @@
 package com.projects.inGameMarketplace.gameLogicService
 
 import com.projects.inGameMarketplace.highScoreService.HighScoreService
-import com.projects.inGameMarketplace.inventoryService.InventoryService
+import com.projects.inGameMarketplace.inventoryService.Inventory
+import com.projects.inGameMarketplace.inventoryService.PlayerInventoryService
 import com.projects.inGameMarketplace.itemService.Item
 import com.projects.inGameMarketplace.itemService.ItemService
+import com.projects.inGameMarketplace.merchantService.MerchantInventoryDTO
+import com.projects.inGameMarketplace.merchantService.MerchantService
 import com.projects.inGameMarketplace.playerService.Player
 import com.projects.inGameMarketplace.playerService.PlayerService
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.client.RestTemplate
 
 @CrossOrigin
 @RestController
 @RequestMapping("/interaction")
 class GameLogicService {
-    private final val restTemplate = RestTemplate()
     private final val playerService = PlayerService()
+    val merchantService = MerchantService()
     val itemService = ItemService()
-    val inventoryService = InventoryService()
+    val inventoryService = PlayerInventoryService()
     val highScoreService = HighScoreService()
-    var isCurrentlyRunning = this.checkForRunningGame()
 
     @GetMapping("/gameRunning")
     fun checkForRunningGame(): Boolean {
@@ -32,66 +33,77 @@ class GameLogicService {
     }
 
     @PostMapping("/endGame")
-    fun endGame() {
-//        if (!gameCancelled) {
-//            val name = playerService.player!!.name
-//            highScoreService.addToHighScoreList(name, money!!)
-//            this.showHighScore()
-//        }
-
+    fun endGame(gameOver: Boolean = false) {
+        val money = playerService.player!!.money
+        if (gameOver) {
+            val name = playerService.player!!.name
+            highScoreService.addToHighScoreList(name, money)
+            this.showHighScore()
+        }
         playerService.deletePlayer()
-
-
-
-        // Delete Player Object
     }
 
     @GetMapping("/getData")
-    fun getGameData() {
-        val player: Player = playerService.player!!
-        val inventory = inventoryService.inventory
+    fun getGameData(): GameDataDTO? {
+        val player: Player? = playerService.fetchPlayerData()
+        val inventory = this.getCurrentInventory()
+
+        if (player == null) {
+            return null
+        }
+        return GameDataDTO(player.inventorySpace, player.day, player.money, inventory)
     }
 
-    fun nextDay() {
-        // update player Day
-        // if Day > 100 -> endGame
-        // write player data into DB
-        // update itemList for merchants
-        // update item prices
+    @GetMapping("/nextDay")
+    fun nextDay(): List<MerchantInventoryDTO> {
+        playerService.nextDay()
+        val currentDay = playerService.player!!.day
+
+        if (currentDay > 100) {
+            this.endGame(true)
+        }
+        playerService.updatePlayerData()
+        merchantService.createNewDailyInventory()
+
+        val firstMerchantDTO = MerchantInventoryDTO(merchantService.firstMerchant.dailyInventory)
+        val secondMerchantDTO = MerchantInventoryDTO(merchantService.secondMerchant.dailyInventory)
+        val thirdMerchantDTO = MerchantInventoryDTO(merchantService.thirdMerchant.dailyInventory)
+
+
+        val merchantInventoryList: List<MerchantInventoryDTO> = listOf(firstMerchantDTO, secondMerchantDTO, thirdMerchantDTO)
+        return merchantInventoryList
     }
 
-
-    fun selectMerchant() {
-
-    }
-
-
-    fun selectItem() {
-
-    }
-
+    @PostMapping("/buyItem")
     fun buyItem(newItem: Pair<Item, Int>) {
         val price = newItem.first.currentPrice * newItem.second
         if (playerService.player!!.money >= price) {
-            val purchaseSuccessful = inventoryService.addItemAndValidate(newItem)
+            val purchaseSuccessful = inventoryService.addItemAndConfirm(newItem)
             if (purchaseSuccessful) {
                 playerService.updatePlayerBalance(price * -1)
             }
         }
+
+
     }
 
-
+    @PostMapping("/sellItem")
     fun sellItem(soldItem: Pair<Item, Int>) {
         val inventory = inventoryService.inventory!!
-        val itemAmount = inventory.currentItems.filter { it!!.first.name == soldItem.first.name }.sumOf { it?.second ?: 0 }
+        val itemAmount = inventory.currentItems.first { it.first.name == soldItem.first.name }.second
         val amountToSell = if (soldItem.second >= itemAmount) itemAmount else soldItem.second
         val revenue = soldItem.first.currentPrice * amountToSell
-        inventoryService.removeItem(soldItem)
-        playerService.updatePlayerBalance(revenue)
+
+        val itemRemovedSuccessfully = inventoryService.removeItemAndConfirm(soldItem)
+        if (itemRemovedSuccessfully) {
+            playerService.updatePlayerBalance(revenue)
+        }
+
     }
 
-    fun getCurrentInventory() {
-
+    @GetMapping("/getInventory")
+    fun getCurrentInventory(): Inventory? {
+        return inventoryService.inventory
     }
 
 

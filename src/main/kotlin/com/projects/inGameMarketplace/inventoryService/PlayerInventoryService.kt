@@ -4,6 +4,7 @@ import com.projects.inGameMarketplace.itemService.Item
 
 
 class PlayerInventoryService() {
+    val inventoryRepository = InventoryRepository()
     val inventory: Inventory? = getPlayerInventoryFromDB()
     var inventorySpace = 10
     private val firstExtensionPrice: Double = 1000.0
@@ -87,5 +88,9 @@ class PlayerInventoryService() {
 
         }
         return true
+    }
+
+    fun deleteInventory() {
+        this.inventoryRepository.deleteInventory()
     }
 }

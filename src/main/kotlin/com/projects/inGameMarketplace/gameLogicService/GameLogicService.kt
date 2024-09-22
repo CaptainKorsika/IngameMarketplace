@@ -41,6 +41,7 @@ class GameLogicService {
             this.showHighScore()
         }
         playerService.deletePlayer()
+        inventoryService.deleteInventory()
     }
 
     @GetMapping("/getData")

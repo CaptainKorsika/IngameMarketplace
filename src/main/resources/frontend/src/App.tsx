@@ -29,12 +29,14 @@ class App extends Component<{}, AppState> {
     }
 
     componentDidMount() {
-        this.fetchData()
-        this.getPlayerData()
+        this.gameIsRunning()
+        if (this.state.isCurrentlyPlaying) {
+            this.getPlayerData()
+        }
     }
 
-    fetchData = () => {
-        axios.get('http://localhost:8080/playerService/gameRunning')
+    gameIsRunning = () => {
+        axios.get('http://localhost:8080/interaction/gameRunning')
             .then(response => {
                 this.setState({ isCurrentlyPlaying: response.data });
             })
@@ -45,7 +47,7 @@ class App extends Component<{}, AppState> {
 
 
     getPlayerData = () => {
-        axios.get('http://localhost:8080/playerService/getPlayer')
+        axios.get('http://localhost:8080/interaction/getData')
             .then(response => {
                 this.setState({ money: response.data.money });
                 this.setState({ inventorySpace: response.data.inventorySpace });
@@ -58,7 +60,7 @@ class App extends Component<{}, AppState> {
     }
 
     unlockInventory = () => {
-        axios.get('http://localhost:8080/inventoryService/buyInventorySpace')
+        axios.get('http://localhost:8080/interaction/buyInventorySpace')
             .then(response => {
                 this.setState({ inventorySpace: response.data });
             })

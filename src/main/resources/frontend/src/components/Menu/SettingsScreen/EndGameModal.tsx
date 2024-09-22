@@ -21,7 +21,7 @@ class StartGameModal extends Component {
 
     endGame = () => {
         this.handleClose()
-        axios.post('http://localhost:8080/playerService/deletePlayer', {
+        axios.post('http://localhost:8080/interaction/endGame', {
             headers: {
                 "Content-Type": "text/plain"
             }

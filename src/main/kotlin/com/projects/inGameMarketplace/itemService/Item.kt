@@ -1,4 +1,4 @@
-package com.projects.inGameMarketplace
+package com.projects.inGameMarketplace.itemService
 
 import kotlinx.serialization.Serializable
 

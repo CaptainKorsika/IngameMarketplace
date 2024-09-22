@@ -5,6 +5,7 @@
     "dev": "cd src/main/resources/frontend && npm run dev",
     "build": "cd src/main/resources/frontend && npm run build",
     "lint": "cd src/main/resources/frontend && npm run lint",
-    "preview": "cd src/main/resources/frontend && npm run preview"
+    "preview": "cd src/main/resources/frontend && npm run preview",
+    "install": "cd src/main/resources/frontend && npm install"
   }
 }

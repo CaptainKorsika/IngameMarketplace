@@ -55,7 +55,6 @@ class InventoryRepository {
         connection.close()
 
 
-
     }
 
 

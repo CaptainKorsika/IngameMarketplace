@@ -40,7 +40,7 @@ class PlayerInventoryService() {
         }
 
         // TODO: Calc new Balance
-        return 0.0
+        return 3000.0
     }
 
     fun addItemAndConfirm(boughtItem: Pair<Item, Int>): Boolean {

@@ -64,6 +64,7 @@ class GameLogicService {
             this.endGame(true)
         }
         playerService.updatePlayerData()
+        inventoryService.updateInventory()
         merchantService.createNewDailyInventory()
 
         val firstMerchantDTO = MerchantInventoryDTO(merchantService.firstMerchant.dailyInventory)
@@ -117,7 +118,6 @@ class GameLogicService {
             playerService.addInventorySpace()
         }
     }
-
 
     fun showHighScore() {
 

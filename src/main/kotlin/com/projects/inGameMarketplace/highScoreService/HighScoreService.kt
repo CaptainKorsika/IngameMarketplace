@@ -14,6 +14,7 @@ class HighScoreService {
 
 
     fun addToHighScoreList(playerName: String, finalScore: Double) {
+        // TODO: Implement logic
         val roundedScore = finalScore.toInt()
         if (checkForNewHighScore(roundedScore)) {
             Score(playerName, roundedScore)
@@ -22,10 +23,6 @@ class HighScoreService {
             // update DB
             highScoreRepository.updateHighScore(this.highScores)
         }
-    }
-
-    fun eraseList() {
-
     }
 
     private fun checkForNewHighScore(finalScore: Int): Boolean {

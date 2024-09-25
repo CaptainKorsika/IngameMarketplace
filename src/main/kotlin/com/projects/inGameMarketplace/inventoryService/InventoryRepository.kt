@@ -9,9 +9,25 @@ class InventoryRepository {
     private val databaseConnector = DatabaseConnector()
 
     fun saveInventory(inventory: InventoryEntity) {
+        val connection = databaseConnector.connectToDatabase()
 
+        val query = StringBuilder("INSERT INTO players (player_name, score) VALUES ")
 
+        inventory.currentItems.forEachIndexed { index, _ ->
+            if (index > 0) query.append(", ")
+            query.append("(?, ?)")
+        }
 
+        val preparedStatement = connection.prepareStatement(query.toString())
+
+        var paramIndex = 1
+        inventory.currentItems.forEach { (name, score) ->
+            preparedStatement.setString(paramIndex++, name)
+            preparedStatement.setInt(paramIndex++, score)
+        }
+
+        preparedStatement.executeUpdate()
+        connection.close()
 
     }
 
@@ -39,10 +55,9 @@ class InventoryRepository {
         }
 
         return InventoryEntity(itemList)
-        // TODO: Find a way
+        // TODO: Find a way to create Item object
 
     }
-
 
     fun deleteInventory() {
         val connection = databaseConnector.connectToDatabase()
@@ -56,11 +71,4 @@ class InventoryRepository {
 
 
     }
-
-
-
-
-
-    // TODO Create inventory repository and logic
-
 }

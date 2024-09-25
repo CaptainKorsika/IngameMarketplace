@@ -6,13 +6,19 @@ import com.projects.inGameMarketplace.itemService.Item
 class PlayerInventoryService {
     val inventoryRepository = InventoryRepository()
     val inventory: Inventory? = getPlayerInventoryFromDB()
+    val inventoryConverter = InventoryConverter()
     private val firstExtensionPrice: Double = 1000.0
     private val secondExtensionPrice: Double = 2000.0
 
 
     fun createInventory() {
-        // create DB entry
-        this.getPlayerInventoryFromDB()
+        val entity = this.inventoryConverter.toEntity(this.inventory!!)
+        inventoryRepository.saveInventory(entity)
+    }
+
+    fun updateInventory() {
+        this.deleteInventory()
+        this.createInventory()
     }
 
 

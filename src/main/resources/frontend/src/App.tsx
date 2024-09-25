@@ -22,7 +22,7 @@ class App extends Component<{}, AppState> {
         this.state = {
             isCurrentlyPlaying: true,
             money: 1,
-            inventorySpace: 1,
+            inventorySpace: 10,
             inventoryItems: [],
             day: 1
         };

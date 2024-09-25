@@ -24,10 +24,6 @@ class HighScoreService {
         }
     }
 
-    fun eraseList() {
-
-    }
-
     private fun checkForNewHighScore(finalScore: Int): Boolean {
         val lowestScore = this.highScores.minBy { it.second }.second
         return finalScore > lowestScore

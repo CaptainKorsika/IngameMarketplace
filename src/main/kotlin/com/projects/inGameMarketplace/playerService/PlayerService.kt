@@ -42,6 +42,10 @@ class PlayerService {
         this.player!!.day += 1
     }
 
+    fun addInventorySpace() {
+        this.player!!.inventorySpace += 10
+    }
+
     private fun getPlayerIfAvailable(): Player? {
         val entity = playerRepository.getPlayer()
         return if (entity != null) {

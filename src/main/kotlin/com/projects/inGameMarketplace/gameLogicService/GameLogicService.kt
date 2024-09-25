@@ -41,6 +41,7 @@ class GameLogicService {
             this.showHighScore()
         }
         playerService.deletePlayer()
+        inventoryService.deleteInventory()
     }
 
     @GetMapping("/getData")
@@ -63,6 +64,7 @@ class GameLogicService {
             this.endGame(true)
         }
         playerService.updatePlayerData()
+        inventoryService.updateInventory()
         merchantService.createNewDailyInventory()
 
         val firstMerchantDTO = MerchantInventoryDTO(merchantService.firstMerchant.dailyInventory)
@@ -76,15 +78,14 @@ class GameLogicService {
 
     @PostMapping("/buyItem")
     fun buyItem(newItem: Pair<Item, Int>) {
+        val player = playerService.player!!
         val price = newItem.first.currentPrice * newItem.second
-        if (playerService.player!!.money >= price) {
-            val purchaseSuccessful = inventoryService.addItemAndConfirm(newItem)
+        if (player.money >= price) {
+            val purchaseSuccessful = inventoryService.addItemAndConfirm(newItem, player.inventorySpace)
             if (purchaseSuccessful) {
                 playerService.updatePlayerBalance(price * -1)
             }
         }
-
-
     }
 
     @PostMapping("/sellItem")
@@ -98,7 +99,6 @@ class GameLogicService {
         if (itemRemovedSuccessfully) {
             playerService.updatePlayerBalance(revenue)
         }
-
     }
 
     @GetMapping("/getInventory")
@@ -109,11 +109,15 @@ class GameLogicService {
 
     @GetMapping("/buyInventorySpace")
     fun unlockInventory() {
-        val money = playerService.player!!.money
-        val price = inventoryService.buyInventoryAndReturnNewBalance(money)
-        playerService.updatePlayerBalance(price * -1)
-    }
+        val player = playerService.player!!
+        val money = player.money
+        val price = inventoryService.buyInventoryAndReturnPrice(money, player.inventorySpace)
 
+        if (money >= price) {
+            playerService.updatePlayerBalance(price * -1)
+            playerService.addInventorySpace()
+        }
+    }
 
     fun showHighScore() {
 

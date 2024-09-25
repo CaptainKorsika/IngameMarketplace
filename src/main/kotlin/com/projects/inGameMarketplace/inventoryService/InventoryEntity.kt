@@ -1,7 +1,6 @@
 package com.projects.inGameMarketplace.inventoryService
 
-class InventoryEntity {
+import com.projects.inGameMarketplace.itemService.Item
 
-    // TODO Create Entity
+data class InventoryEntity(val currentItems: MutableList<Pair<String, Int>>)
 
-}

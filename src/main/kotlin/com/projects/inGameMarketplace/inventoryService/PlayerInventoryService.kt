@@ -3,10 +3,9 @@ package com.projects.inGameMarketplace.inventoryService
 import com.projects.inGameMarketplace.itemService.Item
 
 
-class PlayerInventoryService() {
+class PlayerInventoryService {
     val inventoryRepository = InventoryRepository()
     val inventory: Inventory? = getPlayerInventoryFromDB()
-    var inventorySpace = 10
     private val firstExtensionPrice: Double = 1000.0
     private val secondExtensionPrice: Double = 2000.0
 
@@ -23,29 +22,26 @@ class PlayerInventoryService() {
         return inventory
     }
 
-    fun buyInventoryAndReturnNewBalance(money: Double): Double {
-        when(this.inventorySpace) {
+    fun buyInventoryAndReturnPrice(money: Double, space: Int): Double {
+        var price = 0.0
+        when(space) {
             10 -> {
                 if (money >= firstExtensionPrice) {
-                    this.inventorySpace = 20
-                    return firstExtensionPrice
+                    price = firstExtensionPrice
                 }
             }
             20 -> {
                 if (money >= secondExtensionPrice) {
-                    this.inventorySpace = 30
-                    return secondExtensionPrice
+                    price =  secondExtensionPrice
                 }
             }
         }
-
-        // TODO: Calc new Balance
-        return 3000.0
+        return price
     }
 
-    fun addItemAndConfirm(boughtItem: Pair<Item, Int>): Boolean {
+    fun addItemAndConfirm(boughtItem: Pair<Item, Int>, space: Int): Boolean {
 
-        if (this.inventorySpace == this.inventory!!.currentItems.size) {
+        if (space == this.inventory!!.currentItems.size) {
             return false
         }
 

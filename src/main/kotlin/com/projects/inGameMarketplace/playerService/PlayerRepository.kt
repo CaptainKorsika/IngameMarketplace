@@ -50,7 +50,6 @@ class PlayerRepository {
             statement.setInt(3, entity.day)
             statement.setDouble(4, entity.money)
 
-
             statement.executeUpdate()
             connection.close()
 

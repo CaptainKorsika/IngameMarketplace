@@ -14,7 +14,6 @@ class HighScoreService {
 
 
     fun addToHighScoreList(playerName: String, finalScore: Double) {
-        // TODO: Implement logic
         val roundedScore = finalScore.toInt()
         if (checkForNewHighScore(roundedScore)) {
             Score(playerName, roundedScore)

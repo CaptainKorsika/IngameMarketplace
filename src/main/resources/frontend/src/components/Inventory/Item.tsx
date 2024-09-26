@@ -5,7 +5,7 @@ class Item extends Component {
     render() {
         return (
             <div className="item-container">
-                <img src="" alt="" className="item-image"/>
+                <img src="/assets/items/mead.png" alt="steak" className="item-image"/>
             </div>
         );
     }

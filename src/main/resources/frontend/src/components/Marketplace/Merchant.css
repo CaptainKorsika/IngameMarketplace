@@ -1,7 +1,7 @@
 .merchant {
     width: 12vw;
     height: 20vh;
-    background-image: url("../../assets/merchant.png");
+    background-image: url("assets/merchant.png");
     background-size: cover;
     border: 2px solid white;
     box-sizing: border-box;

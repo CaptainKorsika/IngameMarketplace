@@ -2,6 +2,6 @@ package com.projects.inGameMarketplace.inventoryService
 
 import com.projects.inGameMarketplace.itemService.Item
 
-data class InventoryEntity(val currentItems: MutableList<Pair<String, Int>>)
+data class InventoryEntity(val currentItems: MutableList<Pair<Item, Int>>)
 
 

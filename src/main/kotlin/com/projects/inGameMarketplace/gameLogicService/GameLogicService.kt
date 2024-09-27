@@ -2,7 +2,7 @@ package com.projects.inGameMarketplace.gameLogicService
 
 import com.projects.inGameMarketplace.highScoreService.HighScoreService
 import com.projects.inGameMarketplace.inventoryService.Inventory
-import com.projects.inGameMarketplace.inventoryService.PlayerInventoryService
+import com.projects.inGameMarketplace.inventoryService.InventoryService
 import com.projects.inGameMarketplace.itemService.Item
 import com.projects.inGameMarketplace.itemService.ItemService
 import com.projects.inGameMarketplace.merchantService.MerchantInventoryDTO
@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.*
 @CrossOrigin
 @RestController
 @RequestMapping("/interaction")
-class GameLogicService {
+class GameLogicService() {
     private final val playerService = PlayerService()
     val merchantService = MerchantService()
     val itemService = ItemService()
-    val inventoryService = PlayerInventoryService()
+    val inventoryService = InventoryService()
     val highScoreService = HighScoreService()
 
     @GetMapping("/gameRunning")

@@ -53,40 +53,40 @@ jobs:
           mysql -uroot -e "CREATE DATABASE marketplace_database;"
           mysql -uroot -D marketplace_database -e "CREATE TABLE player (player_name varchar(30) NOT NULL, inventory_space INT NOT NULL, day INT NOT NULL, money decimal(10, 2) NOT NULL);"
           mysql -uroot -D marketplace_database -e  "CREATE TABLE high_score (player_name VARCHAR(30) NOT NULL, score INT NOT NULL);"
-          mysql -uroot -D marketplace_database -e  "CREATE TABLE inventory (item_id INT NOT NULL PRIMARY KEY, item_name TEXT NOT NULL, amount INT NOT NULL);"
-          mysql -uroot -D marketplace_database -e  "CREATE TABLE items (item_id INT NOT NULL PRIMARY KEY, item_name TEXT NOT NULL, image BLOB NOT NULL, price decimal(10, 2) NOT NULL);"
-          mysql -uroot -D marketplace_database -e  "INSERT INTO items (item_id, item_name, image, price)
+          mysql -uroot -D marketplace_database -e  "CREATE TABLE inventory (item_name TEXT NOT NULL, amount INT NOT NULL);"
+          mysql -uroot -D marketplace_database -e  "CREATE TABLE items (item_name TEXT NOT NULL, image_url TEXT NOT NULL, price DECIMAL(10, 2) NOT NULL);"
+          mysql -uroot -D marketplace_database -e  "INSERT INTO items (item_name, image_url, price)
           VALUES
-            (1, 'Bread', 'Placeholder', 2.0),
-            (2, 'Steak', 'Placeholder', 4.0),
-            (3, 'Cheese', 'Placeholder', 5.0),
-            (4, 'Mead', 'Placeholder', 12.0),
-            (5, 'Apple', 'Placeholder', 3.0),
-            (6, 'Pickaxe', 'Placeholder', 10.0),
-            (7, 'Journal', 'Placeholder', 8.0),
-            (8, 'Fire Starter', 'Placeholder', 3.0),
-            (9, 'Bucket', 'Placeholder', 4.0),
-            (10, 'Rope', 'Placeholder', 6.0),
-            (11, 'Sword', 'Placeholder', 50.0),
-            (12, 'Bow', 'Placeholder', 30.0),
-            (13, 'Arrows', 'Placeholder', 15.0),
-            (14, 'Chest Plate', 'Placeholder', 25.0),
-            (15, 'Iron Helmet', 'Placeholder', 20.0),
-            (16, 'Healing Potion', 'Placeholder', 18.0),
-            (17, 'Elixir', 'Placeholder', 25.0),
-            (18, 'Herbs', 'Placeholder', 7.0),
-            (19, 'Antidote Potion', 'Placeholder', 16.0),
-            (20, 'Tea', 'Placeholder', 5.0),
-            (21, 'Cloak', 'Placeholder', 22.0),
-            (22, 'Boots', 'Placeholder', 12.0),
-            (23, 'Silver Ring', 'Placeholder', 20.0),
-            (24, 'Tunic', 'Placeholder', 8.0),
-            (25, 'Hat', 'Placeholder', 10.0),
-            (26, 'Crystal Orb', 'Placeholder', 60.0),
-            (27, 'Spell Scroll', 'Placeholder', 45.0),
-            (28, 'Amulet', 'Placeholder', 80.0),
-            (29, 'Mysterious Dust', 'Placeholder', 40.0),
-            (30, 'Dragon Scale', 'Placeholder', 100.0);"
+          ('Bread', '/assets/items/bread.png', 2.0),
+          ('Steak', '/assets/items/steak.png', 4.0),
+          ('Cheese', '/assets/items/cheese.png', 5.0),
+          ('Mead', '/assets/items/mead.png', 12.0),
+          ('Apple', '/assets/items/apple.png', 3.0),
+          ('Pickaxe', '/assets/items/pickaxe.png', 10.0),
+          ('Journal', '/assets/items/journal.png', 8.0),
+          ('Fire Starter', '/assets/items/fire_starter.png', 3.0),
+          ('Bucket', '/assets/items/bucket.png', 4.0),
+          ('Rope', '/assets/items/rope.png', 6.0),
+          ('Sword', '/assets/items/sword.png', 50.0),
+          ('Bow', '/assets/items/bow.png', 30.0),
+          ('Arrows', '/assets/items/arrows.png', 15.0),
+          ('Chest Plate', '/assets/items/chest_plate.png', 25.0),
+          ('Iron Helmet', '/assets/items/iron_helmet.png', 20.0),
+          ('Healing Potion', '/assets/items/healing_potion.png', 18.0),
+          ('Elixir', '/assets/items/elixir.png', 25.0),
+          ('Herbs', '/assets/items/herbs.png', 7.0),
+          ('Antidote Potion', '/assets/items/antidote_potion.png', 16.0),
+          ('Tea', '/assets/items/tea.png', 5.0),
+          ('Cloak', '/assets/items/cloak.png', 22.0),
+          ('Boots', '/assets/items/boots.png', 12.0),
+          ('Silver Ring', '/assets/items/silver_ring.png', 20.0),
+          ('Tunic', '/assets/items/tunic.png', 8.0),
+          ('Hat', '/assets/items/hat.png', 10.0),
+          ('Crystal Orb', '/assets/items/crystal_orb.png', 60.0),
+          ('Spell Scroll', '/assets/items/spell_scroll.png', 45.0),
+          ('Amulet', '/assets/items/amulet.png', 80.0),
+          ('Mysterious Dust', '/assets/items/mysterious_dust.png', 40.0),
+          ('Dragon Scale', '/assets/items/dragon_scale.png', 100.0);"
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew

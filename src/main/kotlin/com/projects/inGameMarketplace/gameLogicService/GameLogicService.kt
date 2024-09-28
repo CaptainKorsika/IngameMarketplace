@@ -1,8 +1,9 @@
 package com.projects.inGameMarketplace.gameLogicService
 
+import com.projects.inGameMarketplace.highScoreService.HighScoreDTO
 import com.projects.inGameMarketplace.highScoreService.HighScoreService
 import com.projects.inGameMarketplace.inventoryService.Inventory
-import com.projects.inGameMarketplace.inventoryService.PlayerInventoryService
+import com.projects.inGameMarketplace.inventoryService.InventoryService
 import com.projects.inGameMarketplace.itemService.Item
 import com.projects.inGameMarketplace.itemService.ItemService
 import com.projects.inGameMarketplace.merchantService.MerchantInventoryDTO
@@ -14,11 +15,11 @@ import org.springframework.web.bind.annotation.*
 @CrossOrigin
 @RestController
 @RequestMapping("/interaction")
-class GameLogicService {
+class GameLogicService() {
     private final val playerService = PlayerService()
     val merchantService = MerchantService()
     val itemService = ItemService()
-    val inventoryService = PlayerInventoryService()
+    val inventoryService = InventoryService()
     val highScoreService = HighScoreService()
 
     @GetMapping("/gameRunning")
@@ -34,8 +35,8 @@ class GameLogicService {
 
     @PostMapping("/endGame")
     fun endGame(gameOver: Boolean = false) {
-        val money = playerService.player!!.money
         if (gameOver) {
+            val money = playerService.player!!.money
             val name = playerService.player!!.name
             highScoreService.addToHighScoreList(name, money)
             this.showHighScore()
@@ -119,7 +120,14 @@ class GameLogicService {
         }
     }
 
-    fun showHighScore() {
+    @GetMapping("showHighScores")
+    fun showHighScore(): List<HighScoreDTO> {
+        val dtoList = mutableListOf<HighScoreDTO>()
 
+        highScoreService.highScores.forEach {
+            dtoList.add(HighScoreDTO(it.name, it.money))
+        }
+
+        return dtoList
     }
 }

@@ -3,10 +3,10 @@ package com.projects.inGameMarketplace.inventoryService
 import com.projects.inGameMarketplace.itemService.Item
 
 
-class PlayerInventoryService {
-    val inventoryRepository = InventoryRepository()
+class InventoryService {
+    private val inventoryRepository = InventoryRepository()
+    private val inventoryConverter = InventoryConverter()
     val inventory: Inventory? = getPlayerInventoryFromDB()
-    val inventoryConverter = InventoryConverter()
     private val firstExtensionPrice: Double = 1000.0
     private val secondExtensionPrice: Double = 2000.0
 
@@ -22,9 +22,10 @@ class PlayerInventoryService {
     }
 
 
-    private fun getPlayerInventoryFromDB(): Inventory? {
-        // TODO: return null if no player
-        val inventory = Inventory()
+    private fun getPlayerInventoryFromDB(): Inventory {
+        val inventoryEntity = this.inventoryRepository.loadInventory()
+        val inventory = this.inventoryConverter.toDomain(inventoryEntity)
+
         return inventory
     }
 

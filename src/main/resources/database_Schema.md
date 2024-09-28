@@ -29,7 +29,7 @@ CREATE TABLE items (item_name TEXT NOT NULL,
 ```
 ## Insert Items into Table
 ```sql
-INSERT INTO items (item_name, image, price)
+INSERT INTO items (item_name, image_url, price)
 VALUES
     ('Bread', '/assets/items/bread.png', 2.0),
     ('Steak', '/assets/items/steak.png', 4.0),

@@ -5,7 +5,7 @@ class MerchantService {
     val secondMerchant: Merchant = Merchant()
     val thirdMerchant: Merchant = Merchant()
 
-    val merchantList = listOf(firstMerchant, secondMerchant, thirdMerchant)
+    private val merchantList = listOf(firstMerchant, secondMerchant, thirdMerchant)
 
 
     fun createNewDailyInventory() {

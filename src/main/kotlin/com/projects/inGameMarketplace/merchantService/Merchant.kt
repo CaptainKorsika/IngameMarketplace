@@ -7,9 +7,9 @@ import kotlin.random.Random
 
 class Merchant {
     private val itemService = ItemService()
-    var dailyInventory: Inventory = Inventory()
+    var dailyInventory: Inventory = this.getNewItems()
 
-    fun getNewItems() {
+    fun getNewItems(): Inventory {
         val newInventory = Inventory()
         val allItems = itemService.getAvailableItems()
         for (i in 1..10) {
@@ -25,7 +25,7 @@ class Merchant {
                 }
             }
         }
-        this.dailyInventory = newInventory
+        return newInventory
     }
 
     private fun changePrices(price: Double): Double {

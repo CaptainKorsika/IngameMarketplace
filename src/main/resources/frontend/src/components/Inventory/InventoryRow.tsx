@@ -2,18 +2,39 @@ import "./Inventory-Row.css"
 import Item from "./Item";
 
 interface InventoryRowProps{
-    itemList?: {
-        name: string;
-        image: string;
-        averagePrice: number;
-        currentPrice: number
-    }[]
+    itemList: ItemList
+    entity: string
+}
+
+type ItemList = {
+    first: Item,
+    second: number
+}[]
+
+type Item = {
+    name: string;
+    image: string;
+    averagePrice: number;
+    currentPrice: number
 }
 
 const InventoryRow = (props: InventoryRowProps) => {
-    if (props.itemList != null) {
+    if (props.entity == "Merchant") {
+        const itemsWithAttributes = props.itemList.map((x, index) => (
+            <Item item={x.first} key={index}></Item>
+        ));
+
+        return (
+            <div className="inventory-row">
+                {itemsWithAttributes}
+            </div>
+        )
+
+
+
+    } else if (props.itemList != null) {
         const itemsWithAttributes = props.itemList.map((item, index) => (
-            <Item item={item} key={index} ></Item>
+            <Item item={item.first} key={index} ></Item>
         ));
 
         const emptyItemCount = 10 - itemsWithAttributes.length
@@ -22,15 +43,12 @@ const InventoryRow = (props: InventoryRowProps) => {
             emptyItems.push(<Item/>)
         }
 
-
-
         return (
             <div className="inventory-row">
                 {itemsWithAttributes}
                 {emptyItems}
             </div>
         )
-
     }
 
     return (

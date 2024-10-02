@@ -1,12 +1,16 @@
 import "./Marketplace.css"
 import Merchant from "./Merchant";
 
-const Marketplace = () => {
+interface MarketplaceProps {
+    handleActiveMerchant: (merchantId: number) => void
+}
+
+const Marketplace = (props: MarketplaceProps) => {
     return (
         <div className="marketplace">
-            <Merchant></Merchant>
-            <Merchant></Merchant>
-            <Merchant></Merchant>
+            <Merchant id={1} handleActiveMerchant={props.handleActiveMerchant}/>
+            <Merchant id={2} handleActiveMerchant={props.handleActiveMerchant}/>
+            <Merchant id={3} handleActiveMerchant={props.handleActiveMerchant}/>
         </div>
     );
 }

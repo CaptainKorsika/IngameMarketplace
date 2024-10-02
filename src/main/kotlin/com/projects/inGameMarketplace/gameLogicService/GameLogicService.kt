@@ -56,6 +56,17 @@ class GameLogicService() {
         return GameDataDTO(player.inventorySpace, player.day, player.money, inventory.currentItems)
     }
 
+    @GetMapping("/merchantInventory")
+    fun getMerchantInventory(): List<MerchantInventoryDTO> {
+        val firstMerchantDTO = MerchantInventoryDTO(merchantService.firstMerchant.dailyInventory)
+        val secondMerchantDTO = MerchantInventoryDTO(merchantService.secondMerchant.dailyInventory)
+        val thirdMerchantDTO = MerchantInventoryDTO(merchantService.thirdMerchant.dailyInventory)
+
+
+        val merchantInventoryList: List<MerchantInventoryDTO> = listOf(firstMerchantDTO, secondMerchantDTO, thirdMerchantDTO)
+        return merchantInventoryList
+    }
+
     @GetMapping("/nextDay")
     fun nextDay(): List<MerchantInventoryDTO> {
         playerService.nextDay()
@@ -66,15 +77,9 @@ class GameLogicService() {
         }
         playerService.updatePlayerData()
         inventoryService.updateInventory()
+
         merchantService.createNewDailyInventory()
-
-        val firstMerchantDTO = MerchantInventoryDTO(merchantService.firstMerchant.dailyInventory)
-        val secondMerchantDTO = MerchantInventoryDTO(merchantService.secondMerchant.dailyInventory)
-        val thirdMerchantDTO = MerchantInventoryDTO(merchantService.thirdMerchant.dailyInventory)
-
-
-        val merchantInventoryList: List<MerchantInventoryDTO> = listOf(firstMerchantDTO, secondMerchantDTO, thirdMerchantDTO)
-        return merchantInventoryList
+        return getMerchantInventory()
     }
 
     @PostMapping("/buyItem")

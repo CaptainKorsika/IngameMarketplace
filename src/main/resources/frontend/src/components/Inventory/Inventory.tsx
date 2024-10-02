@@ -8,38 +8,48 @@ interface InventoryProps {
     entity: string,
     money?: number,
     isCurrentlyPlaying: boolean,
-    inventoryItems: Item[],
+    inventoryItems?: ItemList,
+    merchantItems?: ItemList[]
     inventorySpace: number,
     day?: number,
+    activeMerchant?: number
     unlockInventory?(): void
 }
 
-type Item = {
-    name: string;
-    image: string;
-    averagePrice: number;
-    currentPrice: number
-}
+type ItemList = {
+    first: {
+        name: string;
+        image: string;
+        averagePrice: number;
+        currentPrice: number
+    },
+    second: number
+}[]
 
 const Inventory = (props: InventoryProps) => {
-    let firstRowList: Item[] = []
-    let secondRowList: Item[] = []
-    let thirdRowList: Item[] = []
+    let firstRowList: ItemList = []
+    let secondRowList: ItemList = []
+    let thirdRowList: ItemList = []
 
     // TODO: Fix error when uncommented
 
-    // if (props.inventoryItems.length <= 10) {
-    //     firstRowList = props.inventoryItems
-    // } else if (props.inventoryItems.length <= 20) {
-    //     firstRowList = props.inventoryItems.slice(0, 10)
-    //     secondRowList = props.inventoryItems.slice(10)
-    // } else {
-    //     firstRowList = props.inventoryItems.slice(0, 10)
-    //     secondRowList = props.inventoryItems.slice(10, 20)
-    //     thirdRowList = props.inventoryItems.slice(20)
-    // }
+    if (props.inventoryItems != null) {
+        if (props.inventoryItems.length <= 10) {
+            firstRowList = props.inventoryItems
+        } else if (props.inventoryItems.length <= 20) {
+            firstRowList = props.inventoryItems.slice(0, 10)
+            secondRowList = props.inventoryItems.slice(10)
+        } else {
+            firstRowList = props.inventoryItems.slice(0, 10)
+            secondRowList = props.inventoryItems.slice(10, 20)
+            thirdRowList = props.inventoryItems.slice(20)}
+    }
 
-    console.log(props.isCurrentlyPlaying)
+    let activeMerchantItems: ItemList = []
+
+    if (props.entity == "Merchant") {
+        activeMerchantItems = props.merchantItems[props.activeMerchant - 1]
+    }
 
     if (!props.isCurrentlyPlaying) {
         return <div className="inventory-container"></div>
@@ -50,10 +60,10 @@ const Inventory = (props: InventoryProps) => {
             {props.entity === "Player" && <PlayerMenu money={props.money} inventorySpace={props.inventorySpace} unlockInventory={props.unlockInventory}/>}
             {props.entity === "Merchant" && <StatisticsMenu day={props.day}/>}
             <div className="grid-container">
-                {props.entity === "Merchant" && <InventoryRow/>}
-                {props.entity === "Player" && <InventoryRow itemList={firstRowList}/>}
-                {props.entity === "Player" && props.inventorySpace > 10 && <InventoryRow itemList={secondRowList}/>}
-                {props.entity === "Player" && props.inventorySpace > 20 && <InventoryRow itemList={thirdRowList}/>}
+                {props.entity === "Merchant" && <InventoryRow itemList={activeMerchantItems} entity={props.entity}/>}
+                {props.entity === "Player" && <InventoryRow itemList={firstRowList} entity={props.entity}/>}
+                {props.entity === "Player" && props.inventorySpace > 10 && <InventoryRow itemList={secondRowList} entity={props.entity}/>}
+                {props.entity === "Player" && props.inventorySpace > 20 && <InventoryRow itemList={thirdRowList} entity={props.entity}/>}
             </div>
         </div>
     );

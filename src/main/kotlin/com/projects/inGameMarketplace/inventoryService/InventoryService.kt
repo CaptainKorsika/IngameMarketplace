@@ -2,18 +2,19 @@ package com.projects.inGameMarketplace.inventoryService
 
 import com.projects.inGameMarketplace.itemService.Item
 
-
 class InventoryService {
     private val inventoryRepository = InventoryRepository()
     private val inventoryConverter = InventoryConverter()
-    val inventory: Inventory? = getPlayerInventoryFromDB()
+    val inventory: Inventory = getPlayerInventoryFromDB()
     private val firstExtensionPrice: Double = 1000.0
     private val secondExtensionPrice: Double = 2000.0
 
 
     fun createInventory() {
-        val entity = this.inventoryConverter.toEntity(this.inventory!!)
-        inventoryRepository.saveInventory(entity)
+        if (this.inventory.currentItems.isNotEmpty()) {
+            val entity = this.inventoryConverter.toEntity(this.inventory)
+            inventoryRepository.saveInventory(entity)
+        }
     }
 
     fun updateInventory() {
@@ -48,7 +49,7 @@ class InventoryService {
 
     fun addItemAndConfirm(boughtItem: Pair<Item, Int>, space: Int): Boolean {
 
-        if (space == this.inventory!!.currentItems.size) {
+        if (space == this.inventory.currentItems.size) {
             return false
         }
 
@@ -71,7 +72,7 @@ class InventoryService {
     fun removeItemAndConfirm(soldItem: Pair<Item, Int>): Boolean {
         val itemName = soldItem.first.name
         val amountToSell = soldItem.second
-        val indexOfItem = this.inventory!!.currentItems.map { pair -> pair.first.name}.indexOf(itemName)
+        val indexOfItem = this.inventory.currentItems.map { pair -> pair.first.name}.indexOf(itemName)
 
         if (indexOfItem == -1) {
             println("Item not found")

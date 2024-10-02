@@ -1,45 +1,37 @@
-import {Component, useState} from 'react';
-import {Modal, Box, Typography, Input} from '@mui/material';
+import {useState} from 'react';
+import {Modal, Box } from '@mui/material';
 import EndGameModal from "./EndGameModal";
 import ShowHighScoreModal from "../ShowHighScoreModal";
 import "./SettingsScreenModal.css"
 
-class SettingsScreenModal extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            open: false,
-        };
-    }
+const SettingsScreenModal = () => {
+    const [open, setOpen] = useState(false)
 
-    handleOpen = () => {
-        this.setState({ open: true });
+    const handleOpen = () => {
+        setOpen(true)
     };
 
-    handleClose = () => {
-        this.setState({ open: false });
+    const handleClose = () => {
+        setOpen(false)
     };
 
-    render() {
-        // @ts-ignore
-        const { open } = this.state;
-        return (
-            <div>
-                <button className="settings-button" onClick={this.handleOpen}>Settings</button>
-                <Modal
-                    open={open}
-                    onClose={this.handleClose}
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
-                >
-                    <Box className="settings-modal">
-                        <ShowHighScoreModal></ShowHighScoreModal>
-                        <EndGameModal></EndGameModal>
-                    </Box>
-                </Modal>
-            </div>
-        );
-    }
+    return (
+        <div>
+            <button className="settings-button" onClick={handleOpen}>Settings</button>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+            >
+                <Box className="settings-modal">
+                    <ShowHighScoreModal></ShowHighScoreModal>
+                    <EndGameModal></EndGameModal>
+                </Box>
+            </Modal>
+        </div>
+    );
+
 }
 
 export default SettingsScreenModal;

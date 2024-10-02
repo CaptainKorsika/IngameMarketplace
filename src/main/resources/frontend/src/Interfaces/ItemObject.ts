@@ -1,4 +1,4 @@
-export interface ItemProps {
+export type ItemObject = {
     name: string
     image: string
     averagePrice: number

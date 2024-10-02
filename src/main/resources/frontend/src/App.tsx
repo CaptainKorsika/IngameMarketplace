@@ -1,92 +1,117 @@
-import { Component } from "react";
+import { useEffect, useState} from "react";
 import Inventory from "./components/Inventory/Inventory";
 import Marketplace from "./components/Marketplace/Marketplace";
 import './App.css';
 import Menu from "./components/Menu/Menu";
 import axios from "axios";
-import {ItemProps} from "./Interfaces/ItemProps";
+import {ItemList} from "./Interfaces/ItemListType";
 
+function App() {
+    const [isCurrentlyPlaying, setIsCurrentlyPlaying] = useState(false)
+    const [money, setMoney] = useState(1)
+    const [inventorySpace, setInventorySpace] = useState(10)
+    const [inventoryItems, setInventoryItems] = useState<ItemList>([])
+    const [day, setDay] = useState(1)
+    const [merchantsItems, setMerchantsItems] = useState<ItemList[]>([])
+    const [activeMerchant, setActiveMerchant] = useState(1)
 
-interface AppState {
-    isCurrentlyPlaying: boolean
-    inventorySpace: number
-    money: number
-    inventoryItems: [ItemProps, number][]
-    day: number
-}
-
-
-class App extends Component<{}, AppState> {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isCurrentlyPlaying: true,
-            money: 1,
-            inventorySpace: 10,
-            inventoryItems: [],
-            day: 1
-        };
+    const unlockInventory = () => {
+        axios.get('http://localhost:8080/interaction/buyInventorySpace')
+            .then(response => {
+                setInventorySpace(response.data);
+            })
     }
 
-    componentDidMount() {
-        this.gameIsRunning()
-        if (this.state.isCurrentlyPlaying) {
-            this.getPlayerData()
+    const handleActiveMerchant = (merchantId) => {
+        setActiveMerchant(merchantId)
+    }
+
+    // @ts-ignore
+    const handleNextDay = async () => {
+        // TODO: implement backend call
+
+        try {
+            const response = await axios.get('http://localhost:8080/interaction/nextDay');
+            const firstMerchant: ItemList = response.data[0].inventory.currentItems
+            const secondMerchant: ItemList = response.data[1].inventory.currentItems
+            const thirdMerchant: ItemList = response.data[2].inventory.currentItems
+
+            const merchantList = [firstMerchant, secondMerchant, thirdMerchant]
+            setMerchantsItems(merchantList)
+        } catch (error) {
+        }
+
+        getMerchantItems()
+        getPlayerData()
+
+
+    }
+
+    // @ts-ignore
+    const gameIsRunning = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/interaction/gameRunning');
+            setIsCurrentlyPlaying(response.data)
+        } catch (error) {
         }
     }
 
-    gameIsRunning = () => {
-        axios.get('http://localhost:8080/interaction/gameRunning')
-            .then(response => {
-                this.setState({ isCurrentlyPlaying: response.data });
-            })
-            .catch(error => {
-                console.error('There was an error fetching the game status!', error);
-            });
+    // @ts-ignore
+    const getPlayerData = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/interaction/getData');
+
+            // Update state in a single setState call
+            setMoney(response.data.money)
+            setInventorySpace(response.data.inventorySpace)
+            setInventoryItems(response.data.inventoryItems)
+            setDay(response.data.day)
+        } catch (error) {
+            console.error('There was an error fetching the player data!', error);
+        }
     };
 
+    // @ts-ignore
+    const getMerchantItems = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/interaction/merchantInventory');
+            const firstMerchant: ItemList = response.data[0].inventory.currentItems
+            const secondMerchant: ItemList = response.data[1].inventory.currentItems
+            const thirdMerchant: ItemList = response.data[2].inventory.currentItems
 
-    getPlayerData = () => {
-        axios.get('http://localhost:8080/interaction/getData')
-            .then(response => {
-                this.setState({ money: response.data.money });
-                this.setState({ inventorySpace: response.data.inventorySpace });
-                this.setState({ inventoryItems: response.data.inventoryItems });
-                this.setState({ day: response.data.day });
-            })
-            .catch(error => {
-                console.error('There was an error fetching the game status!', error);
-            });
+            const merchantList = [firstMerchant, secondMerchant, thirdMerchant]
+            setMerchantsItems(merchantList)
+        } catch (error) {
+            console.error('There was an error fetching merchant data!', error)
+        }
     }
 
-    unlockInventory = () => {
-        axios.get('http://localhost:8080/interaction/buyInventorySpace')
-            .then(response => {
-                this.setState({ inventorySpace: response.data });
-            })
-    }
+    useEffect(() => {
+        getPlayerData()
+        gameIsRunning()
+        getMerchantItems()
+    }, []);
 
-
-
-    render() {
-        const { isCurrentlyPlaying, money, inventorySpace, inventoryItems, day } = this.state;
-        return (
-            <div className="window-container">
-                <Inventory
-                    entity="Merchant"
-                    isCurrentlyPlaying={isCurrentlyPlaying}
-                    inventorySpace={inventorySpace}
-                    unlockInventory={this.unlockInventory}
-                    day={day}
-                />
-                <div className="game-container">
-                    <Marketplace />
-                    <Menu isCurrentlyPlaying={isCurrentlyPlaying} />
-                </div>
-                <Inventory entity="Player" isCurrentlyPlaying={isCurrentlyPlaying} money={money} inventorySpace={inventorySpace} unlockInventory={this.unlockInventory} />
-            </div>
-        );
-    }
+    return <div className="window-container">
+        <Inventory
+            entity="Merchant"
+            isCurrentlyPlaying={isCurrentlyPlaying}
+            merchantItems={merchantsItems}
+            inventorySpace={inventorySpace}
+            day={day}
+            activeMerchant={activeMerchant}
+            handleNextDay={handleNextDay}
+        />
+        <div className="game-container">
+            <Marketplace handleActiveMerchant={handleActiveMerchant}/>
+            <Menu isCurrentlyPlaying={isCurrentlyPlaying}/>
+        </div>
+        <Inventory entity="Player" isCurrentlyPlaying={isCurrentlyPlaying}
+                   money={money}
+                   inventorySpace={inventorySpace}
+                   inventoryItems={inventoryItems}
+                   unlockInventory={unlockInventory}/>
+    </div>
 }
 
 export default App;

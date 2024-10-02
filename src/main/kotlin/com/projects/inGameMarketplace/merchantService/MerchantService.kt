@@ -11,7 +11,4 @@ class MerchantService {
     fun createNewDailyInventory() {
         merchantList.forEach { it.getNewItems() }
     }
-
-
-
 }

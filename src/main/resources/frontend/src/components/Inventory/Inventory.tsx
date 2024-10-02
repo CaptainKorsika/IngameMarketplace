@@ -1,42 +1,68 @@
-import {Component} from "react";
 import "./InventoryStyle.css"
 import InventoryRow from "./InventoryRow";
 import PlayerMenu from "./Data Sections/PlayerMenu";
-import MerchantMenu from "./Data Sections/StatisticsMenu";
-import {Simulate} from "react-dom/test-utils";
-import mouseEnter = Simulate.mouseEnter;
 import StatisticsMenu from "./Data Sections/StatisticsMenu";
+import {ItemList} from "../../Interfaces/ItemListType";
+import NextDay from "../Menu/NextDay";
 
 
 interface InventoryProps {
     entity: string,
     money?: number,
-    isCurrentlyPlaying: boolean
-    inventorySpace: number
-    day?: number
-    unlockInventory(): void
+    isCurrentlyPlaying: boolean,
+    inventoryItems?: ItemList,
+    merchantItems?: ItemList[]
+    inventorySpace: number,
+    day?: number,
+    activeMerchant?: number
+    unlockInventory?: () => void
+    handleNextDay?: () => void
 }
 
-class Inventory extends Component<InventoryProps> {
-    render() {
-        const {entity, money, isCurrentlyPlaying, inventorySpace, day, unlockInventory} = this.props
+const Inventory = (props: InventoryProps) => {
+    let firstRowList: ItemList = []
+    let secondRowList: ItemList = []
+    let thirdRowList: ItemList = []
 
-        if (!isCurrentlyPlaying) {
-            return <div className="inventory-container"></div>
-        }
+    // TODO: Fix error when uncommented
 
-        return (
-            <div className="inventory-container">
-                {entity === "Player" && <PlayerMenu money={money} inventorySpace={inventorySpace} unlockInventory={unlockInventory}/>}
-                {entity === "Merchant" && <StatisticsMenu day={day}/>}
-                <div className="grid-container">
-                    <InventoryRow/>
-                    {entity === "Player" && inventorySpace > 10 && <InventoryRow/>}
-                    {entity === "Player" && inventorySpace > 20 && <InventoryRow/>}
-                </div>
-            </div>
-        );
+    if (props.inventoryItems != null) {
+        if (props.inventoryItems.length <= 10) {
+            firstRowList = props.inventoryItems
+        } else if (props.inventoryItems.length <= 20) {
+            firstRowList = props.inventoryItems.slice(0, 10)
+            secondRowList = props.inventoryItems.slice(10)
+        } else {
+            firstRowList = props.inventoryItems.slice(0, 10)
+            secondRowList = props.inventoryItems.slice(10, 20)
+            thirdRowList = props.inventoryItems.slice(20)}
     }
+
+    let activeMerchantItems: ItemList = []
+    console.log(props.merchantItems)
+
+    if (props.entity == "Merchant") {
+        activeMerchantItems = props.merchantItems[props.activeMerchant - 1]
+    }
+
+    if (!props.isCurrentlyPlaying) {
+        return <div className="inventory-container"></div>
+    }
+
+    return (
+        <div className="inventory-container">
+            {props.entity === "Player" && <PlayerMenu money={props.money} inventorySpace={props.inventorySpace} unlockInventory={props.unlockInventory}/>}
+            {props.entity === "Merchant" && <StatisticsMenu day={props.day}/>}
+            <div className="grid-container">
+                {props.entity === "Merchant" && <InventoryRow itemList={activeMerchantItems} entity={props.entity}/>}
+                {props.entity === "Merchant" && <NextDay handleNextDay={props.handleNextDay}/>}
+                {props.entity === "Player" && <InventoryRow itemList={firstRowList} entity={props.entity}/>}
+                {props.entity === "Player" && props.inventorySpace > 10 && <InventoryRow itemList={secondRowList} entity={props.entity}/>}
+                {props.entity === "Player" && props.inventorySpace > 20 && <InventoryRow itemList={thirdRowList} entity={props.entity}/>}
+            </div>
+
+        </div>
+    );
 }
 
 export default Inventory;

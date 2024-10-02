@@ -1,27 +1,23 @@
-import {Component, useState} from 'react';
-import {Modal, Box, Typography, Input} from '@mui/material';
+import {useState} from 'react';
+import {Modal, Box } from '@mui/material';
 import "./StartGameModal.css"
 import axios from "axios";
 
-class StartGameModal extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            open: false,
-        };
-    }
+const StartGameModal = () => {
+    const [open, setOpen] = useState(false)
 
-    handleOpen = () => {
-        this.setState({ open: true });
+    const handleOpen = () => {
+        setOpen(true)
     };
 
-    handleClose = () => {
-        this.setState({ open: false });
+    const handleClose = () => {
+        setOpen(false)
     };
-    startGame = () => {
+
+    const startGame = () => {
         // @ts-ignore
         const name = document.getElementsByClassName("name-input")[0].value
-        this.handleClose()
+        handleClose()
         axios.post('http://localhost:8080/interaction/createPlayer', name, {
             headers: {
                 "Content-Type": "text/plain"
@@ -34,32 +30,27 @@ class StartGameModal extends Component {
                 console.error("There was an error!", error.response ? error.response.data : error.message);
             });
     }
+    return (
+        <div>
+            <button className="start-game" onClick={handleOpen}>Start New Game</button>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+            >
+                <Box className="start-game-modal">
+                    <h2 className="name-header">Start a new Adventure</h2>
+                    <input className="name-input" type="text" placeholder="Enter your name"/>
+                    <div className="start-game-button-wrapper">
+                        <button className="back-button" onClick={handleClose}>Back</button>
+                        <button className="start-game-button" onClick={startGame}>Start Game</button>
+                    </div>
 
-    render() {
-        // @ts-ignore
-        const { open } = this.state;
-        return (
-            <div>
-                <button className="start-game" onClick={this.handleOpen}>Start New Game</button>
-                <Modal
-                    open={open}
-                    onClose={this.handleClose}
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
-                >
-                    <Box className="start-game-modal">
-                        <h2 className="name-header">Start a new Adventure</h2>
-                        <input className="name-input" type="text" placeholder="Enter your name"/>
-                        <div className="start-game-button-wrapper">
-                            <button className="back-button" onClick={this.handleClose}>Back</button>
-                            <button className="start-game-button" onClick={this.startGame}>Start Game</button>
-                        </div>
-
-                    </Box>
-                </Modal>
-            </div>
-        );
-    }
+                </Box>
+            </Modal>
+        </div>
+    );
 }
 
 export default StartGameModal;

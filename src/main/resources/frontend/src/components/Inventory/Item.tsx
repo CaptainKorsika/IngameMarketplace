@@ -1,14 +1,27 @@
-import {Component, useEffect, useState} from "react";
 import "./Item.css"
 
-class Item extends Component {
-    render() {
+interface ItemProps {
+    item?: {
+        name: string;
+        image: string;
+        averagePrice: number;
+        currentPrice: number
+    },
+    key?: number
+}
+
+const Item = (props: ItemProps) => {
+    if (props.item == null) {
         return (
-            <div className="item-container">
-                <img src="/assets/items/mead.png" alt="steak" className="item-image"/>
-            </div>
-        );
+            <div className="item-container"></div>
+        )
     }
+
+    return (
+        <div className="item-container">
+            <img src={props.item.image} alt={props.item.name} className="item-image"/>
+        </div>
+    );
 }
 
 export default Item;

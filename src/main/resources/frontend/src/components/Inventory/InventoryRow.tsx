@@ -1,22 +1,12 @@
 import "./Inventory-Row.css"
 import Item from "./Item";
+import {ItemList} from "../../Interfaces/ItemListType";
 
 interface InventoryRowProps{
     itemList: ItemList
     entity: string
 }
 
-type ItemList = {
-    first: Item,
-    second: number
-}[]
-
-type Item = {
-    name: string;
-    image: string;
-    averagePrice: number;
-    currentPrice: number
-}
 
 const InventoryRow = (props: InventoryRowProps) => {
     if (props.entity == "Merchant") {

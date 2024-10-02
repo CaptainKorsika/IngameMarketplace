@@ -2,6 +2,8 @@ import "./InventoryStyle.css"
 import InventoryRow from "./InventoryRow";
 import PlayerMenu from "./Data Sections/PlayerMenu";
 import StatisticsMenu from "./Data Sections/StatisticsMenu";
+import {ItemList} from "../../Interfaces/ItemListType";
+import NextDay from "../Menu/NextDay";
 
 
 interface InventoryProps {
@@ -13,18 +15,9 @@ interface InventoryProps {
     inventorySpace: number,
     day?: number,
     activeMerchant?: number
-    unlockInventory?(): void
+    unlockInventory?: () => void
+    handleNextDay?: () => void
 }
-
-type ItemList = {
-    first: {
-        name: string;
-        image: string;
-        averagePrice: number;
-        currentPrice: number
-    },
-    second: number
-}[]
 
 const Inventory = (props: InventoryProps) => {
     let firstRowList: ItemList = []
@@ -46,6 +39,7 @@ const Inventory = (props: InventoryProps) => {
     }
 
     let activeMerchantItems: ItemList = []
+    console.log(props.merchantItems)
 
     if (props.entity == "Merchant") {
         activeMerchantItems = props.merchantItems[props.activeMerchant - 1]
@@ -61,10 +55,12 @@ const Inventory = (props: InventoryProps) => {
             {props.entity === "Merchant" && <StatisticsMenu day={props.day}/>}
             <div className="grid-container">
                 {props.entity === "Merchant" && <InventoryRow itemList={activeMerchantItems} entity={props.entity}/>}
+                {props.entity === "Merchant" && <NextDay handleNextDay={props.handleNextDay}/>}
                 {props.entity === "Player" && <InventoryRow itemList={firstRowList} entity={props.entity}/>}
                 {props.entity === "Player" && props.inventorySpace > 10 && <InventoryRow itemList={secondRowList} entity={props.entity}/>}
                 {props.entity === "Player" && props.inventorySpace > 20 && <InventoryRow itemList={thirdRowList} entity={props.entity}/>}
             </div>
+
         </div>
     );
 }

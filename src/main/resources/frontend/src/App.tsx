@@ -4,24 +4,15 @@ import Marketplace from "./components/Marketplace/Marketplace";
 import './App.css';
 import Menu from "./components/Menu/Menu";
 import axios from "axios";
-
-type InventoryList = {
-    first: {
-        name: string;
-        image: string;
-        averagePrice: number;
-        currentPrice: number
-    },
-    second: number
-}[]
+import {ItemList} from "./Interfaces/ItemListType";
 
 function App() {
     const [isCurrentlyPlaying, setIsCurrentlyPlaying] = useState(false)
     const [money, setMoney] = useState(1)
     const [inventorySpace, setInventorySpace] = useState(10)
-    const [inventoryItems, setInventoryItems] = useState<InventoryList>([])
+    const [inventoryItems, setInventoryItems] = useState<ItemList>([])
     const [day, setDay] = useState(1)
-    const [merchantsItems, setMerchantsItems] = useState<InventoryList[]>([])
+    const [merchantsItems, setMerchantsItems] = useState<ItemList[]>([])
     const [activeMerchant, setActiveMerchant] = useState(1)
 
     const unlockInventory = () => {
@@ -33,6 +24,27 @@ function App() {
 
     const handleActiveMerchant = (merchantId) => {
         setActiveMerchant(merchantId)
+    }
+
+    // @ts-ignore
+    const handleNextDay = async () => {
+        // TODO: implement backend call
+
+        try {
+            const response = await axios.get('http://localhost:8080/interaction/nextDay');
+            const firstMerchant: ItemList = response.data[0].inventory.currentItems
+            const secondMerchant: ItemList = response.data[1].inventory.currentItems
+            const thirdMerchant: ItemList = response.data[2].inventory.currentItems
+
+            const merchantList = [firstMerchant, secondMerchant, thirdMerchant]
+            setMerchantsItems(merchantList)
+        } catch (error) {
+        }
+
+        getMerchantItems()
+        getPlayerData()
+
+
     }
 
     // @ts-ignore
@@ -63,9 +75,9 @@ function App() {
     const getMerchantItems = async () => {
         try {
             const response = await axios.get('http://localhost:8080/interaction/merchantInventory');
-            const firstMerchant: InventoryList = response.data[0].inventory.currentItems
-            const secondMerchant: InventoryList = response.data[1].inventory.currentItems
-            const thirdMerchant: InventoryList = response.data[2].inventory.currentItems
+            const firstMerchant: ItemList = response.data[0].inventory.currentItems
+            const secondMerchant: ItemList = response.data[1].inventory.currentItems
+            const thirdMerchant: ItemList = response.data[2].inventory.currentItems
 
             const merchantList = [firstMerchant, secondMerchant, thirdMerchant]
             setMerchantsItems(merchantList)
@@ -88,6 +100,7 @@ function App() {
             inventorySpace={inventorySpace}
             day={day}
             activeMerchant={activeMerchant}
+            handleNextDay={handleNextDay}
         />
         <div className="game-container">
             <Marketplace handleActiveMerchant={handleActiveMerchant}/>

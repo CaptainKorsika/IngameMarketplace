@@ -1,12 +1,8 @@
 import "./Item.css"
+import {ItemObject} from "../../Interfaces/ItemObject";
 
 interface ItemProps {
-    item?: {
-        name: string;
-        image: string;
-        averagePrice: number;
-        currentPrice: number
-    },
+    item?: ItemObject
     key?: number
 }
 

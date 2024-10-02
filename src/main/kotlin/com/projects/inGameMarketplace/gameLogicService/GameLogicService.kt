@@ -53,7 +53,7 @@ class GameLogicService() {
         if (player == null) {
             return null
         }
-        return GameDataDTO(player.inventorySpace, player.day, player.money, inventory)
+        return GameDataDTO(player.inventorySpace, player.day, player.money, inventory.currentItems)
     }
 
     @GetMapping("/nextDay")
@@ -103,7 +103,7 @@ class GameLogicService() {
     }
 
     @GetMapping("/getInventory")
-    fun getCurrentInventory(): Inventory? {
+    fun getCurrentInventory(): Inventory {
         return inventoryService.inventory
     }
 

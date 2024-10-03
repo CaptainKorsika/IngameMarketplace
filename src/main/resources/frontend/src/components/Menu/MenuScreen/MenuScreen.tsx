@@ -1,6 +1,11 @@
 import "./MenuScreen.css"
+import {ItemObject} from "../../../Interfaces/ItemObject";
 
-const MenuScreen = () => {
+interface MenuScreenProps {
+    focusItem: ItemObject
+}
+
+const MenuScreen = (props: MenuScreenProps) => {
     return (
         <div className="menu">
             <div className="price-history">
@@ -11,7 +16,10 @@ const MenuScreen = () => {
                 <div className="focus-item-wrapper">
                     <div className="focus-item">
                         <div className="focus-item-image-container">
-                            <img src="" alt="Item Image" className="focus-item-image"/>
+                            {props.focusItem != null ? (
+                            <img src={props.focusItem.image} alt={props.focusItem.name} className="focus-item-image"/>
+                            ) : (
+                            <img src="" alt="" className="focus-item-image"/>)}
                         </div>
                         <h2 className="focus-item-name">Item Name Placeholder</h2>
                         <div className="focus-item-amount">

@@ -42,6 +42,10 @@ class HighScoreService {
     }
 
     private fun checkForNewHighScore(finalScore: Int): Boolean {
+        if (this.highScores.size < maxHighScoreListSize) {
+            return true
+        }
+
         val lowestScore = this.highScores.minBy { it.money }
         return finalScore > lowestScore.money
     }

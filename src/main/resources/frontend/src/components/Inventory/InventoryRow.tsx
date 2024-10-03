@@ -1,17 +1,19 @@
 import "./Inventory-Row.css"
 import Item from "./Item";
 import {ItemList} from "../../Interfaces/ItemListType";
+import {ItemObject} from "../../Interfaces/ItemObject";
 
 interface InventoryRowProps{
     itemList: ItemList
     entity: string
+    handleFocusItem: (focusItem: ItemObject) => void
 }
 
 
 const InventoryRow = (props: InventoryRowProps) => {
     if (props.entity == "Merchant") {
         const itemsWithAttributes = props.itemList.map((x, index) => (
-            <Item item={x.first} key={index}></Item>
+            <Item item={x.first} key={index} handleFocusItem={props.handleFocusItem}></Item>
         ));
 
         return (

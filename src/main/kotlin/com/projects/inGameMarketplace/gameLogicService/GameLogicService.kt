@@ -22,6 +22,9 @@ class GameLogicService() {
     val inventoryService = InventoryService()
     val highScoreService = HighScoreService()
 
+    // TODO: Change back to 100 after testing
+    val gameLength = 5
+
     @GetMapping("/gameRunning")
     fun checkForRunningGame(): Boolean {
         return playerService.player != null
@@ -72,13 +75,14 @@ class GameLogicService() {
         playerService.nextDay()
         val currentDay = playerService.player!!.day
 
-        if (currentDay > 100) {
+        if (currentDay > gameLength) {
             this.endGame(true)
+            return listOf<MerchantInventoryDTO>()
         }
+        merchantService.createNewDailyInventory()
         playerService.updatePlayerData()
         inventoryService.updateInventory()
 
-        merchantService.createNewDailyInventory()
         return getMerchantInventory()
     }
 
@@ -96,7 +100,7 @@ class GameLogicService() {
 
     @PostMapping("/sellItem")
     fun sellItem(soldItem: Pair<Item, Int>) {
-        val inventory = inventoryService.inventory!!
+        val inventory = inventoryService.inventory
         val itemAmount = inventory.currentItems.first { it.first.name == soldItem.first.name }.second
         val amountToSell = if (soldItem.second >= itemAmount) itemAmount else soldItem.second
         val revenue = soldItem.first.currentPrice * amountToSell

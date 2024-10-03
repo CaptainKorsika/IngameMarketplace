@@ -41,7 +41,7 @@ VALUES
     ('Fire Starter', '/assets/items/fire_starter.png', 3.0),
     ('Bucket', '/assets/items/bucket.png', 4.0),
     ('Rope', '/assets/items/rope.png', 6.0),
-    ('Sword', '/assets/items/sword.png', 50.0),
+    ('Sword', '/assets/items/sword.jpg', 50.0),
     ('Bow', '/assets/items/bow.jpg', 30.0),
     ('Arrows', '/assets/items/arrows.jpg', 15.0),
     ('Chest Plate', '/assets/items/chest_plate.png', 25.0),

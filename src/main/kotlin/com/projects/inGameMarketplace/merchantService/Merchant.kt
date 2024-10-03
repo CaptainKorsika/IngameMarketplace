@@ -25,6 +25,7 @@ class Merchant {
                 }
             }
         }
+        this.dailyInventory = newInventory
         return newInventory
     }
 

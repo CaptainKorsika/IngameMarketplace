@@ -22,9 +22,9 @@ class HighScoreService {
         return highScoreList
     }
 
+    fun addToHighScoreList(playerName: String, finalScore: Int) {
+        val roundedScore = (finalScore / 100).toInt()
 
-    fun addToHighScoreList(playerName: String, finalScore: Double) {
-        val roundedScore = finalScore.toInt()
         if (checkForNewHighScore(roundedScore)) {
             Score(playerName, roundedScore)
 

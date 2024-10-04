@@ -75,6 +75,7 @@ class GameLogicService() {
         playerService.nextDay()
         val currentDay = playerService.player!!.day
 
+        // TODO: Fin better way for exiting | try/catch
         if (currentDay > gameLength) {
             this.endGame(true)
             return listOf<MerchantInventoryDTO>()
@@ -88,9 +89,10 @@ class GameLogicService() {
 
     @PostMapping("/buyItem")
     fun buyItem(newItem: Pair<Item, Int>) {
+
         val player = playerService.player!!
         val price = newItem.first.currentPrice * newItem.second
-        if (player.money >= price) {
+        if (player.money.toInt() >= price) {
             val purchaseSuccessful = inventoryService.addItemAndConfirm(newItem, player.inventorySpace)
             if (purchaseSuccessful) {
                 playerService.updatePlayerBalance(price * -1)

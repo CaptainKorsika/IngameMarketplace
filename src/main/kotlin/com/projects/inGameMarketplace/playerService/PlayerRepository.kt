@@ -28,7 +28,7 @@ class PlayerRepository {
             resultSet.getString("player_name"),
             resultSet.getInt("inventory_space"),
             resultSet.getInt("day"),
-            resultSet.getDouble("money")
+            resultSet.getInt("money")
         )
 
         resultSet.close()
@@ -48,7 +48,7 @@ class PlayerRepository {
             statement.setString(1, entity.playerName)
             statement.setInt(2, entity.inventorySpace)
             statement.setInt(3, entity.day)
-            statement.setDouble(4, entity.money)
+            statement.setInt(4, entity.money)
 
             statement.executeUpdate()
             connection.close()
@@ -70,7 +70,7 @@ class PlayerRepository {
 
         statement.setInt(1, entity.inventorySpace)
         statement.setInt(2, entity.day)
-        statement.setDouble(3, entity.money)
+        statement.setInt(3, entity.money)
         statement.setString(4, entity.playerName)
 
         statement.executeUpdate()

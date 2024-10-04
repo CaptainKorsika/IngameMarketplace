@@ -1,7 +1,6 @@
 package com.projects.inGameMarketplace.highScoreService
 
 import com.projects.inGameMarketplace.DatabaseConnector
-import com.projects.inGameMarketplace.itemService.ItemEntity
 import java.sql.ResultSet
 import java.sql.Statement
 

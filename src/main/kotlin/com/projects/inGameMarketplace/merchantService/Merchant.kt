@@ -29,9 +29,10 @@ class Merchant {
         return newInventory
     }
 
-    private fun changePrices(price: Double): Double {
+    private fun changePrices(price: Int): Int {
         val lowerBoundary = 0.5
         val upperBoundary = 1.5
-        return Random.nextDouble(price * lowerBoundary, price * upperBoundary)
+        val calculatedPrice = Random.nextInt((price * lowerBoundary).toInt(), (price * upperBoundary).toInt())
+        return calculatedPrice
     }
 }

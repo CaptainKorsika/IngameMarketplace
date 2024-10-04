@@ -29,7 +29,7 @@ class PlayerService {
         this.player = null
     }
 
-    fun updatePlayerBalance(balanceChange: Double) {
+    fun updatePlayerBalance(balanceChange: Int) {
         this.player!!.money += balanceChange
     }
 

@@ -24,7 +24,7 @@
 .focus-item-image-container, .focus-item-amount{
     width: 100px;
     height: 100px;
-    background-color: #0c27be;
+    background: radial-gradient(circle, #c2842d, #603904);
     border: 2px solid black;
     border-radius: 10px;
     box-sizing: border-box;
@@ -38,11 +38,17 @@
 }
 
 .focus-item-image{
+    width: 100px;
+    height: 100px;
     background-size: cover;
 }
 
 .focus-item-name{
+    padding-top: 10px;
+    text-align: center;
     width: 350px;
+    background: rgba(0, 0, 0, 0.67);
+    box-shadow: rgba(0, 0, 0, 0.67) 0 0 10px 10px;
 }
 
 .focus-item-amount{

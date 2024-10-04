@@ -5,6 +5,7 @@ import './App.css';
 import Menu from "./components/Menu/Menu";
 import axios from "axios";
 import {ItemList} from "./Interfaces/ItemListType";
+import {ItemObject} from "./Interfaces/ItemObject";
 
 function App() {
     const [isCurrentlyPlaying, setIsCurrentlyPlaying] = useState(false)
@@ -14,6 +15,7 @@ function App() {
     const [day, setDay] = useState(1)
     const [merchantsItems, setMerchantsItems] = useState<ItemList[]>([])
     const [activeMerchant, setActiveMerchant] = useState(1)
+    const [focusItem, setFocusItem] = useState<ItemObject>()
 
     const unlockInventory = () => {
         axios.get('http://localhost:8080/interaction/buyInventorySpace')
@@ -28,8 +30,6 @@ function App() {
 
     // @ts-ignore
     const handleNextDay = async () => {
-        // TODO: implement backend call
-
         try {
             const response = await axios.get('http://localhost:8080/interaction/nextDay');
             const firstMerchant: ItemList = response.data[0].inventory.currentItems
@@ -41,10 +41,12 @@ function App() {
         } catch (error) {
         }
 
-        getMerchantItems()
         getPlayerData()
 
+    }
 
+    const handleFocusItem = (clickedItem) => {
+        setFocusItem(clickedItem)
     }
 
     // @ts-ignore
@@ -101,16 +103,18 @@ function App() {
             day={day}
             activeMerchant={activeMerchant}
             handleNextDay={handleNextDay}
+            handleFocusItem={handleFocusItem}
         />
         <div className="game-container">
             <Marketplace handleActiveMerchant={handleActiveMerchant}/>
-            <Menu isCurrentlyPlaying={isCurrentlyPlaying}/>
+            <Menu isCurrentlyPlaying={isCurrentlyPlaying} focusItem={focusItem}/>
         </div>
         <Inventory entity="Player" isCurrentlyPlaying={isCurrentlyPlaying}
                    money={money}
                    inventorySpace={inventorySpace}
                    inventoryItems={inventoryItems}
-                   unlockInventory={unlockInventory}/>
+                   unlockInventory={unlockInventory}
+                   handleFocusItem={handleFocusItem}/>
     </div>
 }
 

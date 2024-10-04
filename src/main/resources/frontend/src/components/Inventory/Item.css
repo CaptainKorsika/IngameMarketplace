@@ -11,9 +11,9 @@
 }
 
 .item-image {
-    width: 100px;
-    height: 100px;
-    background-size: cover;
+    max-width: 95px;
+    max-height: 95px;
+    background-size: contain;
 
 }
 

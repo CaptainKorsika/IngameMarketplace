@@ -32,6 +32,7 @@ const MenuScreen = (props: MenuScreenProps) => {
                                 <h2>Price: {props.focusItem.first.currentPrice}$</h2>
                             </div>
                         </div>
+
                     </div>
                 ) : (
                     <div className="focus-item-wrapper">
@@ -45,6 +46,18 @@ const MenuScreen = (props: MenuScreenProps) => {
                         </div>
                         <div className="focus-item-information">
                         </div>
+
+                    </div>
+                </div>
+                <div className="focus-item-player-interaction">
+                    <div className="amount-input">
+                        <h4>Amount:</h4>
+                        <input type="number"/>
+                    </div>
+
+                    <div className="focus-item-button-wrapper">
+                        <button>Sell Product</button>
+                        <button>Buy Product</button>
                     </div>
                 )}
 

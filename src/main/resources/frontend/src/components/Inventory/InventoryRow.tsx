@@ -4,7 +4,7 @@ import {ItemList} from "../../Interfaces/ItemListType";
 import {ItemObject} from "../../Interfaces/ItemObject";
 
 interface InventoryRowProps{
-    itemList: ItemList
+    itemList: ItemObject[]
     entity: string
     handleFocusItem: (focusItem: ItemObject) => void
 }
@@ -12,8 +12,8 @@ interface InventoryRowProps{
 
 const InventoryRow = (props: InventoryRowProps) => {
     if (props.entity == "Merchant") {
-        const itemsWithAttributes = props.itemList.map((x, index) => (
-            <Item item={x.first} key={index} handleFocusItem={props.handleFocusItem}></Item>
+        const itemsWithAttributes = props.itemList.map((item, index) => (
+            <Item item={item} key={index} handleFocusItem={props.handleFocusItem} amount={item.second}></Item>
         ));
 
         return (
@@ -26,7 +26,7 @@ const InventoryRow = (props: InventoryRowProps) => {
 
     } else if (props.itemList != null) {
         const itemsWithAttributes = props.itemList.map((item, index) => (
-            <Item item={item.first} key={index} ></Item>
+            <Item item={item} key={index} amount={item.second} ></Item>
         ));
 
         const emptyItemCount = 10 - itemsWithAttributes.length

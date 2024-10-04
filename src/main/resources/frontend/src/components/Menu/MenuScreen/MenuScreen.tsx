@@ -10,33 +10,44 @@ const MenuScreen = (props: MenuScreenProps) => {
         <div className="menu">
             <div className="price-history">
                 <h2>Average Price Documented Price History</h2>
-
             </div>
             <div className="interaction-container">
-                <div className="focus-item-wrapper">
-                    <div className="focus-item">
-                        <div className="focus-item-image-container">
-                            {props.focusItem != null ? (
-                            <img src={props.focusItem.image} alt={props.focusItem.name} className="focus-item-image"/>
-                            ) : (
-                            <img src="" alt="" className="focus-item-image"/>)}
+                {props.focusItem != null ? (
+                    <div className="focus-item-wrapper">
+                        <div className="focus-item">
+                            <div className="focus-item-image-container">
+                                <img src={props.focusItem.first.image} alt={props.focusItem.first.name}
+                                     className="focus-item-image"/>
+                            </div>
+                            <h2 className="focus-item-name">{props.focusItem.first.name}</h2>
+                            <div className="focus-item-amount">
+                                <h2>{props.focusItem.second}</h2>
+                            </div>
                         </div>
-                        <h2 className="focus-item-name">Item Name Placeholder</h2>
-                        <div className="focus-item-amount">
-                            <h2>x654</h2>
+                        <div className="focus-item-information">
+                            <div className="focus-item-average">
+                                <h2>Average Price: {props.focusItem.first.averagePrice}$</h2>
+                            </div>
+                            <div className="focus-item-price">
+                                <h2>Price: {props.focusItem.first.currentPrice}$</h2>
+                            </div>
                         </div>
-
                     </div>
-                    <div className="focus-item-information">
-                        <div className="focus-item-price">
-                            <h2>Price: 5$</h2>
+                ) : (
+                    <div className="focus-item-wrapper">
+                        <div className="focus-item">
+                            <div className="focus-item-image-container">
+                            </div>
+                            <h2 className="focus-item-name"></h2>
+                            <div className="focus-item-amount">
+                                <h2></h2>
+                            </div>
                         </div>
-                        <div className="focus-item-average">
-                            <h2>Average Price: 4$</h2>
+                        <div className="focus-item-information">
                         </div>
-
                     </div>
-                </div>
+                )}
+
                 <div className="focus-item-player-interaction">
                     <div className="amount-input">
                         <h4>Amount:</h4>

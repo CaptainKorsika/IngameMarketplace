@@ -19,7 +19,6 @@ interface InventoryProps {
     unlockInventory?: () => void
     handleNextDay?: () => void
     handleFocusItem: (focusItem: ItemObject) => void
-}
 
 const Inventory = (props: InventoryProps) => {
     let firstRowList: ItemList = []

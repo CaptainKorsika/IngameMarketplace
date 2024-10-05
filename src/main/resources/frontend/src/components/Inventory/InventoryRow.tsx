@@ -1,6 +1,5 @@
 import "./Inventory-Row.css"
 import Item from "./Item";
-import {ItemList} from "../../Interfaces/ItemListType";
 import {ItemObject} from "../../Interfaces/ItemObject";
 
 interface InventoryRowProps{

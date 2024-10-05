@@ -26,10 +26,10 @@ const MenuScreen = (props: MenuScreenProps) => {
                         </div>
                         <div className="focus-item-information">
                             <div className="focus-item-average">
-                                <h2>Average Price: {props.focusItem.first.averagePrice}$</h2>
+                                <h2>Average Price: ${props.focusItem.first.averagePrice}</h2>
                             </div>
                             <div className="focus-item-price">
-                                <h2>Price: {props.focusItem.first.currentPrice}$</h2>
+                                <h2>Price: ${props.focusItem.first.currentPrice}</h2>
                             </div>
                         </div>
                     </div>

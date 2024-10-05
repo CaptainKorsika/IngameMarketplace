@@ -3,10 +3,10 @@ package com.projects.inGameMarketplace.gameLogicService
 import com.projects.inGameMarketplace.highScoreService.HighScoreDTO
 import com.projects.inGameMarketplace.highScoreService.HighScoreService
 import com.projects.inGameMarketplace.inventoryService.Inventory
+import com.projects.inGameMarketplace.inventoryService.InventoryDTO
 import com.projects.inGameMarketplace.inventoryService.InventoryService
 import com.projects.inGameMarketplace.itemService.Item
 import com.projects.inGameMarketplace.itemService.ItemService
-import com.projects.inGameMarketplace.merchantService.MerchantInventoryDTO
 import com.projects.inGameMarketplace.merchantService.MerchantService
 import com.projects.inGameMarketplace.playerService.Player
 import com.projects.inGameMarketplace.playerService.PlayerService
@@ -21,6 +21,7 @@ class GameLogicService() {
     val itemService = ItemService()
     val inventoryService = InventoryService()
     val highScoreService = HighScoreService()
+    val inventoryMapper = InventoryMapper()
 
     // TODO: Change back to 100 after testing
     val gameLength = 5
@@ -56,29 +57,32 @@ class GameLogicService() {
         if (player == null) {
             return null
         }
-        return GameDataDTO(player.inventorySpace, player.day, player.money, inventory.currentItems)
+
+        val moneyString = convertMoneyToString(player.money)
+
+        return GameDataDTO(player.inventorySpace, player.day, moneyString, inventory.currentItems)
     }
 
     @GetMapping("/merchantInventory")
-    fun getMerchantInventory(): List<MerchantInventoryDTO> {
-        val firstMerchantDTO = MerchantInventoryDTO(merchantService.firstMerchant.dailyInventory)
-        val secondMerchantDTO = MerchantInventoryDTO(merchantService.secondMerchant.dailyInventory)
-        val thirdMerchantDTO = MerchantInventoryDTO(merchantService.thirdMerchant.dailyInventory)
+    fun getMerchantInventory(): List<InventoryDTO> {
+        val firstMerchantDTO: InventoryDTO = inventoryMapper.mapToInventoryDTO(merchantService.firstMerchant.dailyInventory)
+        val secondMerchantDTO: InventoryDTO = inventoryMapper.mapToInventoryDTO(merchantService.secondMerchant.dailyInventory)
+        val thirdMerchantDTO: InventoryDTO = inventoryMapper.mapToInventoryDTO(merchantService.thirdMerchant.dailyInventory)
 
 
-        val merchantInventoryList: List<MerchantInventoryDTO> = listOf(firstMerchantDTO, secondMerchantDTO, thirdMerchantDTO)
+        val merchantInventoryList: List<InventoryDTO> = listOf(firstMerchantDTO, secondMerchantDTO, thirdMerchantDTO)
         return merchantInventoryList
     }
 
     @GetMapping("/nextDay")
-    fun nextDay(): List<MerchantInventoryDTO> {
+    fun nextDay(): List<InventoryDTO> {
         playerService.nextDay()
         val currentDay = playerService.player!!.day
 
-        // TODO: Fin better way for exiting | try/catch
+        // TODO: Find better way for exiting | try/catch
         if (currentDay > gameLength) {
             this.endGame(true)
-            return listOf<MerchantInventoryDTO>()
+            return listOf()
         }
         merchantService.createNewDailyInventory()
         playerService.updatePlayerData()
@@ -141,4 +145,15 @@ class GameLogicService() {
 
         return dtoList
     }
+
+    private fun convertMoneyToString(money: Int): String {
+        val convertedMoney = money.toString()
+        val moneyStringLength = convertedMoney.length
+        val dollar = convertedMoney.substring(0, moneyStringLength - 2)
+        val cent = convertedMoney.substring(moneyStringLength - 2)
+
+        return "$dollar,$cent"
+    }
+
+
 }

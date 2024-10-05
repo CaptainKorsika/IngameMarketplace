@@ -77,9 +77,9 @@ function App() {
     const getMerchantItems = async () => {
         try {
             const response = await axios.get('http://localhost:8080/interaction/merchantInventory');
-            const firstMerchant: ItemList = response.data[0].inventory.currentItems
-            const secondMerchant: ItemList = response.data[1].inventory.currentItems
-            const thirdMerchant: ItemList = response.data[2].inventory.currentItems
+            const firstMerchant: ItemList = response.data[0].currentItems
+            const secondMerchant: ItemList = response.data[1].currentItems
+            const thirdMerchant: ItemList = response.data[2].currentItems
 
             const merchantList = [firstMerchant, secondMerchant, thirdMerchant]
             setMerchantsItems(merchantList)

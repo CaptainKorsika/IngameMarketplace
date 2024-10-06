@@ -4,6 +4,6 @@ export type ItemObject = {
         image: string
         averagePrice: string
         currentPrice: string
-    }
+    },
     second: number
 }

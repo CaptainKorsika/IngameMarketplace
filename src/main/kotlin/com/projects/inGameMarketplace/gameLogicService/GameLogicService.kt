@@ -5,7 +5,7 @@ import com.projects.inGameMarketplace.highScoreService.HighScoreService
 import com.projects.inGameMarketplace.inventoryService.Inventory
 import com.projects.inGameMarketplace.inventoryService.InventoryDTO
 import com.projects.inGameMarketplace.inventoryService.InventoryService
-import com.projects.inGameMarketplace.itemService.Item
+import com.projects.inGameMarketplace.itemService.ItemDTO
 import com.projects.inGameMarketplace.itemService.ItemService
 import com.projects.inGameMarketplace.merchantService.MerchantService
 import com.projects.inGameMarketplace.playerService.Player
@@ -21,6 +21,7 @@ class GameLogicService() {
     val itemService = ItemService()
     val inventoryService = InventoryService()
     val highScoreService = HighScoreService()
+    val itemMapper = ItemMapper()
     val inventoryMapper = InventoryMapper()
 
     // TODO: Change back to 100 after testing
@@ -92,12 +93,13 @@ class GameLogicService() {
     }
 
     @PostMapping("/buyItem")
-    fun buyItem(newItem: Pair<Item, Int>) {
+    fun buyItem(@RequestBody newItem: Pair<ItemDTO, Int>) {
+        val newDomainItem = itemMapper.mapToItemObject(newItem.first) to newItem.second
 
         val player = playerService.player!!
-        val price = newItem.first.currentPrice * newItem.second
+        val price = newDomainItem.first.currentPrice * newItem.second
         if (player.money.toInt() >= price) {
-            val purchaseSuccessful = inventoryService.addItemAndConfirm(newItem, player.inventorySpace)
+            val purchaseSuccessful = inventoryService.addItemAndConfirm(newDomainItem, player.inventorySpace)
             if (purchaseSuccessful) {
                 playerService.updatePlayerBalance(price * -1)
             }
@@ -105,13 +107,15 @@ class GameLogicService() {
     }
 
     @PostMapping("/sellItem")
-    fun sellItem(soldItem: Pair<Item, Int>) {
-        val inventory = inventoryService.inventory
-        val itemAmount = inventory.currentItems.first { it.first.name == soldItem.first.name }.second
-        val amountToSell = if (soldItem.second >= itemAmount) itemAmount else soldItem.second
-        val revenue = soldItem.first.currentPrice * amountToSell
+    fun sellItem(soldItem: Pair<ItemDTO, Int>) {
+        val newDomainItem = itemMapper.mapToItemObject(soldItem.first) to soldItem.second
 
-        val itemRemovedSuccessfully = inventoryService.removeItemAndConfirm(soldItem)
+        val inventory = inventoryService.inventory
+        val itemAmount = inventory.currentItems.first { it.first.name == newDomainItem.first.name }.second
+        val amountToSell = if (newDomainItem.second >= itemAmount) itemAmount else soldItem.second
+        val revenue = newDomainItem.first.currentPrice * amountToSell
+
+        val itemRemovedSuccessfully = inventoryService.removeItemAndConfirm(newDomainItem)
         if (itemRemovedSuccessfully) {
             playerService.updatePlayerBalance(revenue)
         }

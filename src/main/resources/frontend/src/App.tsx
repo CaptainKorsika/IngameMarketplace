@@ -63,6 +63,8 @@ function App() {
                 "second": amount
             }
 
+            console.log(requestData)
+
             if (isBuying) {
                 await axios.post('http://localhost:8080/interaction/buyItem', requestData)
 

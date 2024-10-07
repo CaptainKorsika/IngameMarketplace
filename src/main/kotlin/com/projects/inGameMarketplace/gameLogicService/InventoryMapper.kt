@@ -5,19 +5,13 @@ import com.projects.inGameMarketplace.inventoryService.InventoryDTO
 import com.projects.inGameMarketplace.itemService.ItemDTO
 
 class InventoryMapper {
+    val itemMapper = ItemMapper()
 
     fun mapToInventoryDTO(inventory: Inventory): InventoryDTO {
-
         val itemDTOList = mutableListOf<Pair<ItemDTO, Int>>()
         inventory.currentItems.forEach {
-
-            val averagePrice = it.first.averagePrice
-            val currentPrice = it.first.currentPrice
-
-            val averagePriceString = convertMoneyToString(averagePrice)
-            val currentPriceString = convertMoneyToString(currentPrice)
-
-            itemDTOList.add(ItemDTO(it.first.name, it.first.image, averagePriceString, currentPriceString) to it.second)
+            val itemDTOPair = itemMapper.mapToItemDTO(it.first) to it.second
+            itemDTOList.add(itemDTOPair)
 
         }
         val inventoryDTO = InventoryDTO(itemDTOList.toList())

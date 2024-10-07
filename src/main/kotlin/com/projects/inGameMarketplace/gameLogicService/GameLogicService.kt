@@ -53,7 +53,7 @@ class GameLogicService() {
     @GetMapping("/getData")
     fun getGameData(): GameDataDTO? {
         val player: Player? = playerService.fetchPlayerData()
-        val inventory = this.getCurrentInventory()
+        val inventoryDTO = this.getCurrentInventory()
 
         if (player == null) {
             return null
@@ -61,7 +61,7 @@ class GameLogicService() {
 
         val moneyString = convertMoneyToString(player.money)
 
-        return GameDataDTO(player.inventorySpace, player.day, moneyString, inventory.currentItems)
+        return GameDataDTO(player.inventorySpace, player.day, moneyString, inventoryDTO.currentItems)
     }
 
     @GetMapping("/merchantInventory")
@@ -98,7 +98,7 @@ class GameLogicService() {
 
         val player = playerService.player!!
         val price = newDomainItem.first.currentPrice * newItem.second
-        if (player.money.toInt() >= price) {
+        if (player.money >= price) {
             val purchaseSuccessful = inventoryService.addItemAndConfirm(newDomainItem, player.inventorySpace)
             if (purchaseSuccessful) {
                 playerService.updatePlayerBalance(price * -1)
@@ -107,7 +107,8 @@ class GameLogicService() {
     }
 
     @PostMapping("/sellItem")
-    fun sellItem(soldItem: Pair<ItemDTO, Int>) {
+    fun sellItem(@RequestBody soldItem: Pair<ItemDTO, Int>) {
+        println(soldItem)
         val newDomainItem = itemMapper.mapToItemObject(soldItem.first) to soldItem.second
 
         val inventory = inventoryService.inventory
@@ -122,8 +123,9 @@ class GameLogicService() {
     }
 
     @GetMapping("/getInventory")
-    fun getCurrentInventory(): Inventory {
-        return inventoryService.inventory
+    fun getCurrentInventory(): InventoryDTO {
+        val inventoryDTO = inventoryMapper.mapToInventoryDTO(inventoryService.inventory)
+        return inventoryDTO
     }
 
 

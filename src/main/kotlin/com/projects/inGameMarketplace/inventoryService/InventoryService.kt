@@ -64,7 +64,9 @@ class InventoryService {
             if (boughtItem.second > availableSpace) {
                 return false
             }
-            this.inventory.currentItems[indexOfItem] = boughtItem
+            val newAmount = this.inventory.currentItems[indexOfItem].second + boughtItem.second
+            val addedItem = boughtItem.first to newAmount
+            this.inventory.currentItems[indexOfItem] = addedItem
         }
         return true
     }

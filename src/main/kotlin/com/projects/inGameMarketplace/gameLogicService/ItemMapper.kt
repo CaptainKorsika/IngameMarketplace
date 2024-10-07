@@ -4,12 +4,13 @@ import com.projects.inGameMarketplace.itemService.Item
 import com.projects.inGameMarketplace.itemService.ItemDTO
 
 class ItemMapper {
-//    fun mapToItemDTO(item: Item): ItemDTO {
-//
-//
-//
-//
-//    }
+    fun mapToItemDTO(item: Item): ItemDTO {
+        val averagePrice = this.convertMoneyToString(item.averagePrice)
+        val currentPrice = this.convertMoneyToString(item.currentPrice)
+
+        return ItemDTO(item.name, item.image, averagePrice, currentPrice)
+
+    }
 
     fun mapToItemObject(itemDTO: ItemDTO): Item {
 

@@ -59,9 +59,12 @@ function App() {
             }
 
             const requestData = {
-                "first": itemDTO,
-                "second": amount
-            }
+                newItem: {
+                    first: itemDTO,
+                    second: amount
+                },
+                merchantID: activeMerchant
+            };
 
             console.log(requestData)
 

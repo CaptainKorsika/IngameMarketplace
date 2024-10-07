@@ -93,7 +93,9 @@ class GameLogicService() {
     }
 
     @PostMapping("/buyItem")
-    fun buyItem(@RequestBody newItem: Pair<ItemDTO, Int>) {
+    fun buyItem(@RequestBody itemRequest: ItemRequest) {
+        val newItem = itemRequest.newItem
+        val merchantID = itemRequest.merchantID
         val newDomainItem = itemMapper.mapToItemObject(newItem.first) to newItem.second
 
         val player = playerService.player!!
@@ -107,8 +109,9 @@ class GameLogicService() {
     }
 
     @PostMapping("/sellItem")
-    fun sellItem(@RequestBody soldItem: Pair<ItemDTO, Int>) {
-        println(soldItem)
+    fun sellItem(@RequestBody itemRequest: ItemRequest) {
+        val soldItem = itemRequest.newItem
+        val merchantID = itemRequest.merchantID
         val newDomainItem = itemMapper.mapToItemObject(soldItem.first) to soldItem.second
 
         val inventory = inventoryService.inventory
@@ -160,6 +163,12 @@ class GameLogicService() {
 
         return "$dollar,$cent"
     }
+
+
+    data class ItemRequest(
+        val newItem: Pair<ItemDTO, Int>,
+        val merchantID: Int
+    )
 
 
 }

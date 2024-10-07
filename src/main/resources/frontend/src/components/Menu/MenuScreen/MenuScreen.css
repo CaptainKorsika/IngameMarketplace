@@ -18,10 +18,10 @@
     flex-basis: calc((100% / 5) - 3px);
     flex-shrink: 0;
     overflow: hidden;
-    margin: 0 10px;
+    margin: 0 10px 50px 10px;
 }
 
-.focus-item-image-container, .focus-item-amount{
+.focus-item-object{
     width: 100px;
     height: 100px;
     background: radial-gradient(circle, #c2842d, #603904);
@@ -31,7 +31,15 @@
     overflow: hidden;
 }
 
-.focus-item-amount > h2{
+.merchant-data > .focus-item-object {
+    margin: 0 0 0 1vw;
+}
+
+.player-data > .focus-item-object {
+    margin: 0 0 0 10vw;
+}
+
+.focus-item-object > h2{
     text-align: center;
     font-size: 30px;
     margin: 23px auto;
@@ -51,11 +59,6 @@
     box-shadow: rgba(0, 0, 0, 0.67) 0 0 10px 10px;
 }
 
-.focus-item-amount{
-    width: 100px;
-    justify-content: end;
-}
-
 .focus-item-information{
     display: flex;
     justify-content: space-around;
@@ -69,12 +72,9 @@
     flex-direction: column;
 }
 
-.focus-item-price, .focus-item-average{
+.focus-item-price {
+    width: 100%;
     padding: 10px;
-}
-
-.focus-item-price{
-    width: 50%;
     box-sizing: border-box;
 }
 
@@ -83,30 +83,33 @@
     box-sizing: border-box;
 }
 
-
-.price-history {
-    width: 50%;
-    justify-content: space-around;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 0;
-}
-
 .price-history > h2{
     text-align: center;
 }
 
 .interaction-container {
-    width: 50%;
+    display: flex;
+    width: 100%;
     justify-content: space-around;
 }
 
+.merchant-data, .player-data {
+
+    width: 30%;
+    margin: 150px 0 0 0;
+}
+
 .focus-item-wrapper{
-    margin: 100px 0 0 0;
+    width: 40%;
+    margin: 150px 0 0 0;
 }
 
 button, input {
     max-width: 200px;
+}
+
+input {
+    width: 100px;
 }
 
 .amount-input{
@@ -131,7 +134,8 @@ h4{
 }
 
 .focus-item-button-wrapper{
-    width: 300px;
+    width: 350px;
     display: flex;
-    margin: auto
+    justify-content: space-between;
+    margin: 0 auto 2vh auto;
 }

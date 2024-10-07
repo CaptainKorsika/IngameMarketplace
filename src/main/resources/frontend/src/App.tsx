@@ -4,18 +4,17 @@ import Marketplace from "./components/Marketplace/Marketplace";
 import './App.css';
 import Menu from "./components/Menu/Menu";
 import axios from "axios";
-import {ItemList} from "./Interfaces/ItemListType";
 import {ItemObject} from "./Interfaces/ItemObject";
 
 function App() {
     const [isCurrentlyPlaying, setIsCurrentlyPlaying] = useState(false)
     const [money, setMoney] = useState(1)
     const [inventorySpace, setInventorySpace] = useState(10)
-    const [inventoryItems, setInventoryItems] = useState<ItemList>([])
+    const [inventoryItems, setInventoryItems] = useState<ItemObject[]>([])
     const [day, setDay] = useState(1)
-    const [merchantsItems, setMerchantsItems] = useState<ItemList[]>([])
+    const [merchantsItems, setMerchantsItems] = useState<ItemObject[][]>([])
     const [activeMerchant, setActiveMerchant] = useState(1)
-    const [focusItem, setFocusItem] = useState<ItemObject>()
+    const [focusItem, setFocusItem] = useState<ItemObject>(null)
 
     const unlockInventory = () => {
         axios.get('http://localhost:8080/interaction/buyInventorySpace')
@@ -32,9 +31,9 @@ function App() {
     const handleNextDay = async () => {
         try {
             const response = await axios.get('http://localhost:8080/interaction/nextDay');
-            const firstMerchant: ItemList = response.data[0].inventory.currentItems
-            const secondMerchant: ItemList = response.data[1].inventory.currentItems
-            const thirdMerchant: ItemList = response.data[2].inventory.currentItems
+            const firstMerchant: ItemObject[] = response.data[0].inventory.currentItems
+            const secondMerchant: ItemObject[] = response.data[1].inventory.currentItems
+            const thirdMerchant: ItemObject[] = response.data[2].inventory.currentItems
 
             const merchantList = [firstMerchant, secondMerchant, thirdMerchant]
             setMerchantsItems(merchantList)
@@ -47,6 +46,37 @@ function App() {
 
     const handleFocusItem = (clickedItem) => {
         setFocusItem(clickedItem)
+    }
+
+    // @ts-ignore
+    const handleItemTrade = async (isBuying: boolean, amount: number) => {
+        try {
+            const itemDTO = {
+                name: focusItem.first.name,
+                image: focusItem.first.image,
+                averagePrice: focusItem.first.averagePrice,
+                currentPrice: focusItem.first.currentPrice
+            }
+
+            const requestData = {
+                newItem: {
+                    first: itemDTO,
+                    second: amount
+                },
+                merchantID: activeMerchant
+            };
+
+            console.log(requestData)
+
+            if (isBuying) {
+                await axios.post('http://localhost:8080/interaction/buyItem', requestData)
+
+            } else {
+                await axios.post('http://localhost:8080/interaction/sellItem', requestData)
+            }
+        } catch (error) {
+            console.error('There was an error trading with server!', error);
+        }
     }
 
     // @ts-ignore
@@ -77,9 +107,9 @@ function App() {
     const getMerchantItems = async () => {
         try {
             const response = await axios.get('http://localhost:8080/interaction/merchantInventory');
-            const firstMerchant: ItemList = response.data[0].inventory.currentItems
-            const secondMerchant: ItemList = response.data[1].inventory.currentItems
-            const thirdMerchant: ItemList = response.data[2].inventory.currentItems
+            const firstMerchant: ItemObject[] = response.data[0].currentItems
+            const secondMerchant: ItemObject[] = response.data[1].currentItems
+            const thirdMerchant: ItemObject[] = response.data[2].currentItems
 
             const merchantList = [firstMerchant, secondMerchant, thirdMerchant]
             setMerchantsItems(merchantList)
@@ -107,7 +137,7 @@ function App() {
         />
         <div className="game-container">
             <Marketplace handleActiveMerchant={handleActiveMerchant}/>
-            <Menu isCurrentlyPlaying={isCurrentlyPlaying} focusItem={focusItem}/>
+            <Menu isCurrentlyPlaying={isCurrentlyPlaying} focusItem={focusItem} handleItemTrade={handleItemTrade}/>
         </div>
         <Inventory entity="Player" isCurrentlyPlaying={isCurrentlyPlaying}
                    money={money}

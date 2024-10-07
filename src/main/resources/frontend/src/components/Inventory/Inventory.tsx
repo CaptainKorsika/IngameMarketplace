@@ -2,7 +2,6 @@ import "./InventoryStyle.css"
 import InventoryRow from "./InventoryRow";
 import PlayerMenu from "./Data Sections/PlayerMenu";
 import StatisticsMenu from "./Data Sections/StatisticsMenu";
-import {ItemList} from "../../Interfaces/ItemListType";
 import NextDay from "../Menu/NextDay";
 import {ItemObject} from "../../Interfaces/ItemObject";
 
@@ -11,19 +10,20 @@ interface InventoryProps {
     entity: string,
     money?: number,
     isCurrentlyPlaying: boolean,
-    inventoryItems?: ItemList,
-    merchantItems?: ItemList[]
+    inventoryItems?: ItemObject[],
+    merchantItems?: ItemObject[][]
     inventorySpace: number,
     day?: number,
     activeMerchant?: number
     unlockInventory?: () => void
     handleNextDay?: () => void
     handleFocusItem: (focusItem: ItemObject) => void
+}
 
 const Inventory = (props: InventoryProps) => {
-    let firstRowList: ItemList = []
-    let secondRowList: ItemList = []
-    let thirdRowList: ItemList = []
+    let firstRowList: ItemObject[] = []
+    let secondRowList: ItemObject[] = []
+    let thirdRowList: ItemObject[] = []
 
     // TODO: Fix error when uncommented
 
@@ -39,7 +39,7 @@ const Inventory = (props: InventoryProps) => {
             thirdRowList = props.inventoryItems.slice(20)}
     }
 
-    let activeMerchantItems: ItemList = []
+    let activeMerchantItems: ItemObject[] = []
 
     if (props.entity == "Merchant") {
         activeMerchantItems = props.merchantItems[props.activeMerchant - 1]

@@ -1,6 +1,5 @@
 import "./Inventory-Row.css"
 import Item from "./Item";
-import {ItemList} from "../../Interfaces/ItemListType";
 import {ItemObject} from "../../Interfaces/ItemObject";
 
 interface InventoryRowProps{
@@ -26,13 +25,13 @@ const InventoryRow = (props: InventoryRowProps) => {
 
     } else if (props.itemList != null) {
         const itemsWithAttributes = props.itemList.map((item, index) => (
-            <Item item={item} key={index} amount={item.second} ></Item>
+            <Item item={item} key={index} handleFocusItem={props.handleFocusItem} amount={item.second}></Item>
         ));
 
         const emptyItemCount = 10 - itemsWithAttributes.length
         const emptyItems = Array()
         for (let i = 0; i < emptyItemCount; i++) {
-            emptyItems.push(<Item/>)
+            emptyItems.push(<Item handleFocusItem={props.handleFocusItem}/>)
         }
 
         return (
@@ -45,7 +44,7 @@ const InventoryRow = (props: InventoryRowProps) => {
 
     return (
         <div className="inventory-row">
-            <Item></Item>
+            <Item handleFocusItem={props.handleFocusItem}></Item>
             <Item></Item>
             <Item></Item>
             <Item></Item>

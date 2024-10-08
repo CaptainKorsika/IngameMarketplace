@@ -1,9 +1,11 @@
 import "./MenuScreen.css"
 import {ItemObject} from "../../../Interfaces/ItemObject";
 import {useState} from "react";
+import NextDay from "./NextDay";
 
 interface MenuScreenProps {
     focusItem: ItemObject,
+    handleNextDay: () => void,
     handleItemTrade: (isBuying: boolean, amount: number) => void
 }
 
@@ -56,6 +58,7 @@ const MenuScreen = (props: MenuScreenProps) => {
                         <div className="focus-item-price">
                             <h2>Avg. Buying Price: &nbsp; ${props.focusItem.first.currentPrice}</h2>
                         </div>
+                        <NextDay handleNextDay={props.handleNextDay}/>
                     </div>
                 </div>) : (
                 <div className="interaction-container">

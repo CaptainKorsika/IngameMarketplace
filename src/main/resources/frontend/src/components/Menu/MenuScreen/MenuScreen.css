@@ -110,6 +110,7 @@ button, input {
 
 input {
     width: 100px;
+    height: 30px;
 }
 
 .amount-input{
@@ -119,14 +120,6 @@ input {
     height: 40px;
     width: 300px;
     margin: auto;
-}
-
-button{
-    margin: auto;
-}
-
-input{
-    height: 30px;
 }
 
 h4{

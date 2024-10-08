@@ -6,7 +6,7 @@ interface NextDayProps {
 
 const NextDay = (props: NextDayProps) => {
     return (
-        <div className="menu-screen-container">
+        <div className="nextday-button-container">
             <button className="next-day-button" onClick={props.handleNextDay}>Next Day</button>
         </div>
     );

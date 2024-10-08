@@ -132,12 +132,11 @@ function App() {
             inventorySpace={inventorySpace}
             day={day}
             activeMerchant={activeMerchant}
-            handleNextDay={handleNextDay}
             handleFocusItem={handleFocusItem}
         />
         <div className="game-container">
             <Marketplace handleActiveMerchant={handleActiveMerchant}/>
-            <Menu isCurrentlyPlaying={isCurrentlyPlaying} focusItem={focusItem} handleItemTrade={handleItemTrade}/>
+            <Menu isCurrentlyPlaying={isCurrentlyPlaying} focusItem={focusItem} handleNextDay={handleNextDay} handleItemTrade={handleItemTrade}/>
         </div>
         <Inventory entity="Player" isCurrentlyPlaying={isCurrentlyPlaying}
                    money={money}

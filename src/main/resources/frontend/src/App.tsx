@@ -14,7 +14,7 @@ function App() {
     const [inventoryItems, setInventoryItems] = useState<ItemObject[]>([])
     const [day, setDay] = useState(1)
     const [merchantsItems, setMerchantsItems] = useState<ItemObject[][]>([])
-    const [activeMerchant, setActiveMerchant] = useState(1)
+    const [activeMerchant, setActiveMerchant] = useState(0)
     const [focusItem, setFocusItem] = useState<FocusItemObject>(null)
 
     const unlockInventory = () => {
@@ -68,17 +68,22 @@ function App() {
             playerAmount = playerItem[0].second
         }
 
+        let price = ""
+
+        if (merchantAmount != 0) {
+            price = filteredItems[0].first.price
+        }
+
         const focusItem: FocusItemObject = {
             name: itemName,
             image: itemImage,
             merchantAmount: merchantAmount,
             playerAmount: playerAmount,
-            price: filteredItems[0].first.price,
+            price: price,
             avgBuyingPrice: "10"
         }
 
-
-
+        console.log(focusItem)
         setFocusItem(focusItem)
     }
 

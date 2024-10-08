@@ -5,6 +5,7 @@ import './App.css';
 import Menu from "./components/Menu/Menu";
 import axios from "axios";
 import {ItemObject} from "./Interfaces/ItemObject";
+import {FocusItemObject} from "./Interfaces/FocusItemObject";
 
 function App() {
     const [isCurrentlyPlaying, setIsCurrentlyPlaying] = useState(false)
@@ -14,7 +15,7 @@ function App() {
     const [day, setDay] = useState(1)
     const [merchantsItems, setMerchantsItems] = useState<ItemObject[][]>([])
     const [activeMerchant, setActiveMerchant] = useState(1)
-    const [focusItem, setFocusItem] = useState<ItemObject>(null)
+    const [focusItem, setFocusItem] = useState<FocusItemObject>(null)
 
     const unlockInventory = () => {
         axios.get('http://localhost:8080/interaction/buyInventorySpace')
@@ -44,18 +45,50 @@ function App() {
 
     }
 
-    const handleFocusItem = (clickedItem) => {
-        setFocusItem(clickedItem)
+    const handleFocusItem = (clickedItem: ItemObject) => {
+        const itemName = clickedItem.first.name
+        const itemImage = clickedItem.first.image
+
+        const merchantItems = merchantsItems[activeMerchant]
+        const filteredItems = merchantItems.filter((item): boolean => item.first.name == itemName)
+
+        let merchantAmount: number
+        if (filteredItems.length == 0) {
+            merchantAmount = 0
+        } else {
+            merchantAmount = filteredItems[0].second
+        }
+
+
+        let playerAmount: number
+        const playerItem = inventoryItems.filter((item): boolean => item.first.name == itemName)
+        if (playerItem.length == 0) {
+            playerAmount = 0
+        } else {
+            playerAmount = playerItem[0].second
+        }
+
+        const focusItem: FocusItemObject = {
+            name: itemName,
+            image: itemImage,
+            merchantAmount: merchantAmount,
+            playerAmount: playerAmount,
+            price: filteredItems[0].first.price,
+            avgBuyingPrice: "10"
+        }
+
+
+
+        setFocusItem(focusItem)
     }
 
     // @ts-ignore
     const handleItemTrade = async (isBuying: boolean, amount: number) => {
         try {
             const itemDTO = {
-                name: focusItem.first.name,
-                image: focusItem.first.image,
-                averagePrice: focusItem.first.averagePrice,
-                currentPrice: focusItem.first.currentPrice
+                name: focusItem.name,
+                image: focusItem.image,
+                price: focusItem.price
             }
 
             const requestData = {

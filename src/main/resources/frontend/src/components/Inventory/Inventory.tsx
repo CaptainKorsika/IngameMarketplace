@@ -41,7 +41,7 @@ const Inventory = (props: InventoryProps) => {
     let activeMerchantItems: ItemObject[] = []
 
     if (props.entity == "Merchant") {
-        activeMerchantItems = props.merchantItems[props.activeMerchant - 1]
+        activeMerchantItems = props.merchantItems[props.activeMerchant]
     }
 
     if (!props.isCurrentlyPlaying) {

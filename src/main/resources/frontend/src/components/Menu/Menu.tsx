@@ -1,11 +1,11 @@
 import MenuScreen from "./MenuScreen/MenuScreen";
 import StartingScreen from "./StartingScreen/StartingScreen";
-import {ItemObject} from "../../Interfaces/ItemObject";
+import {FocusItemObject} from "../../Interfaces/FocusItemObject";
 
 
 interface MenuProps {
     isCurrentlyPlaying: boolean,
-    focusItem: ItemObject,
+    focusItem: FocusItemObject,
     handleNextDay: () => void,
     handleItemTrade: (isBuying: boolean, amount: number) => void
 }

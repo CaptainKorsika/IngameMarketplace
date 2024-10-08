@@ -8,9 +8,9 @@ interface MarketplaceProps {
 const Marketplace = (props: MarketplaceProps) => {
     return (
         <div className="marketplace">
+            <Merchant id={0} handleActiveMerchant={props.handleActiveMerchant}/>
             <Merchant id={1} handleActiveMerchant={props.handleActiveMerchant}/>
             <Merchant id={2} handleActiveMerchant={props.handleActiveMerchant}/>
-            <Merchant id={3} handleActiveMerchant={props.handleActiveMerchant}/>
         </div>
     );
 }

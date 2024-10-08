@@ -5,7 +5,7 @@ import com.projects.inGameMarketplace.inventoryService.InventoryDTO
 import com.projects.inGameMarketplace.itemService.ItemDTO
 
 class InventoryMapper {
-    val itemMapper = ItemMapper()
+    private val itemMapper = ItemMapper()
 
     fun mapToInventoryDTO(inventory: Inventory): InventoryDTO {
         val itemDTOList = mutableListOf<Pair<ItemDTO, Int>>()

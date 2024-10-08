@@ -2,7 +2,6 @@ package com.projects.inGameMarketplace.gameLogicService
 
 import com.projects.inGameMarketplace.highScoreService.HighScoreDTO
 import com.projects.inGameMarketplace.highScoreService.HighScoreService
-import com.projects.inGameMarketplace.inventoryService.Inventory
 import com.projects.inGameMarketplace.inventoryService.InventoryDTO
 import com.projects.inGameMarketplace.inventoryService.InventoryService
 import com.projects.inGameMarketplace.itemService.ItemDTO
@@ -96,7 +95,7 @@ class GameLogicService() {
     fun buyItem(@RequestBody itemRequest: ItemRequest) {
         val newItem = itemRequest.newItem
         val merchantID = itemRequest.merchantID
-        val newDomainItem = itemMapper.mapToItemObject(newItem.first) to newItem.second
+        val newDomainItem = itemMapper.mapToItemObject(newItem.first, itemService.getAvailableItems()) to newItem.second
 
         val player = playerService.player!!
         val price = newDomainItem.first.currentPrice * newItem.second
@@ -112,7 +111,7 @@ class GameLogicService() {
     fun sellItem(@RequestBody itemRequest: ItemRequest) {
         val soldItem = itemRequest.newItem
         val merchantID = itemRequest.merchantID
-        val newDomainItem = itemMapper.mapToItemObject(soldItem.first) to soldItem.second
+        val newDomainItem = itemMapper.mapToItemObject(soldItem.first, itemService.getAvailableItems()) to soldItem.second
 
         val inventory = inventoryService.inventory
         val itemAmount = inventory.currentItems.first { it.first.name == newDomainItem.first.name }.second

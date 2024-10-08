@@ -4,12 +4,14 @@ import com.projects.inGameMarketplace.highScoreService.HighScoreDTO
 import com.projects.inGameMarketplace.highScoreService.HighScoreService
 import com.projects.inGameMarketplace.inventoryService.InventoryDTO
 import com.projects.inGameMarketplace.inventoryService.InventoryService
+import com.projects.inGameMarketplace.itemService.Item
 import com.projects.inGameMarketplace.itemService.ItemDTO
 import com.projects.inGameMarketplace.itemService.ItemService
 import com.projects.inGameMarketplace.merchantService.MerchantService
 import com.projects.inGameMarketplace.playerService.Player
 import com.projects.inGameMarketplace.playerService.PlayerService
 import org.springframework.web.bind.annotation.*
+import kotlin.math.min
 
 @CrossOrigin
 @RestController
@@ -98,10 +100,19 @@ class GameLogicService() {
         val newDomainItem = itemMapper.mapToItemObject(newItem.first, itemService.getAvailableItems()) to newItem.second
 
         val player = playerService.player!!
-        val price = newDomainItem.first.currentPrice * newItem.second
+        val price = newDomainItem.first.currentPrice * newDomainItem.second
         if (player.money >= price) {
-            val purchaseSuccessful = inventoryService.addItemAndConfirm(newDomainItem, player.inventorySpace)
-            if (purchaseSuccessful) {
+
+            val maximumPossibleOrderSize = min(
+                inventoryService.maxPossibleItemSpace(newDomainItem, player.inventorySpace),
+                merchantService.merchantList[merchantID].maxPossibleItemPurchase(newDomainItem)
+            )
+            val purchasePossible = maximumPossibleOrderSize != 0
+
+            if (purchasePossible) {
+                val purchasedItem = newDomainItem.first to maximumPossibleOrderSize
+                inventoryService.addItem(purchasedItem)
+                merchantService.merchantList[merchantID].sellItem(purchasedItem)
                 playerService.updatePlayerBalance(price * -1)
             }
         }

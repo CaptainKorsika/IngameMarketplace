@@ -29,6 +29,33 @@ class Merchant {
         return newInventory
     }
 
+    fun maxPossibleItemPurchase(item: Pair<Item, Int>): Int {
+        val merchantItem = this.dailyInventory.currentItems.firstOrNull { it.first.name == item.first.name }
+        if (merchantItem == null) {
+            return 0
+        }
+
+        val merchantAmount = merchantItem.second
+        var desiredPlayerPurchase = item.second
+
+        if (desiredPlayerPurchase > merchantAmount) {
+            desiredPlayerPurchase = merchantAmount
+        }
+
+        return desiredPlayerPurchase
+    }
+
+
+    fun sellItem (item: Pair<Item, Int>) {
+        val merchantItem = this.dailyInventory.currentItems.first { it.first.name == item.first.name }
+        val currentItemIndex = this.dailyInventory.currentItems.indexOf(merchantItem)
+
+        val newAmount = merchantItem.second - item.second
+
+        val newItem = merchantItem.first to newAmount
+        this.dailyInventory.currentItems[currentItemIndex] = newItem
+    }
+
     private fun changePrices(price: Int): Int {
         val lowerBoundary = 0.5
         val upperBoundary = 1.5

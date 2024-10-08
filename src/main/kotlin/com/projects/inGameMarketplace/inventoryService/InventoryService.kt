@@ -47,28 +47,38 @@ class InventoryService {
         return price
     }
 
-    fun addItemAndConfirm(boughtItem: Pair<Item, Int>, space: Int): Boolean {
-
+    fun maxPossibleItemSpace(boughtItem: Pair<Item, Int>, space: Int): Int {
         if (space == this.inventory.currentItems.size) {
-            return false
+            return 0
         }
 
         val itemName = boughtItem.first.name
         val indexOfItem = this.inventory.currentItems.map { pair -> pair.first.name}.indexOf(itemName)
 
         if (indexOfItem == -1) {
+            return 99
+        }
+
+        val availableSpace = 99 - this.inventory.currentItems[indexOfItem].second
+        if (boughtItem.second > availableSpace) {
+            return availableSpace
+        }
+
+        return boughtItem.second
+    }
+
+    fun addItem(boughtItem: Pair<Item, Int>) {
+
+        val itemName = boughtItem.first.name
+        val indexOfItem = this.inventory.currentItems.map { pair -> pair.first.name}.indexOf(itemName)
+
+        if (indexOfItem == -1) {
             this.inventory.currentItems.add(boughtItem)
-            return true
         } else {
-            val availableSpace = 99 - this.inventory.currentItems[indexOfItem].second
-            if (boughtItem.second > availableSpace) {
-                return false
-            }
             val newAmount = this.inventory.currentItems[indexOfItem].second + boughtItem.second
             val addedItem = boughtItem.first to newAmount
             this.inventory.currentItems[indexOfItem] = addedItem
         }
-        return true
     }
 
     fun removeItemAndConfirm(soldItem: Pair<Item, Int>): Boolean {

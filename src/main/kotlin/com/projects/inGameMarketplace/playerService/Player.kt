@@ -6,5 +6,5 @@ class Player(
     val name: String,
     var inventorySpace: Int = 10,
     var day: Int = 1,
-    var money: Int = 50000
+    var money: Int = 500000
 )

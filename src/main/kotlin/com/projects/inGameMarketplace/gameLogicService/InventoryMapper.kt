@@ -17,13 +17,4 @@ class InventoryMapper {
         val inventoryDTO = InventoryDTO(itemDTOList.toList())
         return inventoryDTO
     }
-
-    private fun convertMoneyToString(money: Int): String {
-        val convertedMoney = money.toString()
-        val moneyStringLength = convertedMoney.length
-        val dollar = convertedMoney.substring(0, moneyStringLength - 2)
-        val cent = convertedMoney.substring(moneyStringLength - 2)
-
-        return "$dollar,$cent"
-    }
 }

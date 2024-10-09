@@ -4,7 +4,6 @@ import com.projects.inGameMarketplace.highScoreService.HighScoreDTO
 import com.projects.inGameMarketplace.highScoreService.HighScoreService
 import com.projects.inGameMarketplace.inventoryService.InventoryDTO
 import com.projects.inGameMarketplace.inventoryService.InventoryService
-import com.projects.inGameMarketplace.itemService.Item
 import com.projects.inGameMarketplace.itemService.ItemDTO
 import com.projects.inGameMarketplace.itemService.ItemService
 import com.projects.inGameMarketplace.merchantService.MerchantService
@@ -81,7 +80,6 @@ class GameLogicService() {
         playerService.nextDay()
         val currentDay = playerService.player!!.day
 
-        // TODO: Find better way for exiting | try/catch
         if (currentDay > gameLength) {
             this.endGame(true)
             return listOf()
@@ -141,14 +139,13 @@ class GameLogicService() {
         return inventoryDTO
     }
 
-
     @GetMapping("/buyInventorySpace")
     fun unlockInventory(): Int {
         val player = playerService.player!!
         val money = player.money
-        val price = inventoryService.buyInventoryAndReturnPrice(money, player.inventorySpace)
+        val price = inventoryService.calculateInventoryUpgradePrice(money, player.inventorySpace)
 
-        if (money >= price) {
+        if (money > price) {
             playerService.updatePlayerBalance(price * -1)
             playerService.addInventorySpace()
         }

@@ -24,7 +24,7 @@ function App() {
             })
     }
 
-    const handleActiveMerchant = (merchantId) => {
+    const handleActiveMerchant = (merchantId: number) => {
         setActiveMerchant(merchantId)
     }
 
@@ -41,7 +41,7 @@ function App() {
         } catch (error) {
         }
 
-        getPlayerData()
+        await getPlayerData()
 
     }
 

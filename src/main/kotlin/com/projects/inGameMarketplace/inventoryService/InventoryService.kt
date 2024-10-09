@@ -6,8 +6,8 @@ class InventoryService {
     private val inventoryRepository = InventoryRepository()
     private val inventoryConverter = InventoryConverter()
     val inventory: Inventory = getPlayerInventoryFromDB()
-    private val firstExtensionPrice: Int = 1000
-    private val secondExtensionPrice: Int = 2000
+    private val firstExtensionPrice: Int = 100000
+    private val secondExtensionPrice: Int = 200000
 
 
     fun createInventory() {
@@ -30,22 +30,12 @@ class InventoryService {
         return inventory
     }
 
-    fun buyInventoryAndReturnPrice(money: Int, space: Int): Int {
-        var price = 0
-        when(space) {
-            10 -> {
-                if (money >= firstExtensionPrice) {
-                    price = firstExtensionPrice
-                }
-            }
-            20 -> {
-                if (money >= secondExtensionPrice) {
-                    price =  secondExtensionPrice
-                }
-            }
-        }
-        return price
+    fun calculateInventoryUpgradePrice(money: Int, space: Int): Int {
+        return if (space == 10) firstExtensionPrice else secondExtensionPrice
     }
+
+
+
 
     fun maxPossibleItemSpace(boughtItem: Pair<Item, Int>, space: Int): Int {
         if (space == this.inventory.currentItems.size) {
@@ -107,6 +97,7 @@ class InventoryService {
     }
 
     fun deleteInventory() {
+        this.inventory.currentItems.clear()
         this.inventoryRepository.deleteInventory()
     }
 }

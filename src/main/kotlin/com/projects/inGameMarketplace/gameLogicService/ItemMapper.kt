@@ -6,7 +6,6 @@ import com.projects.inGameMarketplace.itemService.ItemDTO
 class ItemMapper {
     fun mapToItemDTO(item: Item): ItemDTO {
         val currentPrice = this.convertMoneyToString(item.currentPrice)
-
         return ItemDTO(item.name, item.image, currentPrice)
 
     }

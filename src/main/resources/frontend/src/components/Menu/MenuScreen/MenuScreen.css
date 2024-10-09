@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.6)), url("../../../assets/menu-background.png");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.6)), url("/assets/menu-background.png");
     background-size: cover;
     background-color: rgb(0, 0, 0);
 }
@@ -18,36 +18,45 @@
     flex-basis: calc((100% / 5) - 3px);
     flex-shrink: 0;
     overflow: hidden;
-    margin: 0 10px;
+    margin: 0 10px 50px 10px;
 }
 
-.focus-item-image-container, .focus-item-amount{
+.focus-item-object{
     width: 100px;
     height: 100px;
-    background-color: #0c27be;
+    background: radial-gradient(circle, #c2842d, #603904);
     border: 2px solid black;
     border-radius: 10px;
     box-sizing: border-box;
     overflow: hidden;
 }
 
-.focus-item-amount > h2{
+.merchant-data > .focus-item-object {
+    margin: 0 0 0 1vw;
+}
+
+.player-data > .focus-item-object {
+    margin: 0 0 0 10vw;
+}
+
+.focus-item-object > h2{
     text-align: center;
     font-size: 30px;
     margin: 23px auto;
 }
 
 .focus-item-image{
+    width: 100px;
+    height: 100px;
     background-size: cover;
 }
 
 .focus-item-name{
+    padding-top: 10px;
+    text-align: center;
     width: 350px;
-}
-
-.focus-item-amount{
-    width: 100px;
-    justify-content: end;
+    background: rgba(0, 0, 0, 0.67);
+    box-shadow: rgba(0, 0, 0, 0.67) 0 0 10px 10px;
 }
 
 .focus-item-information{
@@ -63,12 +72,10 @@
     flex-direction: column;
 }
 
-.focus-item-price, .focus-item-average{
+.focus-item-price {
+    width: 100%;
+    height: 10vh;
     padding: 10px;
-}
-
-.focus-item-price{
-    width: 50%;
     box-sizing: border-box;
 }
 
@@ -77,30 +84,34 @@
     box-sizing: border-box;
 }
 
-
-.price-history {
-    width: 50%;
-    justify-content: space-around;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 0;
-}
-
 .price-history > h2{
     text-align: center;
 }
 
 .interaction-container {
-    width: 50%;
+    display: flex;
+    width: 100%;
     justify-content: space-around;
 }
 
+.merchant-data, .player-data {
+
+    width: 30%;
+    margin: 150px 0 0 0;
+}
+
 .focus-item-wrapper{
-    margin: 100px 0 0 0;
+    width: 40%;
+    margin: 150px 0 0 0;
 }
 
 button, input {
     max-width: 200px;
+}
+
+input {
+    width: 100px;
+    height: 30px;
 }
 
 .amount-input{
@@ -112,20 +123,13 @@ button, input {
     margin: auto;
 }
 
-button{
-    margin: auto;
-}
-
-input{
-    height: 30px;
-}
-
 h4{
     margin: 5px 0 0 0;
 }
 
 .focus-item-button-wrapper{
-    width: 300px;
+    width: 350px;
     display: flex;
-    margin: auto
+    justify-content: space-between;
+    margin: 0 auto 2vh auto;
 }

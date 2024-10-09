@@ -6,6 +6,6 @@
     justify-content: space-around;
     padding: 12% 0 0 0;
     box-sizing: border-box;
-    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.25)), url("../../assets/marketplace.png");
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.25)), url("/assets/marketplace.png");
     background-size: cover;
 }

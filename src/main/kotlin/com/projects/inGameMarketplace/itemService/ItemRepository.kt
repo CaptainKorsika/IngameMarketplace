@@ -19,8 +19,8 @@ class ItemRepository {
 
         while (resultSet.next()) {
             val name = resultSet.getString("item_name")
-            val image = resultSet.getString("image")
-            val price = resultSet.getDouble("price")
+            val image = resultSet.getString("image_url")
+            val price = resultSet.getInt("price")
 
             val entity = ItemEntity(name, image, price)
             listBuilder.add(entity)

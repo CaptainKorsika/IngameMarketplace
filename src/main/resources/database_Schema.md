@@ -9,7 +9,7 @@ CREATE DATABASE marketplace_database
 CREATE TABLE player (player_name varchar(30) NOT NULL,
                      inventory_space INT NOT NULL,
                      day INT NOT NULL,
-                     money decimal(10, 2) NOT NULL); 
+                     money INT NOT NULL); 
 ```
 ### HighScore Table
 ```sql
@@ -18,49 +18,47 @@ CREATE TABLE high_score (player_name VARCHAR(30) NOT NULL,
 ```
 ### Inventory Table
 ```sql
-CREATE TABLE inventory (item_id INT NOT NULL PRIMARY KEY ,
-                    item_name TEXT NOT NULL,
+CREATE TABLE inventory (item_name TEXT NOT NULL,
                     amount INT NOT NULL);
 ```
 ### Items Table
 ```sql
-CREATE TABLE items (item_id INT NOT NULL PRIMARY KEY, 
-                    item_name TEXT NOT NULL, 
-                    image BLOB NOT NULL, 
-                    price decimal(10, 2) NOT NULL);
+CREATE TABLE items (item_name TEXT NOT NULL, 
+                    image_url TEXT NOT NULL, 
+                    price INT NOT NULL);
 ```
 ## Insert Items into Table
 ```sql
-INSERT INTO items (item_id, item_name, image, price)
+INSERT INTO items (item_name, image_url, price)
 VALUES
-    (1, 'Bread', 'Placeholder', 2.0),
-    (2, 'Steak', 'Placeholder', 4.0),
-    (3, 'Cheese', 'Placeholder', 5.0),
-    (4, 'Mead', 'Placeholder', 12.0),
-    (5, 'Apple', 'Placeholder', 3.0),
-    (6, 'Pickaxe', 'Placeholder', 10.0),
-    (7, 'Journal', 'Placeholder', 8.0),
-    (8, 'Fire Starter', 'Placeholder', 3.0),
-    (9, 'Bucket', 'Placeholder', 4.0),
-    (10, 'Rope', 'Placeholder', 6.0),
-    (11, 'Sword', 'Placeholder', 50.0),
-    (12, 'Bow', 'Placeholder', 30.0),
-    (13, 'Arrows', 'Placeholder', 15.0),
-    (14, 'Chest Plate', 'Placeholder', 25.0),
-    (15, 'Iron Helmet', 'Placeholder', 20.0),
-    (16, 'Healing Potion', 'Placeholder', 18.0),
-    (17, 'Elixir', 'Placeholder', 25.0),
-    (18, 'Herbs', 'Placeholder', 7.0),
-    (19, 'Antidote Potion', 'Placeholder', 16.0),
-    (20, 'Tea', 'Placeholder', 5.0),
-    (21, 'Cloak', 'Placeholder', 22.0),
-    (22, 'Boots', 'Placeholder', 12.0),
-    (23, 'Silver Ring', 'Placeholder', 20.0),
-    (24, 'Tunic', 'Placeholder', 8.0),
-    (25, 'Hat', 'Placeholder', 10.0),
-    (26, 'Crystal Orb', 'Placeholder', 60.0),
-    (27, 'Spell Scroll', 'Placeholder', 45.0),
-    (28, 'Amulet', 'Placeholder', 80.0),
-    (29, 'Mysterious Dust', 'Placeholder', 40.0),
-    (30, 'Dragon Scale', 'Placeholder', 100.0);
+    ('Bread', '/assets/items/bread.png', 200),
+    ('Steak', '/assets/items/steak.png', 400),
+    ('Cheese', '/assets/items/cheese.png', 500),
+    ('Mead', '/assets/items/mead.png', 1200),
+    ('Apple', '/assets/items/apple.png', 300),
+    ('Pickaxe', '/assets/items/pickaxe.jpg', 1000),
+    ('Journal', '/assets/items/journal.png', 800),
+    ('Fire Starter', '/assets/items/fire_starter.png', 300),
+    ('Bucket', '/assets/items/bucket.png', 400),
+    ('Rope', '/assets/items/rope.png', 600),
+    ('Sword', '/assets/items/sword.jpg', 5000),
+    ('Bow', '/assets/items/bow.jpg', 3000),
+    ('Arrows', '/assets/items/arrows.jpg', 1500),
+    ('Chest Plate', '/assets/items/chest_plate.png', 2500),
+    ('Iron Helmet', '/assets/items/iron_helmet.png', 2000),
+    ('Healing Potion', '/assets/items/healing_potion.png', 1800),
+    ('Elixir', '/assets/items/elixir.png', 2500),
+    ('Herbs', '/assets/items/herbs.png', 700),
+    ('Antidote Potion', '/assets/items/antidote_potion.png', 1600),
+    ('Tea', '/assets/items/tea.png', 500),
+    ('Cloak', '/assets/items/cloak.png', 2200),
+    ('Boots', '/assets/items/boots.png', 1200),
+    ('Silver Ring', '/assets/items/silver_ring.png', 2000),
+    ('Tunic', '/assets/items/tunic.png', 800),
+    ('Hat', '/assets/items/hat.png', 1000),
+    ('Crystal Orb', '/assets/items/crystal_orb.png', 6000),
+    ('Spell Scroll', '/assets/items/spell_scroll.png', 4500),
+    ('Amulet', '/assets/items/amulet.png', 8000),
+    ('Mysterious Dust', '/assets/items/mysterious_dust.png', 4000),
+    ('Dragon Scale', '/assets/items/dragon_scale.png', 10000);
 ```

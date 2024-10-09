@@ -7,5 +7,5 @@ data class PlayerEntity(
     val playerName: String,
     val inventorySpace: Int,
     val day: Int,
-    val money: Double,
+    val money: Int,
 )

@@ -2,18 +2,19 @@ package com.projects.inGameMarketplace.inventoryService
 
 import com.projects.inGameMarketplace.itemService.Item
 
-
-class PlayerInventoryService {
-    val inventoryRepository = InventoryRepository()
-    val inventory: Inventory? = getPlayerInventoryFromDB()
-    val inventoryConverter = InventoryConverter()
-    private val firstExtensionPrice: Double = 1000.0
-    private val secondExtensionPrice: Double = 2000.0
+class InventoryService {
+    private val inventoryRepository = InventoryRepository()
+    private val inventoryConverter = InventoryConverter()
+    val inventory: Inventory = getPlayerInventoryFromDB()
+    private val firstExtensionPrice: Int = 1000
+    private val secondExtensionPrice: Int = 2000
 
 
     fun createInventory() {
-        val entity = this.inventoryConverter.toEntity(this.inventory!!)
-        inventoryRepository.saveInventory(entity)
+        if (this.inventory.currentItems.isNotEmpty()) {
+            val entity = this.inventoryConverter.toEntity(this.inventory)
+            inventoryRepository.saveInventory(entity)
+        }
     }
 
     fun updateInventory() {
@@ -22,14 +23,15 @@ class PlayerInventoryService {
     }
 
 
-    private fun getPlayerInventoryFromDB(): Inventory? {
-        // TODO: return null if no player
-        val inventory = Inventory()
+    private fun getPlayerInventoryFromDB(): Inventory {
+        val inventoryEntity = this.inventoryRepository.loadInventory()
+        val inventory = this.inventoryConverter.toDomain(inventoryEntity)
+
         return inventory
     }
 
-    fun buyInventoryAndReturnPrice(money: Double, space: Int): Double {
-        var price = 0.0
+    fun buyInventoryAndReturnPrice(money: Int, space: Int): Int {
+        var price = 0
         when(space) {
             10 -> {
                 if (money >= firstExtensionPrice) {
@@ -45,32 +47,44 @@ class PlayerInventoryService {
         return price
     }
 
-    fun addItemAndConfirm(boughtItem: Pair<Item, Int>, space: Int): Boolean {
-
-        if (space == this.inventory!!.currentItems.size) {
-            return false
+    fun maxPossibleItemSpace(boughtItem: Pair<Item, Int>, space: Int): Int {
+        if (space == this.inventory.currentItems.size) {
+            return 0
         }
 
         val itemName = boughtItem.first.name
         val indexOfItem = this.inventory.currentItems.map { pair -> pair.first.name}.indexOf(itemName)
 
         if (indexOfItem == -1) {
-            this.inventory.currentItems.add(boughtItem)
-            return true
-        } else {
-            val availableSpace = 99 - this.inventory.currentItems[indexOfItem].second
-            if (boughtItem.second > availableSpace) {
-                return false
-            }
-            this.inventory.currentItems[indexOfItem] = boughtItem
+            return 99
         }
-        return true
+
+        val availableSpace = 99 - this.inventory.currentItems[indexOfItem].second
+        if (boughtItem.second > availableSpace) {
+            return availableSpace
+        }
+
+        return boughtItem.second
+    }
+
+    fun addItem(boughtItem: Pair<Item, Int>) {
+
+        val itemName = boughtItem.first.name
+        val indexOfItem = this.inventory.currentItems.map { pair -> pair.first.name}.indexOf(itemName)
+
+        if (indexOfItem == -1) {
+            this.inventory.currentItems.add(boughtItem)
+        } else {
+            val newAmount = this.inventory.currentItems[indexOfItem].second + boughtItem.second
+            val addedItem = boughtItem.first to newAmount
+            this.inventory.currentItems[indexOfItem] = addedItem
+        }
     }
 
     fun removeItemAndConfirm(soldItem: Pair<Item, Int>): Boolean {
         val itemName = soldItem.first.name
         val amountToSell = soldItem.second
-        val indexOfItem = this.inventory!!.currentItems.map { pair -> pair.first.name}.indexOf(itemName)
+        val indexOfItem = this.inventory.currentItems.map { pair -> pair.first.name}.indexOf(itemName)
 
         if (indexOfItem == -1) {
             println("Item not found")

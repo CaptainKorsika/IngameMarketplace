@@ -1,7 +1,7 @@
 package com.projects.inGameMarketplace.inventoryService
 
 import com.projects.inGameMarketplace.DatabaseConnector
-import com.projects.inGameMarketplace.itemService.ItemEntity
+import com.projects.inGameMarketplace.itemService.Item
 import java.sql.ResultSet
 import java.sql.Statement
 
@@ -11,7 +11,7 @@ class InventoryRepository {
     fun saveInventory(inventory: InventoryEntity) {
         val connection = databaseConnector.connectToDatabase()
 
-        val query = StringBuilder("INSERT INTO players (player_name, score) VALUES ")
+        val query = StringBuilder("INSERT INTO inventory (item_name, amount) VALUES ")
 
         inventory.currentItems.forEachIndexed { index, _ ->
             if (index > 0) query.append(", ")
@@ -21,9 +21,9 @@ class InventoryRepository {
         val preparedStatement = connection.prepareStatement(query.toString())
 
         var paramIndex = 1
-        inventory.currentItems.forEach { (name, score) ->
-            preparedStatement.setString(paramIndex++, name)
-            preparedStatement.setInt(paramIndex++, score)
+        inventory.currentItems.forEach { (item, amount) ->
+            preparedStatement.setString(paramIndex++, item.name)
+            preparedStatement.setInt(paramIndex++, amount)
         }
 
         preparedStatement.executeUpdate()
@@ -31,32 +31,31 @@ class InventoryRepository {
 
     }
 
-    fun loadInventory(): InventoryEntity? {
+    fun loadInventory(): InventoryEntity {
         val connection = databaseConnector.connectToDatabase()
         val statement: Statement = connection.createStatement()
-        val query = "SELECT * FROM inventory;"
+        val query = """
+           SELECT inventory.item_name as item_name, items.image_url, items.price, amount 
+           FROM inventory  LEFT JOIN items 
+           ON inventory.item_name = items.item_name; 
+        """
 
         val resultSet: ResultSet = statement.executeQuery(query)
 
 
-        val itemList = mutableListOf<Pair<String, Int>>()
-        var counter = 0
+        val itemList = mutableListOf<Pair<Item, Int>>()
         while(resultSet.next()) {
             val name = resultSet.getString("item_name")
+            val image = resultSet.getString("image_url")
+            val price = resultSet.getInt("price")
             val amount = resultSet.getInt("amount")
 
+            val item = Item(name, image, price)
 
-            itemList.add(name to amount)
-            counter++
-        }
-
-        if (counter == 0) {
-            return null
+            itemList.add(item to amount)
         }
 
         return InventoryEntity(itemList)
-        // TODO: Find a way to create Item object
-
     }
 
     fun deleteInventory() {

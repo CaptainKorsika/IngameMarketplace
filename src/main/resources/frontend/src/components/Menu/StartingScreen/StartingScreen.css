@@ -23,6 +23,6 @@
     flex-direction: column;
     justify-content: center;
     height: 50vh;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.25)), url("../../../assets/starting-screen-background.png");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.25)), url("/assets/starting-screen-background.png");
     background-size: cover;
 }

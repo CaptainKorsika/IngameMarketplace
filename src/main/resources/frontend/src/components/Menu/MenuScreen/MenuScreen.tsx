@@ -30,7 +30,9 @@ const MenuScreen = (props: MenuScreenProps) => {
                             <h2>{props.focusItem.merchantAmount}</h2>
                         </div>
                         <div className="focus-item-price">
+                            {props.focusItem.merchantAmount != 0 ? (
                             <h2>Price: &nbsp; ${props.focusItem.price}</h2>
+                            ) : (<h2></h2>)}
                         </div>
                     </div>
                     <div className="focus-item-wrapper">
@@ -42,8 +44,8 @@ const MenuScreen = (props: MenuScreenProps) => {
                             <h2 className="focus-item-name">{props.focusItem.name}</h2>
                         </div>
                         <div className="focus-item-button-wrapper">
-                            <button onClick={() => itemTrade(false, amount)}>Sell Product</button>
-                            <button onClick={() => itemTrade(true, amount)}>Buy Product</button>
+                            <button disabled={props.focusItem.playerAmount <= 0} onClick={() => itemTrade(false, amount)}>Sell Product</button>
+                            <button disabled={props.focusItem.merchantAmount <= 0 || props.focusItem.playerAmount >= 99} onClick={() => itemTrade(true, amount)}>Buy Product</button>
                         </div>
                         <div className="amount-input">
                             <h4>Amount:</h4>
@@ -56,7 +58,11 @@ const MenuScreen = (props: MenuScreenProps) => {
                             <h2>{props.focusItem.playerAmount}</h2>
                         </div>
                         <div className="focus-item-price">
-                            <h2>Avg. Buying Price: &nbsp; ${props.focusItem.avgBuyingPrice}</h2>
+                            {props.focusItem.playerAmount != 0 ? (
+                                <h2>Avg. Buying Price: &nbsp; ${props.focusItem.avgBuyingPrice}</h2>
+                            ) : (
+                                <h2></h2>
+                            )}
                         </div>
                         <NextDay handleNextDay={props.handleNextDay}/>
                     </div>

@@ -74,6 +74,7 @@
 
 .focus-item-price {
     width: 100%;
+    height: 10vh;
     padding: 10px;
     box-sizing: border-box;
 }

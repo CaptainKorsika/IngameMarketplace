@@ -143,7 +143,7 @@ class GameLogicService() {
 
 
     @GetMapping("/buyInventorySpace")
-    fun unlockInventory() {
+    fun unlockInventory(): Int {
         val player = playerService.player!!
         val money = player.money
         val price = inventoryService.buyInventoryAndReturnPrice(money, player.inventorySpace)
@@ -152,6 +152,7 @@ class GameLogicService() {
             playerService.updatePlayerBalance(price * -1)
             playerService.addInventorySpace()
         }
+        return player.inventorySpace
     }
 
     @GetMapping("showHighScores")

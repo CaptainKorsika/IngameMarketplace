@@ -46,19 +46,26 @@ function App() {
     }
 
     const handleFocusItem = (clickedItem: ItemObject) => {
+        if (clickedItem == null) {
+            setFocusItem(null)
+            return
+        }
+
         const itemName = clickedItem.first.name
         const itemImage = clickedItem.first.image
 
         const merchantItems = merchantsItems[activeMerchant]
-        const filteredItems = merchantItems.filter((item): boolean => item.first.name == itemName)
+        const filteredMatchingItems = merchantItems.filter((item): boolean => item.first.name == itemName)
+
+        let matchingItem: ItemObject
 
         let merchantAmount: number
-        if (filteredItems.length == 0) {
+        if (filteredMatchingItems.length == 0) {
             merchantAmount = 0
         } else {
-            merchantAmount = filteredItems[0].second
+            matchingItem = filteredMatchingItems[0]
+            merchantAmount = matchingItem.second
         }
-
 
         let playerAmount: number
         const playerItem = inventoryItems.filter((item): boolean => item.first.name == itemName)
@@ -71,9 +78,10 @@ function App() {
         let price = ""
 
         if (merchantAmount != 0) {
-            price = filteredItems[0].first.price
+            price = matchingItem.first.price
         }
 
+        // TODO: Average Price Calculation
         const focusItem: FocusItemObject = {
             name: itemName,
             image: itemImage,
@@ -82,8 +90,6 @@ function App() {
             price: price,
             avgBuyingPrice: "10"
         }
-
-        console.log(focusItem)
         setFocusItem(focusItem)
     }
 

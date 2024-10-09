@@ -68,19 +68,23 @@ const MenuScreen = (props: MenuScreenProps) => {
                     </div>
                 </div>) : (
                 <div className="interaction-container">
-                    <div className="focus-item-wrapper">
-                        <div className="focus-item-wrapper">
-                            <div className="focus-item">
-                                <div className="focus-item-object">
-                                </div>
-                                <h2 className="focus-item-name"></h2>
-                                <div className="focus-item-amount">
-                                    <h2></h2>
-                                </div>
-                            </div>
-                            <div className="focus-item-information">
-                            </div>
+                    <div className="merchant-data">
+                        <div className="focus-item-object">
                         </div>
+                    </div>
+                    <div className="focus-item-wrapper">
+                        <div className="focus-item">
+                            <div className="focus-item-object"></div>
+                            <h2 className="focus-item-name"></h2>
+                        </div>
+                    </div>
+                    <div className="player-data">
+                        <div className="focus-item-object">
+                        </div>
+                        <div className="focus-item-price">
+                                <h2></h2>
+                        </div>
+                        <NextDay handleNextDay={props.handleNextDay}/>
                     </div>
                 </div>
             )}

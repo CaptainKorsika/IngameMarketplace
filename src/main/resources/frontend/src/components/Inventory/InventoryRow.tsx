@@ -20,9 +20,6 @@ const InventoryRow = (props: InventoryRowProps) => {
                 {itemsWithAttributes}
             </div>
         )
-
-
-
     } else if (props.itemList != null) {
         const itemsWithAttributes = props.itemList.map((item, index) => (
             <Item item={item} key={index} handleFocusItem={props.handleFocusItem} amount={item.second}></Item>
@@ -45,15 +42,15 @@ const InventoryRow = (props: InventoryRowProps) => {
     return (
         <div className="inventory-row">
             <Item handleFocusItem={props.handleFocusItem}></Item>
-            <Item></Item>
-            <Item></Item>
-            <Item></Item>
-            <Item></Item>
-            <Item></Item>
-            <Item></Item>
-            <Item></Item>
-            <Item></Item>
-            <Item></Item>
+            <Item handleFocusItem={props.handleFocusItem}></Item>
+            <Item handleFocusItem={props.handleFocusItem}></Item>
+            <Item handleFocusItem={props.handleFocusItem}></Item>
+            <Item handleFocusItem={props.handleFocusItem}></Item>
+            <Item handleFocusItem={props.handleFocusItem}></Item>
+            <Item handleFocusItem={props.handleFocusItem}></Item>
+            <Item handleFocusItem={props.handleFocusItem}></Item>
+            <Item handleFocusItem={props.handleFocusItem}></Item>
+            <Item handleFocusItem={props.handleFocusItem}></Item>
         </div>
     );
 

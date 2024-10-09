@@ -9,14 +9,15 @@ interface ItemProps {
 }
 
 const Item = (props: ItemProps) => {
-    if (props.item == null) {
-        return (
-            <div className="item-container"></div>
-        )
-    }
-
     const focusItem = () => {
         props.handleFocusItem(props.item)
+    }
+
+
+    if (props.item == null) {
+        return (
+            <div className="item-container" onClick={focusItem}></div>
+        )
     }
 
     return (

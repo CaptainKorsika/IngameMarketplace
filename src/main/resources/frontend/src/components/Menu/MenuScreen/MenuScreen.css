@@ -13,7 +13,7 @@
 
 .focus-item {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     height: 100px;
     flex-basis: calc((100% / 5) - 3px);
     flex-shrink: 0;
@@ -36,7 +36,7 @@
 }
 
 .player-data > .focus-item-object {
-    margin: 0 0 0 10vw;
+    margin: 0 0 0 9vw;
 }
 
 .focus-item-object > h2{
@@ -95,14 +95,14 @@
 }
 
 .merchant-data, .player-data {
-
-    width: 30%;
+    width: 27%;
     margin: 150px 0 0 0;
 }
 
 .focus-item-wrapper{
-    width: 40%;
+    width: 46%;
     margin: 150px 0 0 0;
+    padding: 0;
 }
 
 button, input {

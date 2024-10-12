@@ -22,7 +22,6 @@ class InventoryService {
         this.createInventory()
     }
 
-
     private fun getPlayerInventoryFromDB(): Inventory {
         val inventoryEntity = this.inventoryRepository.loadInventory()
         val inventory = this.inventoryConverter.toDomain(inventoryEntity)
@@ -33,9 +32,6 @@ class InventoryService {
     fun calculateInventoryUpgradePrice(money: Int, space: Int): Int {
         return if (space == 10) firstExtensionPrice else secondExtensionPrice
     }
-
-
-
 
     fun maxPossibleItemSpace(boughtItem: Pair<Item, Int>, space: Int): Int {
         if (space == this.inventory.currentItems.size) {

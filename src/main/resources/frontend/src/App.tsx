@@ -51,6 +51,8 @@ function App() {
             return
         }
 
+        console.log(clickedItem)
+
         const itemName = clickedItem.first.name
         const itemImage = clickedItem.first.image
 
@@ -66,6 +68,9 @@ function App() {
             matchingItem = filteredMatchingItems[0]
             merchantAmount = matchingItem.second
         }
+
+
+
 
         let playerAmount: number
         const playerItem = inventoryItems.filter((item): boolean => item.first.name == itemName)
@@ -90,6 +95,8 @@ function App() {
             price: price,
             avgBuyingPrice: "10"
         }
+
+        console.log(focusItem)
         setFocusItem(focusItem)
     }
 
@@ -167,6 +174,30 @@ function App() {
         gameIsRunning()
         getMerchantItems()
     }, []);
+
+    useEffect(() => {
+        if (focusItem != null) {
+            const merchantItems = merchantsItems[activeMerchant]
+            const filteredMatchingItems = merchantItems.filter((item): boolean => item.first.name == focusItem.name)
+
+            let newFocusItem: ItemObject;
+
+            if (filteredMatchingItems[0] == null) {
+                newFocusItem = {
+                    first: {
+                        name: focusItem.name,
+                        image: focusItem.image,
+                        price: focusItem.price
+                    },
+                    second: 0
+                }
+            } else {
+                newFocusItem = filteredMatchingItems[0]
+            }
+
+            handleFocusItem(newFocusItem)
+        }
+    }, [activeMerchant])
 
     return <div className="window-container">
         <Inventory

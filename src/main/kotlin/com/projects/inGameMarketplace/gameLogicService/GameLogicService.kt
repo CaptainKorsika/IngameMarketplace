@@ -96,30 +96,25 @@ class GameLogicService() {
         val newItem = itemRequest.newItem
         val merchantID = itemRequest.merchantID
         val newDomainItem = itemMapper.mapToItemObject(newItem.first, itemService.getAvailableItems()) to newItem.second
-
         val player = playerService.player!!
-        val price = newDomainItem.first.currentPrice * newDomainItem.second
-        if (player.money >= price) {
-
-            val maximumPossibleOrderSize = min(
-                inventoryService.maxPossibleItemSpace(newDomainItem, player.inventorySpace),
-                merchantService.merchantList[merchantID].maxPossibleItemPurchase(newDomainItem)
-            )
-            val purchasePossible = maximumPossibleOrderSize != 0
-
-            if (purchasePossible) {
-                val purchasedItem = newDomainItem.first to maximumPossibleOrderSize
-                inventoryService.addItem(purchasedItem)
-                merchantService.merchantList[merchantID].sellItem(purchasedItem)
-                playerService.updatePlayerBalance(price * -1)
-            }
+        val maximumPossibleOrderSize = min(
+            inventoryService.maxPossibleItemSpace(newDomainItem, player.inventorySpace),
+            merchantService.merchantList[merchantID].maxPossibleItemPurchase(newDomainItem)
+        )
+        val purchasePossible = maximumPossibleOrderSize != 0
+        val transactionAmount = min(maximumPossibleOrderSize, itemRequest.newItem.second)
+        val price = newDomainItem.first.currentPrice * transactionAmount
+        if (player.money >= price && purchasePossible) {
+            val purchasedItem = newDomainItem.first to maximumPossibleOrderSize
+            inventoryService.addItem(purchasedItem)
+            merchantService.merchantList[merchantID].sellItem(purchasedItem)
+            playerService.updatePlayerBalance(price * -1)
         }
     }
 
     @PostMapping("/sellItem")
     fun sellItem(@RequestBody itemRequest: ItemRequest) {
         val soldItem = itemRequest.newItem
-        val merchantID = itemRequest.merchantID
         val newDomainItem = itemMapper.mapToItemObject(soldItem.first, itemService.getAvailableItems()) to soldItem.second
 
         val inventory = inventoryService.inventory
@@ -172,11 +167,8 @@ class GameLogicService() {
         return "$dollar,$cent"
     }
 
-
     data class ItemRequest(
         val newItem: Pair<ItemDTO, Int>,
         val merchantID: Int
     )
-
-
 }

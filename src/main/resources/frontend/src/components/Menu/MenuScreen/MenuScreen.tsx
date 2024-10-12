@@ -49,7 +49,7 @@ const MenuScreen = (props: MenuScreenProps) => {
                         </div>
                         <div className="amount-input">
                             <h4>Amount:</h4>
-                            <input type="number" min="1" max={props.focusItem.merchantAmount} defaultValue="1"
+                            <input type="number" min="1" max="99" defaultValue="1"
                                    onChange={handleAmountChange}/>
                         </div>
                     </div>

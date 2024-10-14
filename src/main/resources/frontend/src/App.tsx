@@ -53,13 +53,13 @@ function App() {
 
         const itemName = clickedItem.first.name
         const itemImage = clickedItem.first.image
-
+        const averageMerchantPrince = clickedItem.first.averageMerchantPrice
         const merchantItems = merchantsItems[activeMerchant]
         const filteredMatchingItems = merchantItems.filter((item): boolean => item.first.name == itemName)
 
-        let matchingItem: ItemObject
-
+        let matchingItem: ItemObject = null
         let merchantAmount: number
+
         if (filteredMatchingItems.length == 0) {
             merchantAmount = 0
         } else {
@@ -68,17 +68,20 @@ function App() {
         }
 
         let playerAmount: number
-        const playerItem = inventoryItems.filter((item): boolean => item.first.name == itemName)
-        if (playerItem.length == 0) {
+        const playerItems = inventoryItems.filter((item): boolean => item.first.name == itemName)
+
+        if (playerItems.length == 0) {
             playerAmount = 0
         } else {
-            playerAmount = playerItem[0].second
+            playerAmount = playerItems[0].second
         }
 
         let price = ""
 
-        if (merchantAmount != 0) {
-            price = matchingItem.first.price
+        if (merchantAmount != 0 || matchingItem != null) {
+            price = matchingItem.first.currentPrice
+        } else {
+            price = averageMerchantPrince
         }
 
         // TODO: Average Price Calculation
@@ -87,7 +90,8 @@ function App() {
             image: itemImage,
             merchantAmount: merchantAmount,
             playerAmount: playerAmount,
-            price: price,
+            averageMerchantPrice: averageMerchantPrince,
+            currentPrice: price,
             avgBuyingPrice: "10"
         }
 
@@ -101,7 +105,8 @@ function App() {
             const itemDTO = {
                 name: focusItem.name,
                 image: focusItem.image,
-                price: focusItem.price
+                averageMerchantPrice: focusItem.averageMerchantPrice,
+                currentPrice: focusItem.currentPrice
             }
 
             const requestData = {
@@ -180,7 +185,8 @@ function App() {
                     first: {
                         name: focusItem.name,
                         image: focusItem.image,
-                        price: focusItem.price
+                        averageMerchantPrice: focusItem.averageMerchantPrice,
+                        currentPrice: focusItem.currentPrice
                     },
                     second: 0
                 }

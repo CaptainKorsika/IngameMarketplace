@@ -30,9 +30,7 @@ const MenuScreen = (props: MenuScreenProps) => {
                             <h2>{props.focusItem.merchantAmount}</h2>
                         </div>
                         <div className="focus-item-price">
-                            {props.focusItem.merchantAmount != 0 ? (
-                            <h2>Price: &nbsp; ${props.focusItem.price}</h2>
-                            ) : (<h2></h2>)}
+                            <h2>Price: &nbsp; ${props.focusItem.currentPrice}</h2>
                         </div>
                     </div>
                     <div className="focus-item-wrapper">

@@ -2,7 +2,8 @@ export type ItemObject = {
     first: {
         name: string
         image: string
-        price: string
+        averageMerchantPrice: string
+        currentPrice: string
     },
     second: number
 }

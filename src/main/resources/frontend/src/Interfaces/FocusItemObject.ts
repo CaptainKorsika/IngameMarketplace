@@ -3,6 +3,7 @@ export type FocusItemObject = {
     image: string
     merchantAmount: number
     playerAmount: number
-    price: string
+    averageMerchantPrice: string
+    currentPrice: string
     avgBuyingPrice: string
 }

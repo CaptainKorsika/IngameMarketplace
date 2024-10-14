@@ -5,16 +5,17 @@ import com.projects.inGameMarketplace.itemService.ItemDTO
 
 class ItemMapper {
     fun mapToItemDTO(item: Item): ItemDTO {
+        val averagePrice = this.convertMoneyToString(item.averagePrice)
         val currentPrice = this.convertMoneyToString(item.currentPrice)
-        return ItemDTO(item.name, item.image, currentPrice)
+        return ItemDTO(item.name, item.image, averagePrice,  currentPrice)
 
     }
 
     fun mapToItemObject(itemDTO: ItemDTO, availableItems: List<Item>): Item {
         val matchingItem = availableItems.first { it.name == itemDTO.name }
-        val currentPrice = this.convertMoneyToInt(itemDTO.price)
+        val currentPrice = this.convertMoneyToInt(itemDTO.currentPrice)
 
-        if (itemDTO.price == "") {
+        if (itemDTO.currentPrice == "") {
             return Item(itemDTO.name, itemDTO.image, matchingItem.averagePrice)
         }
 

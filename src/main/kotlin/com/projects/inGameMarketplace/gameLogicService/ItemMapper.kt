@@ -14,6 +14,9 @@ class ItemMapper {
         val matchingItem = availableItems.first { it.name == itemDTO.name }
         val currentPrice = this.convertMoneyToInt(itemDTO.price)
 
+        if (itemDTO.price == "") {
+            return Item(itemDTO.name, itemDTO.image, matchingItem.averagePrice)
+        }
 
         return Item(itemDTO.name, itemDTO.image, matchingItem.averagePrice, currentPrice)
     }
@@ -28,6 +31,10 @@ class ItemMapper {
     }
 
     private fun convertMoneyToInt(money: String): Int {
+        if (money == "") {
+            return 1000
+        }
+
         val index = money.indexOf(",")
         val firstPart = money.substring(0, index)
         val secondPart = money.substring(index + 1, money.length)

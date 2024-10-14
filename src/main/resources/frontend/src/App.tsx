@@ -51,8 +51,6 @@ function App() {
             return
         }
 
-        console.log(clickedItem)
-
         const itemName = clickedItem.first.name
         const itemImage = clickedItem.first.image
 
@@ -68,9 +66,6 @@ function App() {
             matchingItem = filteredMatchingItems[0]
             merchantAmount = matchingItem.second
         }
-
-
-
 
         let playerAmount: number
         const playerItem = inventoryItems.filter((item): boolean => item.first.name == itemName)
@@ -116,8 +111,6 @@ function App() {
                 },
                 merchantID: activeMerchant
             };
-
-            console.log(requestData)
 
             if (isBuying) {
                 await axios.post('http://localhost:8080/interaction/buyItem', requestData)

@@ -32,10 +32,6 @@ class ItemMapper {
     }
 
     private fun convertMoneyToInt(money: String): Int {
-        if (money == "") {
-            return 1000
-        }
-
         val index = money.indexOf(",")
         val firstPart = money.substring(0, index)
         val secondPart = money.substring(index + 1, money.length)

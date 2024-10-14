@@ -53,7 +53,7 @@ function App() {
 
         const itemName = clickedItem.first.name
         const itemImage = clickedItem.first.image
-        const averageMerchantPrince = clickedItem.first.averageMerchantPrice
+        let averageMerchantPrice = clickedItem.first.averageMerchantPrice
         const merchantItems = merchantsItems[activeMerchant]
         const filteredMatchingItems = merchantItems.filter((item): boolean => item.first.name == itemName)
 
@@ -76,12 +76,12 @@ function App() {
             playerAmount = playerItems[0].second
         }
 
-        let price = ""
+        let price: string
 
         if (merchantAmount != 0 || matchingItem != null) {
             price = matchingItem.first.currentPrice
         } else {
-            price = averageMerchantPrince
+            price = averageMerchantPrice
         }
 
         // TODO: Average Price Calculation
@@ -90,7 +90,7 @@ function App() {
             image: itemImage,
             merchantAmount: merchantAmount,
             playerAmount: playerAmount,
-            averageMerchantPrice: averageMerchantPrince,
+            averageMerchantPrice: averageMerchantPrice,
             currentPrice: price,
             avgBuyingPrice: "10"
         }

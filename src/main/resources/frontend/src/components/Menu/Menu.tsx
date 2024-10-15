@@ -8,13 +8,14 @@ interface MenuProps {
     focusItem: FocusItemObject,
     handleNextDay: () => void,
     handleItemTrade: (isBuying: boolean, amount: number) => void
+    money: number
 }
 
 const Menu = (props: MenuProps) => {
     return (
         <div className="menu-screen-container">
             {props.isCurrentlyPlaying ? (
-                <MenuScreen focusItem={props.focusItem} handleNextDay={props.handleNextDay} handleItemTrade={props.handleItemTrade}/>
+                <MenuScreen focusItem={props.focusItem} handleNextDay={props.handleNextDay} handleItemTrade={props.handleItemTrade} money={props.money}/>
             ) : (
                 <StartingScreen/>
             )}

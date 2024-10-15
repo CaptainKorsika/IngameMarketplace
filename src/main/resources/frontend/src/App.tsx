@@ -210,7 +210,7 @@ function App() {
         />
         <div className="game-container">
             <Marketplace handleActiveMerchant={handleActiveMerchant}/>
-            <Menu isCurrentlyPlaying={isCurrentlyPlaying} focusItem={focusItem} handleNextDay={handleNextDay} handleItemTrade={handleItemTrade}/>
+            <Menu isCurrentlyPlaying={isCurrentlyPlaying} focusItem={focusItem} handleNextDay={handleNextDay} handleItemTrade={handleItemTrade} money={money}/>
         </div>
         <Inventory entity="Player" isCurrentlyPlaying={isCurrentlyPlaying}
                    money={money}

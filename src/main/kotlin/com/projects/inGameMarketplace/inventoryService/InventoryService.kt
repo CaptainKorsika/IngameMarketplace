@@ -11,6 +11,7 @@ class InventoryService {
 
 
     fun createInventory() {
+        println("Creating inventory")
         if (this.inventory.currentItems.isNotEmpty()) {
             val entity = this.inventoryConverter.toEntity(this.inventory)
             inventoryRepository.saveInventory(entity)
@@ -29,7 +30,7 @@ class InventoryService {
         return inventory
     }
 
-    fun calculateInventoryUpgradePrice(money: Int, space: Int): Int {
+    fun calculateInventoryUpgradePrice(space: Int): Int {
         return if (space == 10) firstExtensionPrice else secondExtensionPrice
     }
 
@@ -39,13 +40,13 @@ class InventoryService {
         }
 
         val itemName = boughtItem.first.name
-        val indexOfItem = this.inventory.currentItems.map { pair -> pair.first.name}.indexOf(itemName)
+        val indexOfItem = this.inventory.currentItems.map { inventoryItemObject -> inventoryItemObject.item.name}.indexOf(itemName)
 
         if (indexOfItem == -1) {
             return 99
         }
 
-        val availableSpace = 99 - this.inventory.currentItems[indexOfItem].second
+        val availableSpace = 99 - this.inventory.currentItems[indexOfItem].amount
         if (boughtItem.second > availableSpace) {
             return availableSpace
         }
@@ -56,44 +57,56 @@ class InventoryService {
     fun addItem(boughtItem: Pair<Item, Int>) {
 
         val itemName = boughtItem.first.name
-        val indexOfItem = this.inventory.currentItems.map { pair -> pair.first.name}.indexOf(itemName)
+        val indexOfItem = this.inventory.currentItems.map { inventoryItemObject -> inventoryItemObject.item.name}.indexOf(itemName)
 
         if (indexOfItem == -1) {
-            this.inventory.currentItems.add(boughtItem)
+            this.inventory.currentItems.add(InventoryItem(boughtItem.first, boughtItem.second, boughtItem.first.currentPrice))
         } else {
-            val newAmount = this.inventory.currentItems[indexOfItem].second + boughtItem.second
-            val addedItem = boughtItem.first to newAmount
-            this.inventory.currentItems[indexOfItem] = addedItem
+
+            val newAverage: Int = calculateNewAverage(boughtItem, indexOfItem)
+
+            val newAmount = this.inventory.currentItems[indexOfItem].amount + boughtItem.second
+            val addedInventoryItem = InventoryItem(boughtItem.first, newAmount, newAverage)
+            this.inventory.currentItems[indexOfItem] = addedInventoryItem
         }
     }
 
     fun removeItemAndConfirm(soldItem: Pair<Item, Int>): Boolean {
         val itemName = soldItem.first.name
         val amountToSell = soldItem.second
-        val indexOfItem = this.inventory.currentItems.map { pair -> pair.first.name}.indexOf(itemName)
+        val indexOfItem = this.inventory.currentItems.map { inventoryItemObject -> inventoryItemObject.item.name}.indexOf(itemName)
 
         if (indexOfItem == -1) {
             println("Item not found")
             return false
         }
 
-        val availableAmount = this.inventory.currentItems[indexOfItem].second
+        val availableAmount = this.inventory.currentItems[indexOfItem].amount
         val soldAmount = if (amountToSell > availableAmount) availableAmount else amountToSell
 
         if (soldAmount >= availableAmount) {
             inventory.currentItems.removeAt(indexOfItem)
         } else {
-            val partiallySoldItem = inventory.currentItems[indexOfItem].first
+            val partiallySoldItem = inventory.currentItems[indexOfItem].item
             val remainingAmount = availableAmount - soldAmount
+            val averageBuyingPrice = inventory.currentItems[indexOfItem].averageBuyingPrice
 
-            inventory.currentItems[indexOfItem] = partiallySoldItem to remainingAmount
-
+            inventory.currentItems[indexOfItem] = InventoryItem(partiallySoldItem, remainingAmount, averageBuyingPrice)
         }
         return true
     }
 
     fun deleteInventory() {
-        this.inventory.currentItems.clear()
+        // this.inventory.currentItems.clear()
         this.inventoryRepository.deleteInventory()
+    }
+
+    private fun calculateNewAverage(boughtItem: Pair<Item, Int>, index: Int): Int {
+        val currentBuyingPriceAverage = this.inventory.currentItems[index].averageBuyingPrice
+        val currentAmount = this.inventory.currentItems[index].amount
+        val averagePriceTotal = currentAmount * currentBuyingPriceAverage!!
+        val newPriceTotal = averagePriceTotal + boughtItem.first.currentPrice * boughtItem.second
+        val newTotalAmount = currentAmount + boughtItem.second
+        return newPriceTotal / newTotalAmount
     }
 }

@@ -22,7 +22,7 @@ class ItemMapper {
         return Item(itemDTO.name, itemDTO.image, matchingItem.averagePrice, currentPrice)
     }
 
-    private fun convertMoneyToString(money: Int): String {
+    fun convertMoneyToString(money: Int): String {
         val convertedMoney = money.toString()
         val moneyStringLength = convertedMoney.length
         val dollar = convertedMoney.substring(0, moneyStringLength - 2)
@@ -31,7 +31,7 @@ class ItemMapper {
         return "$dollar,$cent"
     }
 
-    private fun convertMoneyToInt(money: String): Int {
+    fun convertMoneyToInt(money: String): Int {
         val index = money.indexOf(",")
         val firstPart = money.substring(0, index)
         val secondPart = money.substring(index + 1, money.length)

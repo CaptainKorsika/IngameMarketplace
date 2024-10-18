@@ -15,7 +15,24 @@ class InventoryConverter {
     }
 
     fun toEntity(inventory: Inventory): InventoryEntity {
-        return InventoryEntity(inventory.currentItems.map { it.first to it.second }.toMutableList())
+
+
+        val inventoryEntity = InventoryEntity(mutableListOf<InventoryItem>())
+
+        inventory.currentItems.forEach {
+            var avgPrice: Int
+
+            if (it.averageBuyingPrice == null) {
+                avgPrice = 0
+            } else {
+                avgPrice = it.averageBuyingPrice
+            }
+
+            inventoryEntity.currentItems.add(InventoryItem(it.item, it.amount, avgPrice))
+        }
+
+
+        return InventoryEntity(inventory.currentItems.map { InventoryItem(it.item, it.amount, it.averageBuyingPrice) }.toMutableList())
     }
 
 }

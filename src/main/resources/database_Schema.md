@@ -19,7 +19,8 @@ CREATE TABLE high_score (player_name VARCHAR(30) NOT NULL,
 ### Inventory Table
 ```sql
 CREATE TABLE inventory (item_name TEXT NOT NULL,
-                    amount INT NOT NULL);
+                    amount INT NOT NULL,
+                    avg_buying_price INT NOT NULL);
 ```
 ### Items Table
 ```sql

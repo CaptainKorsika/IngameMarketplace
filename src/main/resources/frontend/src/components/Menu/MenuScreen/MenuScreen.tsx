@@ -11,8 +11,8 @@ interface MenuScreenProps {
 }
 
 const MenuScreen = (props: MenuScreenProps) => {
-    const [amount, setAmount] = useState(1)
-    const [totalPrice, setTotalPrice] = useState("0")
+    const [amount, setAmount] = useState(0)
+    const [totalPrice, setTotalPrice] = useState("0.00")
     const [enoughMoney, setEnoughMoney] = useState(true)
 
     const itemTrade = (isBuying: boolean, amount: number) => {
@@ -23,9 +23,16 @@ const MenuScreen = (props: MenuScreenProps) => {
         setAmount(Number(event.target.value))
         const itemAmount = Number(event.target.value)
 
+        if (itemAmount == 0) {
+            setTotalPrice("0.00")
+            return
+        }
+
         const priceString = props.focusItem.currentPrice.replace(",", ".")
         const price = Number(priceString)
         const totalPrice = (itemAmount * price).toString() + "0"
+
+        console.log(totalPrice)
 
         const regex = /\d+\.\d{2}/
         const roundedTotalPrice = totalPrice.match(regex)[0]
@@ -67,16 +74,16 @@ const MenuScreen = (props: MenuScreenProps) => {
                         )}
 
                         <div className="focus-item-button-wrapper">
-                        <button disabled={props.focusItem.playerAmount <= 0}
+                        <button disabled={props.focusItem.playerAmount <= 0 || amount == 0}
                                     onClick={() => itemTrade(false, amount)}>Sell Product
                             </button>
-                            <button disabled={props.focusItem.merchantAmount <= 0 || props.focusItem.playerAmount >= 99 || !enoughMoney}
+                            <button disabled={props.focusItem.merchantAmount <= 0 || props.focusItem.playerAmount >= 99 || !enoughMoney || amount == 0}
                                     onClick={() => itemTrade(true, amount)}>Buy Product
                             </button>
                         </div>
                         <div className="amount-input">
                             <h4>Amount:</h4>
-                            <input type="number" min="1" max="99" defaultValue="0"
+                            <input type="number" min="0" max="99" defaultValue="0"
                                    onChange={handleAmountChange}/>
                         </div>
                     </div>

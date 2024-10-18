@@ -32,10 +32,9 @@ function App() {
     const handleNextDay = async () => {
         try {
             const response = await axios.get('http://localhost:8080/interaction/nextDay');
-            const firstMerchant: ItemObject[] = response.data[0].inventory.currentItems
-            const secondMerchant: ItemObject[] = response.data[1].inventory.currentItems
-            const thirdMerchant: ItemObject[] = response.data[2].inventory.currentItems
-
+            const firstMerchant: ItemObject[] = response.data[0].currentItems
+            const secondMerchant: ItemObject[] = response.data[1].currentItems
+            const thirdMerchant: ItemObject[] = response.data[2].currentItems
             const merchantList = [firstMerchant, secondMerchant, thirdMerchant]
             setMerchantsItems(merchantList)
         } catch (error) {
@@ -51,11 +50,11 @@ function App() {
             return
         }
 
-        const itemName = clickedItem.first.name
-        const itemImage = clickedItem.first.image
-        let averageMerchantPrice = clickedItem.first.averageMerchantPrice
+        const itemName = clickedItem.item.name
+        const itemImage = clickedItem.item.image
+        let averageMerchantPrice = clickedItem.item.averageMerchantPrice
         const merchantItems = merchantsItems[activeMerchant]
-        const filteredMatchingItems = merchantItems.filter((item): boolean => item.first.name == itemName)
+        const filteredMatchingItems = merchantItems.filter((item): boolean => item.item.name == itemName)
 
         let matchingItem: ItemObject = null
         let merchantAmount: number
@@ -64,27 +63,36 @@ function App() {
             merchantAmount = 0
         } else {
             matchingItem = filteredMatchingItems[0]
-            merchantAmount = matchingItem.second
+            merchantAmount = matchingItem.amount
         }
 
         let playerAmount: number
-        const playerItems = inventoryItems.filter((item): boolean => item.first.name == itemName)
+        const playerItems = inventoryItems.filter((item): boolean => item.item.name == itemName)
 
         if (playerItems.length == 0) {
             playerAmount = 0
         } else {
-            playerAmount = playerItems[0].second
+            playerAmount = playerItems[0].amount
         }
 
         let price: string
 
         if (merchantAmount != 0 || matchingItem != null) {
-            price = matchingItem.first.currentPrice
+            price = matchingItem.item.currentPrice
         } else {
             price = averageMerchantPrice
         }
 
-        // TODO: Average Price Calculation
+        let averageBuyingPrice: string
+
+        if (clickedItem.averageBuyingPrice == null && playerAmount != 0) {
+            const playerItemList = inventoryItems.filter((item): boolean => item.item.name == itemName)
+            const playerItem = playerItemList[0]
+            averageBuyingPrice = playerItem.averageBuyingPrice
+        } else {
+            averageBuyingPrice = clickedItem.averageBuyingPrice
+        }
+
         const focusItem: FocusItemObject = {
             name: itemName,
             image: itemImage,
@@ -92,10 +100,9 @@ function App() {
             playerAmount: playerAmount,
             averageMerchantPrice: averageMerchantPrice,
             currentPrice: price,
-            avgBuyingPrice: "10"
+            avgBuyingPrice: averageBuyingPrice
         }
 
-        console.log(focusItem)
         setFocusItem(focusItem)
     }
 
@@ -176,19 +183,21 @@ function App() {
     useEffect(() => {
         if (focusItem != null) {
             const merchantItems = merchantsItems[activeMerchant]
-            const filteredMatchingItems = merchantItems.filter((item): boolean => item.first.name == focusItem.name)
+            const filteredMatchingItems = merchantItems.filter((item): boolean => item.item.name == focusItem.name)
 
             let newFocusItem: ItemObject;
 
             if (filteredMatchingItems[0] == null) {
+                // item clicked in player inventory
                 newFocusItem = {
-                    first: {
+                    item: {
                         name: focusItem.name,
                         image: focusItem.image,
                         averageMerchantPrice: focusItem.averageMerchantPrice,
                         currentPrice: focusItem.currentPrice
                     },
-                    second: 0
+                    amount: 0, // merchant amount
+                    averageBuyingPrice: focusItem.avgBuyingPrice
                 }
             } else {
                 newFocusItem = filteredMatchingItems[0]

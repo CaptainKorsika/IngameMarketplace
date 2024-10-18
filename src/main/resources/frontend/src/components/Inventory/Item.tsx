@@ -22,14 +22,14 @@ const Item = (props: ItemProps) => {
     if (props.amount == 0) {
         return (
             <div className="item-container">
-                <img src={props.item.first.image} alt={props.item.first.name} className="item-image" style={{ opacity: 0.5, filter: "saturate(0)" }}/>
+                <img src={props.item.item.image} alt={props.item.item.name} className="item-image" style={{ opacity: 0.5, filter: "saturate(0)" }}/>
             </div>
         )
     }
 
     return (
         <div className="item-container" onClick={focusItem}>
-            <img src={props.item.first.image} alt={props.item.first.name} className="item-image"/>
+            <img src={props.item.item.image} alt={props.item.item.name} className="item-image"/>
         </div>
     );
 }

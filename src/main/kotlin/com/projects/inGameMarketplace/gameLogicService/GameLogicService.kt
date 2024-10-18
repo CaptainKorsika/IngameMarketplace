@@ -25,7 +25,7 @@ class GameLogicService() {
     val inventoryMapper = InventoryMapper()
 
     // TODO: Change back to 100 after testing
-    val gameLength = 5
+    val gameLength = 100
 
     @GetMapping("/gameRunning")
     fun checkForRunningGame(): Boolean {
@@ -84,16 +84,17 @@ class GameLogicService() {
             this.endGame(true)
             return listOf()
         }
+
         merchantService.createNewDailyInventory()
         playerService.updatePlayerData()
         inventoryService.updateInventory()
-
         return getMerchantInventory()
     }
 
     @PostMapping("/buyItem")
     fun buyItem(@RequestBody itemRequest: ItemRequest) {
         val newItem = itemRequest.newItem
+        println(newItem)
         val merchantID = itemRequest.merchantID
         val newDomainItem = itemMapper.mapToItemObject(newItem.first, itemService.getAvailableItems()) to newItem.second
         val player = playerService.player!!
@@ -118,7 +119,7 @@ class GameLogicService() {
         val newDomainItem = itemMapper.mapToItemObject(soldItem.first, itemService.getAvailableItems()) to soldItem.second
 
         val inventory = inventoryService.inventory
-        val itemAmount = inventory.currentItems.first { it.first.name == newDomainItem.first.name }.second
+        val itemAmount = inventory.currentItems.first { it.item.name == newDomainItem.first.name }.amount
         val amountToSell = if (newDomainItem.second >= itemAmount) itemAmount else soldItem.second
         val revenue = newDomainItem.first.currentPrice * amountToSell
 
@@ -138,7 +139,7 @@ class GameLogicService() {
     fun unlockInventory(): Int {
         val player = playerService.player!!
         val money = player.money
-        val price = inventoryService.calculateInventoryUpgradePrice(money, player.inventorySpace)
+        val price = inventoryService.calculateInventoryUpgradePrice(player.inventorySpace)
 
         if (money > price) {
             playerService.updatePlayerBalance(price * -1)

@@ -207,6 +207,11 @@ function App() {
         }
     }, [activeMerchant])
 
+    useEffect(() => {
+        getPlayerData()
+        getMerchantItems()
+    }, [handleItemTrade]);
+
     return <div className="window-container">
         <Inventory
             entity="Merchant"

@@ -10,7 +10,7 @@ interface InventoryRowProps{
 
 
 const InventoryRow = (props: InventoryRowProps) => {
-    if (props.entity == "Merchant") {
+    if (props.entity == "Merchant" && props.itemList != null) {
         const itemsWithAttributes = props.itemList.map((item, index) => (
             <Item item={item} key={index} handleFocusItem={props.handleFocusItem} amount={item.amount}></Item>
         ));

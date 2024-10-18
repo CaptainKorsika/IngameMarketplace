@@ -24,8 +24,6 @@ const Inventory = (props: InventoryProps) => {
     let secondRowList: ItemObject[] = []
     let thirdRowList: ItemObject[] = []
 
-    // TODO: Fix error when uncommented
-
     if (props.inventoryItems != null) {
         if (props.inventoryItems.length <= 10) {
             firstRowList = props.inventoryItems

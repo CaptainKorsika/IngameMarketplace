@@ -35,12 +35,12 @@ class InventoryService {
     }
 
     fun maxPossibleItemSpace(boughtItem: Pair<Item, Int>, space: Int): Int {
-        if (space == this.inventory.currentItems.size) {
-            return 0
-        }
-
         val itemName = boughtItem.first.name
         val indexOfItem = this.inventory.currentItems.map { inventoryItemObject -> inventoryItemObject.item.name}.indexOf(itemName)
+
+        if (space == this.inventory.currentItems.size && indexOfItem == -1) {
+            return 0
+        }
 
         if (indexOfItem == -1) {
             return 99

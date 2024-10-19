@@ -94,7 +94,6 @@ class GameLogicService() {
     @PostMapping("/buyItem")
     fun buyItem(@RequestBody itemRequest: ItemRequest) {
         val newItem = itemRequest.newItem
-        println(newItem)
         val merchantID = itemRequest.merchantID
         val newDomainItem = itemMapper.mapToItemObject(newItem.first, itemService.getAvailableItems()) to newItem.second
         val player = playerService.player!!

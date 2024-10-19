@@ -1,21 +1,19 @@
 import "./MenuScreen.css"
-import {useEffect, useState} from "react";
 import NextDay from "./NextDay";
 import {FocusItemObject} from "../../../Interfaces/FocusItemObject";
 
 interface MenuScreenProps {
-    focusItem: FocusItemObject,
-    handleNextDay: () => void,
-    handleItemTrade: (isBuying: boolean, amount: number) => void,
-    handleAmountChange: (amount: number) => void,
-    money: number,
-    amount: number,
+    focusItem: FocusItemObject
+    handleNextDay: () => void
+    handleItemTrade: (isBuying: boolean, amount: number) => void
+    handleAmountChange: (amount: number) => void
+    money: number
+    amount: number
     totalPrice: string
+    enoughMoney: boolean
 }
 
 const MenuScreen = (props: MenuScreenProps) => {
-    const [enoughMoney, setEnoughMoney] = useState(true)
-
     const itemTrade = (isBuying: boolean, amount: number) => {
         props.handleItemTrade(isBuying, amount)
     }
@@ -24,31 +22,6 @@ const MenuScreen = (props: MenuScreenProps) => {
         const newAmount = Number(event.target.value)
         props.handleAmountChange(newAmount)
     }
-
-    // const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setAmount(Number(event.target.value))
-    //     const itemAmount = Number(event.target.value)
-    //
-    //     if (itemAmount == 0) {
-    //         setTotalPrice("0.00")
-    //         return
-    //     }
-    //
-    //     const priceString = props.focusItem.currentPrice.replace(",", ".")
-    //     const price = Number(priceString)
-    //     const totalPrice = (itemAmount * price).toString() + ".00"
-    //
-    //     const regex = /\d+\.\d{2}/
-    //     const roundedTotalPrice = totalPrice.match(regex)[0]
-    //
-    //     setTotalPrice(roundedTotalPrice.replace(".", ","))
-    // }
-
-    useEffect(() => {
-        const price = Number(props.totalPrice.replace(",", "."))
-        const availableMoney = Number(props.money.toString().replace(",", "."))
-        setEnoughMoney(availableMoney >= price)
-    }, [props.amount]);
 
     return (
         <div className="menu">
@@ -70,7 +43,7 @@ const MenuScreen = (props: MenuScreenProps) => {
                             </div>
                             <h2 className="focus-item-name">{props.focusItem.name}</h2>
                         </div>
-                        {enoughMoney ? (
+                        {props.enoughMoney ? (
                             <h2 className="total-price">Total: ${props.totalPrice}</h2>
                         ) : (
                             <h2 className="total-price" style={{ color: "red" }}>Total: ${props.totalPrice}</h2>
@@ -80,7 +53,7 @@ const MenuScreen = (props: MenuScreenProps) => {
                         <button disabled={props.focusItem.playerAmount <= 0 || props.amount == 0}
                                     onClick={() => itemTrade(false, props.amount)}>Sell Product
                             </button>
-                            <button disabled={props.focusItem.merchantAmount <= 0 || props.focusItem.playerAmount >= 99 || !enoughMoney || props.amount == 0}
+                            <button disabled={props.focusItem.merchantAmount <= 0 || props.focusItem.playerAmount >= 99 || !props.enoughMoney || props.amount == 0}
                                     onClick={() => itemTrade(true, props.amount)}>Buy Product
                             </button>
                         </div>

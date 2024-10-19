@@ -4,14 +4,15 @@ import {FocusItemObject} from "../../Interfaces/FocusItemObject";
 
 
 interface MenuProps {
-    isCurrentlyPlaying: boolean,
-    focusItem: FocusItemObject,
-    handleNextDay: () => void,
-    handleItemTrade: (isBuying: boolean, amount: number) => void,
-    handleAmountChange: (amount: number) => void,
+    isCurrentlyPlaying: boolean
+    focusItem: FocusItemObject
+    handleNextDay: () => void
+    handleItemTrade: (isBuying: boolean, amount: number) => void
+    handleAmountChange: (amount: number) => void
     money: number
     amount: number
     totalPrice: string
+    enoughMoney: boolean
 
 }
 
@@ -26,7 +27,7 @@ const Menu = (props: MenuProps) => {
                             money={props.money}
                             amount={props.amount}
                             totalPrice={props.totalPrice}
-
+                            enoughMoney={props.enoughMoney}
                 />
             ) : (
                 <StartingScreen/>

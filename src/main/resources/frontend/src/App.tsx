@@ -18,6 +18,7 @@ function App() {
     const [focusItem, setFocusItem] = useState<FocusItemObject>(null)
     const [amount, setAmount] = useState(0)
     const [totalPrice, setTotalPrice] = useState("0.00")
+    const [enoughMoney, setEnoughMoney] = useState(true)
 
     const unlockInventory = () => {
         axios.get('http://localhost:8080/interaction/buyInventorySpace')
@@ -30,6 +31,11 @@ function App() {
         setActiveMerchant(merchantId)
     }
 
+    const handleEnoughMoneyCheck = (price: number) => {
+        const availableMoney = Number(money.toString().replace(",", "."))
+        setEnoughMoney(availableMoney >= price)
+    }
+
     const handleAmountChange = (itemAmount: number) => {
 
         if (itemAmount == 0) {
@@ -39,13 +45,20 @@ function App() {
 
         const priceString = focusItem.currentPrice.replace(",", ".")
         const price = Number(priceString)
-        const totalPrice = (itemAmount * price).toString() + ".00"
+        let totalPrice = (itemAmount * price).toString() // + ".00"
+
+        if (totalPrice.match(/\./) != null) {
+            totalPrice += "00"
+        } else {
+            totalPrice += ".00"
+        }
 
         const regex = /\d+\.\d{2}/
         const roundedTotalPrice = totalPrice.match(regex)[0]
 
-        setAmount(itemAmount)
+        handleEnoughMoneyCheck(Number(totalPrice))
         setTotalPrice(roundedTotalPrice.replace(".", ","))
+        setAmount(itemAmount)
     }
 
     // @ts-ignore
@@ -256,6 +269,7 @@ function App() {
                   handleAmountChange={handleAmountChange}
                   amount={amount}
                   totalPrice={totalPrice}
+                  enoughMoney={enoughMoney}
             />
         </div>
         <Inventory entity="Player" isCurrentlyPlaying={isCurrentlyPlaying}

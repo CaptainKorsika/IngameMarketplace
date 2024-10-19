@@ -6,6 +6,7 @@ import Menu from "./components/Menu/Menu";
 import axios from "axios";
 import {ItemObject} from "./Interfaces/ItemObject";
 import {FocusItemObject} from "./Interfaces/FocusItemObject";
+import {render} from "react-dom";
 
 function App() {
     const [isCurrentlyPlaying, setIsCurrentlyPlaying] = useState(false)
@@ -19,12 +20,17 @@ function App() {
     const [amount, setAmount] = useState(0)
     const [totalPrice, setTotalPrice] = useState("0.00")
     const [enoughMoney, setEnoughMoney] = useState(true)
+    const [showStartGameModal, setShowStartGameModal] = useState(false)
 
     const unlockInventory = () => {
         axios.get('http://localhost:8080/interaction/buyInventorySpace')
             .then(response => {
                 setInventorySpace(response.data);
             })
+    }
+
+    const handleStartGameModal = (open: boolean) => {
+        setShowStartGameModal(open)
     }
 
     const handleActiveMerchant = (merchantId: number) => {
@@ -209,8 +215,10 @@ function App() {
 
     useEffect(() => {
         getPlayerData()
-        gameIsRunning()
+        // gameIsRunning()
         getMerchantItems()
+
+        console.log(isCurrentlyPlaying)
     }, []);
 
     useEffect(() => {
@@ -270,6 +278,8 @@ function App() {
                   amount={amount}
                   totalPrice={totalPrice}
                   enoughMoney={enoughMoney}
+                  showStartGameModal={showStartGameModal}
+                  handleStartGameModal={handleStartGameModal}
             />
         </div>
         <Inventory entity="Player" isCurrentlyPlaying={isCurrentlyPlaying}

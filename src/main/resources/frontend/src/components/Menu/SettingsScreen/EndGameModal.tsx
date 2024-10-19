@@ -21,12 +21,9 @@ const EndGameModal = () => {
                 "Content-Type": "text/plain"
             }
         })
-            .then(response => {
-                console.log(response.data);
-            })
-        useEffect(() => {
-
-        }, []);
+        .then(response => {
+            console.log(response.data);
+        })
     }
 
     return (

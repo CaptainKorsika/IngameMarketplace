@@ -30,15 +30,12 @@ const MenuScreen = (props: MenuScreenProps) => {
 
         const priceString = props.focusItem.currentPrice.replace(",", ".")
         const price = Number(priceString)
-        const totalPrice = (itemAmount * price).toString() + "0"
-
-        console.log(totalPrice)
+        const totalPrice = (itemAmount * price).toString() + ".00"
 
         const regex = /\d+\.\d{2}/
         const roundedTotalPrice = totalPrice.match(regex)[0]
 
         setTotalPrice(roundedTotalPrice.replace(".", ","))
-
     }
 
     useEffect(() => {

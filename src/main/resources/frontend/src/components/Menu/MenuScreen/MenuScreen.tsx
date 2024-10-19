@@ -6,43 +6,49 @@ import {FocusItemObject} from "../../../Interfaces/FocusItemObject";
 interface MenuScreenProps {
     focusItem: FocusItemObject,
     handleNextDay: () => void,
-    handleItemTrade: (isBuying: boolean, amount: number) => void
-    money: number
+    handleItemTrade: (isBuying: boolean, amount: number) => void,
+    handleAmountChange: (amount: number) => void,
+    money: number,
+    amount: number,
+    totalPrice: string
 }
 
 const MenuScreen = (props: MenuScreenProps) => {
-    const [amount, setAmount] = useState(0)
-    const [totalPrice, setTotalPrice] = useState("0.00")
     const [enoughMoney, setEnoughMoney] = useState(true)
 
     const itemTrade = (isBuying: boolean, amount: number) => {
         props.handleItemTrade(isBuying, amount)
     }
 
-    const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAmount(Number(event.target.value))
-        const itemAmount = Number(event.target.value)
-
-        if (itemAmount == 0) {
-            setTotalPrice("0.00")
-            return
-        }
-
-        const priceString = props.focusItem.currentPrice.replace(",", ".")
-        const price = Number(priceString)
-        const totalPrice = (itemAmount * price).toString() + ".00"
-
-        const regex = /\d+\.\d{2}/
-        const roundedTotalPrice = totalPrice.match(regex)[0]
-
-        setTotalPrice(roundedTotalPrice.replace(".", ","))
+    const amountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newAmount = Number(event.target.value)
+        props.handleAmountChange(newAmount)
     }
 
+    // const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setAmount(Number(event.target.value))
+    //     const itemAmount = Number(event.target.value)
+    //
+    //     if (itemAmount == 0) {
+    //         setTotalPrice("0.00")
+    //         return
+    //     }
+    //
+    //     const priceString = props.focusItem.currentPrice.replace(",", ".")
+    //     const price = Number(priceString)
+    //     const totalPrice = (itemAmount * price).toString() + ".00"
+    //
+    //     const regex = /\d+\.\d{2}/
+    //     const roundedTotalPrice = totalPrice.match(regex)[0]
+    //
+    //     setTotalPrice(roundedTotalPrice.replace(".", ","))
+    // }
+
     useEffect(() => {
-        const price = Number(totalPrice.replace(",", "."))
+        const price = Number(props.totalPrice.replace(",", "."))
         const availableMoney = Number(props.money.toString().replace(",", "."))
         setEnoughMoney(availableMoney >= price)
-    }, [amount]);
+    }, [props.amount]);
 
     return (
         <div className="menu">
@@ -65,23 +71,23 @@ const MenuScreen = (props: MenuScreenProps) => {
                             <h2 className="focus-item-name">{props.focusItem.name}</h2>
                         </div>
                         {enoughMoney ? (
-                            <h2 className="total-price">Total: ${totalPrice}</h2>
+                            <h2 className="total-price">Total: ${props.totalPrice}</h2>
                         ) : (
-                            <h2 className="total-price" style={{ color: "red" }}>Total: ${totalPrice}</h2>
+                            <h2 className="total-price" style={{ color: "red" }}>Total: ${props.totalPrice}</h2>
                         )}
 
                         <div className="focus-item-button-wrapper">
-                        <button disabled={props.focusItem.playerAmount <= 0 || amount == 0}
-                                    onClick={() => itemTrade(false, amount)}>Sell Product
+                        <button disabled={props.focusItem.playerAmount <= 0 || props.amount == 0}
+                                    onClick={() => itemTrade(false, props.amount)}>Sell Product
                             </button>
-                            <button disabled={props.focusItem.merchantAmount <= 0 || props.focusItem.playerAmount >= 99 || !enoughMoney || amount == 0}
-                                    onClick={() => itemTrade(true, amount)}>Buy Product
+                            <button disabled={props.focusItem.merchantAmount <= 0 || props.focusItem.playerAmount >= 99 || !enoughMoney || props.amount == 0}
+                                    onClick={() => itemTrade(true, props.amount)}>Buy Product
                             </button>
                         </div>
                         <div className="amount-input">
                             <h4>Amount:</h4>
                             <input type="number" min="0" max="99" defaultValue="0"
-                                   onChange={handleAmountChange}/>
+                                   onChange={amountChange}/>
                         </div>
                     </div>
                     <div className="player-data">

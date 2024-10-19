@@ -16,6 +16,8 @@ function App() {
     const [merchantsItems, setMerchantsItems] = useState<ItemObject[][]>([])
     const [activeMerchant, setActiveMerchant] = useState(0)
     const [focusItem, setFocusItem] = useState<FocusItemObject>(null)
+    const [amount, setAmount] = useState(0)
+    const [totalPrice, setTotalPrice] = useState("0.00")
 
     const unlockInventory = () => {
         axios.get('http://localhost:8080/interaction/buyInventorySpace')
@@ -26,6 +28,24 @@ function App() {
 
     const handleActiveMerchant = (merchantId: number) => {
         setActiveMerchant(merchantId)
+    }
+
+    const handleAmountChange = (itemAmount: number) => {
+
+        if (itemAmount == 0) {
+            setTotalPrice("0.00")
+            return
+        }
+
+        const priceString = focusItem.currentPrice.replace(",", ".")
+        const price = Number(priceString)
+        const totalPrice = (itemAmount * price).toString() + ".00"
+
+        const regex = /\d+\.\d{2}/
+        const roundedTotalPrice = totalPrice.match(regex)[0]
+
+        setAmount(itemAmount)
+        setTotalPrice(roundedTotalPrice.replace(".", ","))
     }
 
     // @ts-ignore
@@ -212,6 +232,10 @@ function App() {
         getMerchantItems()
     }, [handleItemTrade]);
 
+    useEffect(() => {
+       handleAmountChange(amount)
+    }, [activeMerchant, focusItem]);
+
     return <div className="window-container">
         <Inventory
             entity="Merchant"
@@ -224,7 +248,15 @@ function App() {
         />
         <div className="game-container">
             <Marketplace handleActiveMerchant={handleActiveMerchant}/>
-            <Menu isCurrentlyPlaying={isCurrentlyPlaying} focusItem={focusItem} handleNextDay={handleNextDay} handleItemTrade={handleItemTrade} money={money}/>
+            <Menu isCurrentlyPlaying={isCurrentlyPlaying}
+                  focusItem={focusItem}
+                  handleNextDay={handleNextDay}
+                  handleItemTrade={handleItemTrade}
+                  money={money}
+                  handleAmountChange={handleAmountChange}
+                  amount={amount}
+                  totalPrice={totalPrice}
+            />
         </div>
         <Inventory entity="Player" isCurrentlyPlaying={isCurrentlyPlaying}
                    money={money}

@@ -1,16 +1,19 @@
-import {useState} from 'react';
 import { Modal, Box, Typography } from '@mui/material';
 import "./ShowHighScoreModal.css"
 
-const ShowHighScoreModal = () => {
-    const [open, setOpen] = useState(false)
+interface ShowHighScoreModalProps {
+    showHighScoreModal: boolean
+    handleShowHighScoreModal: (open: boolean) => void
+}
 
+
+const ShowHighScoreModal = (props: ShowHighScoreModalProps) => {
     const handleOpen = () => {
-        setOpen(true)
+        props.handleShowHighScoreModal(true)
     };
 
     const handleClose = () => {
-        setOpen(false)
+        props.handleShowHighScoreModal(false)
     };
 
     const style = {
@@ -29,7 +32,7 @@ const ShowHighScoreModal = () => {
         <div>
             <button className="show-highscore" onClick={handleOpen}>Show Highscore</button>
             <Modal
-                open={open}
+                open={props.showHighScoreModal}
                 onClose={handleClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
@@ -46,8 +49,6 @@ const ShowHighScoreModal = () => {
             </Modal>
         </div>
     );
-
-
 }
 
 export default ShowHighScoreModal;

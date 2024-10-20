@@ -3,20 +3,15 @@ import {Modal, Box } from '@mui/material';
 import "./StartGameModal.css"
 import axios from "axios";
 
-interface StartGameModalProps {
-    showStartGameModal: boolean
-    handleStartGameModal: (open: boolean) => void
-}
-
-const StartGameModal = (props: StartGameModalProps) => {
+const StartGameModal = () => {
     const [open, setOpen] = useState(false)
 
     const handleOpen = () => {
-        props.handleStartGameModal(true)
+        setOpen(true)
     };
 
     const handleClose = () => {
-        props.handleStartGameModal(false)
+        setOpen(false)
     };
 
     const startGame = () => {
@@ -39,7 +34,7 @@ const StartGameModal = (props: StartGameModalProps) => {
         <div>
             <button className="start-game" onClick={handleOpen}>Start New Game</button>
             <Modal
-                open={props.showStartGameModal}
+                open={open}
                 onClose={handleClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"

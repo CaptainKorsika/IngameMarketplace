@@ -2,7 +2,6 @@ import "./InventoryStyle.css"
 import InventoryRow from "./InventoryRow";
 import PlayerMenu from "./Data Sections/PlayerMenu";
 import StatisticsMenu from "./Data Sections/StatisticsMenu";
-import NextDay from "../Menu/MenuScreen/NextDay";
 import {ItemObject} from "../../Interfaces/ItemObject";
 
 
@@ -17,6 +16,8 @@ interface InventoryProps {
     activeMerchant?: number
     unlockInventory?: () => void
     handleFocusItem: (focusItem: ItemObject) => void
+    showHighScoreModal?: boolean
+    handleShowHighScoreModal?: (open: boolean) => void
 }
 
 const Inventory = (props: InventoryProps) => {
@@ -49,7 +50,7 @@ const Inventory = (props: InventoryProps) => {
     return (
         <div className="inventory-container">
             {props.entity === "Player" && <PlayerMenu money={props.money} inventorySpace={props.inventorySpace} unlockInventory={props.unlockInventory}/>}
-            {props.entity === "Merchant" && <StatisticsMenu day={props.day}/>}
+            {props.entity === "Merchant" && <StatisticsMenu day={props.day} showHighScoreModal={props.showHighScoreModal} handleShowHighScoreModal={props.handleShowHighScoreModal}/>}
             <div className="grid-container">
                 {props.entity === "Merchant" && <InventoryRow itemList={activeMerchantItems} entity={props.entity} handleFocusItem={props.handleFocusItem}/>}
                 {props.entity === "Player" && <InventoryRow itemList={firstRowList} entity={props.entity} handleFocusItem={props.handleFocusItem}/>}

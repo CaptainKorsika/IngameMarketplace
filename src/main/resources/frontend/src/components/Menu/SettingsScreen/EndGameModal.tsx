@@ -3,7 +3,11 @@ import {Modal, Box } from '@mui/material';
 import './EndGameModal.css'
 import axios from "axios";
 
-const EndGameModal = () => {
+interface EndGameModalProps {
+    handleShowSettingsModal: (open: boolean) => void
+}
+
+const EndGameModal = (props: EndGameModalProps) => {
     const [open, setOpen] = useState(false)
 
     const handleOpen = () => {
@@ -14,8 +18,13 @@ const EndGameModal = () => {
         setOpen(false)
     };
 
+    const handleSettingsModalClose = () => {
+        props.handleShowSettingsModal(false)
+    }
+
     const endGame = () => {
         handleClose()
+        handleSettingsModalClose()
         axios.post('http://localhost:8080/interaction/endGame', {
             headers: {
                 "Content-Type": "text/plain"

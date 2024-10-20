@@ -13,8 +13,8 @@ interface MenuProps {
     amount: number
     totalPrice: string
     enoughMoney: boolean
-    showStartGameModal: boolean
-    handleStartGameModal: (open: boolean) => void
+    showHighScoreModal: boolean
+    handleShowHighScoreModal: (open: boolean) => void
 }
 
 const Menu = (props: MenuProps) => {
@@ -31,8 +31,8 @@ const Menu = (props: MenuProps) => {
                             enoughMoney={props.enoughMoney}
                 />
             ) : (
-                <StartingScreen handleStartGameModal={props.handleStartGameModal}
-                                showStartGameModal={props.showStartGameModal}
+                <StartingScreen showHighScoreModal={props.showHighScoreModal}
+                                handleShowHighScoreModal={props.handleShowHighScoreModal}
                 />
             )}
         </div>

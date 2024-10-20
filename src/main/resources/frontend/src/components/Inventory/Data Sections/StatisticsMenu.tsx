@@ -5,12 +5,11 @@ import SettingsScreenModal from "../../Menu/SettingsScreen/SettingsScreenModal";
 
 interface StatisticsMenuProps {
     day: number
+    showHighScoreModal: boolean
+    handleShowHighScoreModal: (open: boolean) => void
 }
 
-
-class StatisticsMenu extends Component<StatisticsMenuProps> {
-    render() {
-        const { day } = this.props;
+const StatisticsMenu = (props: StatisticsMenuProps) => {
         return (
             <div className="statistics-menu">
                 <div className="statistics-container">
@@ -29,13 +28,15 @@ class StatisticsMenu extends Component<StatisticsMenuProps> {
                     </div>
                 </div>
                 <div className="meta-data">
-                    <h2 className="days"> Day {day}/100</h2>
-                    <SettingsScreenModal></SettingsScreenModal>
+                    <h2 className="days"> Day {props.day}/100</h2>
+                    <SettingsScreenModal
+                        showHighScoreModal={props.showHighScoreModal}
+                        handleShowHighScoreModal={props.handleShowHighScoreModal}
+                    />
                 </div>
 
             </div>
         );
-    }
 }
 
 export default StatisticsMenu;

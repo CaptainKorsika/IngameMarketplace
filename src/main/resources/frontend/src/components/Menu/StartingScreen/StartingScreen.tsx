@@ -4,17 +4,18 @@ import ShowHighScoreModal from "../ShowHighScoreModal";
 import * as React from 'react';
 
 interface StartingScreenProps {
-    showStartGameModal: boolean
-    handleStartGameModal: (open: boolean) => void
+    showHighScoreModal: boolean
+    handleShowHighScoreModal: (open: boolean) => void
 }
-
 
 const StartingScreen = (props: StartingScreenProps) => {
     return (
         <div className="starting-screen">
-            <StartGameModal showStartGameModal={props.showStartGameModal}
-                            handleStartGameModal={props.handleStartGameModal}></StartGameModal>
-            <ShowHighScoreModal></ShowHighScoreModal>
+            <StartGameModal/>
+            <ShowHighScoreModal
+                showHighScoreModal={props.showHighScoreModal}
+                handleShowHighScoreModal={props.handleShowHighScoreModal}
+            />
         </div>
     );
 

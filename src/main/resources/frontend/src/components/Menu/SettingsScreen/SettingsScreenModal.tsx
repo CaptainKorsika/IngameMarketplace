@@ -1,19 +1,24 @@
-import {useState} from 'react';
 import {Modal, Box } from '@mui/material';
 import EndGameModal from "./EndGameModal";
 import ShowHighScoreModal from "../ShowHighScoreModal";
 import "./SettingsScreenModal.css"
+import {useState} from "react";
 
-const SettingsScreenModal = () => {
+interface SettingsScreenModalProps {
+    showHighScoreModal: boolean
+    handleShowHighScoreModal: (open: boolean) => void
+}
+
+const SettingsScreenModal = (props: SettingsScreenModalProps) => {
     const [open, setOpen] = useState(false)
 
     const handleOpen = () => {
         setOpen(true)
-    };
+    }
 
     const handleClose = () => {
         setOpen(false)
-    };
+    }
 
     return (
         <div>
@@ -25,8 +30,11 @@ const SettingsScreenModal = () => {
                 aria-describedby="simple-modal-description"
             >
                 <Box className="settings-modal">
-                    <ShowHighScoreModal></ShowHighScoreModal>
-                    <EndGameModal></EndGameModal>
+                    <ShowHighScoreModal
+                        showHighScoreModal={props.showHighScoreModal}
+                        handleShowHighScoreModal={props.handleShowHighScoreModal}
+                    />
+                    <EndGameModal handleShowSettingsModal={handleClose}/>
                 </Box>
             </Modal>
         </div>

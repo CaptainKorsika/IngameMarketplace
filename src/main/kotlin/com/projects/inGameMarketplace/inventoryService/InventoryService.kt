@@ -19,7 +19,7 @@ class InventoryService {
     }
 
     fun updateInventory() {
-        this.deleteInventory()
+        this.deleteInventory(true)
         this.createInventory()
     }
 
@@ -96,8 +96,10 @@ class InventoryService {
         return true
     }
 
-    fun deleteInventory() {
-        // this.inventory.currentItems.clear()
+    fun deleteInventory(isNextDay: Boolean = false) {
+        if (!isNextDay) {
+            this.inventory.currentItems.clear()
+        }
         this.inventoryRepository.deleteInventory()
     }
 

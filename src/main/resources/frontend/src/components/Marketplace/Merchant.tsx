@@ -1,6 +1,5 @@
 import "./Merchant.css"
 import {Simulate} from "react-dom/test-utils";
-import click = Simulate.click;
 
 interface MerchantProps {
     id: number,

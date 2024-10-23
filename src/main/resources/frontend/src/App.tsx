@@ -212,12 +212,11 @@ function App() {
         }
     }
 
+    gameIsRunning()
+
     useEffect(() => {
         getPlayerData()
-        gameIsRunning()
         getMerchantItems()
-
-        console.log(isCurrentlyPlaying)
     }, []);
 
     useEffect(() => {

@@ -6,6 +6,7 @@ import Menu from "./components/Menu/Menu";
 import axios from "axios";
 import {ItemObject} from "./Interfaces/ItemObject";
 import {FocusItemObject} from "./Interfaces/FocusItemObject";
+import { useCallback } from 'react';
 
 function App() {
     const [isCurrentlyPlaying, setIsCurrentlyPlaying] = useState(false)
@@ -42,28 +43,36 @@ function App() {
     }
 
     const handleAmountChange = (itemAmount: number) => {
-
         if (itemAmount == 0) {
             setTotalPrice("0.00")
             return
         }
 
-        const priceString = focusItem.currentPrice.replace(",", ".")
-        const price = Number(priceString)
-        let totalPrice = (itemAmount * price).toString() // + ".00"
+        if (focusItem != null) {
+            const priceString = focusItem.currentPrice.replace(",", ".")
+            const price = Number(priceString)
+            let totalPrice = (itemAmount * price).toString() // + ".00"
 
-        if (totalPrice.match(/\./) != null) {
-            totalPrice += "00"
-        } else {
-            totalPrice += ".00"
+            if (totalPrice.match(/\./) != null) {
+                totalPrice += "00"
+            } else {
+                totalPrice += ".00"
+            }
+
+            const regex = /\d+\.\d{2}/
+            const roundedTotalPrice = totalPrice.match(regex)[0]
+
+            handleEnoughMoneyCheck(Number(totalPrice))
+            setTotalPrice(roundedTotalPrice.replace(".", ","))
+            setAmount(itemAmount)
         }
 
-        const regex = /\d+\.\d{2}/
-        const roundedTotalPrice = totalPrice.match(regex)[0]
+        else {
+            setEnoughMoney(true)
+            setTotalPrice("0.00")
+            setAmount(0)
+        }
 
-        handleEnoughMoneyCheck(Number(totalPrice))
-        setTotalPrice(roundedTotalPrice.replace(".", ","))
-        setAmount(itemAmount)
     }
 
     // @ts-ignore
@@ -160,34 +169,39 @@ function App() {
         setEnoughMoney(true)
     }
 
-    // @ts-ignore
-    const handleItemTrade = async (isBuying: boolean, amount: number) => {
-        try {
-            const itemDTO = {
-                name: focusItem.name,
-                image: focusItem.image,
-                averageMerchantPrice: focusItem.averageMerchantPrice,
-                currentPrice: focusItem.currentPrice
+    const handleItemTrade = useCallback(
+        // @ts-ignore
+        async (isBuying: boolean, amount: number) => {
+            try {
+                const itemDTO = {
+                    name: focusItem.name,
+                    image: focusItem.image,
+                    averageMerchantPrice: focusItem.averageMerchantPrice,
+                    currentPrice: focusItem.currentPrice
+                };
+
+                const requestData = {
+                    newItem: {
+                        first: itemDTO,
+                        second: amount
+                    },
+                    merchantID: activeMerchant
+                };
+
+                if (isBuying) {
+                    await axios.post('http://localhost:8080/interaction/buyItem', requestData);
+                } else {
+                    await axios.post('http://localhost:8080/interaction/sellItem', requestData);
+                }
+            } catch (error) {
+                console.error('There was an error trading with server!', error);
             }
+            getMerchantItems()
+            getPlayerData()
+        },
+        [focusItem, activeMerchant] // Dependencies array
+    );
 
-            const requestData = {
-                newItem: {
-                    first: itemDTO,
-                    second: amount
-                },
-                merchantID: activeMerchant
-            };
-
-            if (isBuying) {
-                await axios.post('http://localhost:8080/interaction/buyItem', requestData)
-
-            } else {
-                await axios.post('http://localhost:8080/interaction/sellItem', requestData)
-            }
-        } catch (error) {
-            console.error('There was an error trading with server!', error);
-        }
-    }
 
     // @ts-ignore
     const gameIsRunning = async () => {
@@ -261,11 +275,6 @@ function App() {
             handleFocusItem(newFocusItem)
         }
     }, [activeMerchant])
-
-    useEffect(() => {
-        getPlayerData()
-        getMerchantItems()
-    }, [handleItemTrade]);
 
     useEffect(() => {
        handleAmountChange(amount)

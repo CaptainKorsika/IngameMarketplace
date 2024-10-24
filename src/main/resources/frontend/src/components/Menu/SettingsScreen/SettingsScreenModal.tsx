@@ -7,6 +7,7 @@ import {useState} from "react";
 interface SettingsScreenModalProps {
     showHighScoreModal: boolean
     handleShowHighScoreModal: (open: boolean) => void
+    handleEndGame: () => void
 }
 
 const SettingsScreenModal = (props: SettingsScreenModalProps) => {
@@ -34,7 +35,7 @@ const SettingsScreenModal = (props: SettingsScreenModalProps) => {
                         showHighScoreModal={props.showHighScoreModal}
                         handleShowHighScoreModal={props.handleShowHighScoreModal}
                     />
-                    <EndGameModal handleShowSettingsModal={handleClose}/>
+                    <EndGameModal handleShowSettingsModal={handleClose} handleEndGame={props.handleEndGame}/>
                 </Box>
             </Modal>
         </div>

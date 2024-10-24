@@ -5,6 +5,7 @@ import axios from "axios";
 
 interface EndGameModalProps {
     handleShowSettingsModal: (open: boolean) => void
+    handleEndGame: () => void
 }
 
 const EndGameModal = (props: EndGameModalProps) => {
@@ -18,21 +19,10 @@ const EndGameModal = (props: EndGameModalProps) => {
         setOpen(false)
     };
 
-    const handleSettingsModalClose = () => {
-        props.handleShowSettingsModal(false)
-    }
-
     const endGame = () => {
         handleClose()
-        handleSettingsModalClose()
-        axios.post('http://localhost:8080/interaction/endGame', {
-            headers: {
-                "Content-Type": "text/plain"
-            }
-        })
-        .then(response => {
-            console.log(response.data);
-        })
+        props.handleShowSettingsModal(false)
+        props.handleEndGame()
     }
 
     return (

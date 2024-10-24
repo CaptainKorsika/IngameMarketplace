@@ -7,6 +7,7 @@ interface StatisticsMenuProps {
     day: number
     showHighScoreModal: boolean
     handleShowHighScoreModal: (open: boolean) => void
+    handleEndGame: () => void
 }
 
 const StatisticsMenu = (props: StatisticsMenuProps) => {
@@ -32,6 +33,7 @@ const StatisticsMenu = (props: StatisticsMenuProps) => {
                     <SettingsScreenModal
                         showHighScoreModal={props.showHighScoreModal}
                         handleShowHighScoreModal={props.handleShowHighScoreModal}
+                        handleEndGame={props.handleEndGame}
                     />
                 </div>
 

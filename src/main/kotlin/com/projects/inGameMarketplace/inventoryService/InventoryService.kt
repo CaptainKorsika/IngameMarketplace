@@ -11,7 +11,6 @@ class InventoryService {
 
 
     fun createInventory() {
-        println("Creating inventory")
         if (this.inventory.currentItems.isNotEmpty()) {
             val entity = this.inventoryConverter.toEntity(this.inventory)
             inventoryRepository.saveInventory(entity)

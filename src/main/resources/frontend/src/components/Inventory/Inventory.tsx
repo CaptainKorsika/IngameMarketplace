@@ -18,6 +18,7 @@ interface InventoryProps {
     handleFocusItem: (focusItem: ItemObject) => void
     showHighScoreModal?: boolean
     handleShowHighScoreModal?: (open: boolean) => void
+    handleEndGame?: () => void
 }
 
 const Inventory = (props: InventoryProps) => {
@@ -49,13 +50,50 @@ const Inventory = (props: InventoryProps) => {
 
     return (
         <div className="inventory-container">
-            {props.entity === "Player" && <PlayerMenu money={props.money} inventorySpace={props.inventorySpace} unlockInventory={props.unlockInventory}/>}
-            {props.entity === "Merchant" && <StatisticsMenu day={props.day} showHighScoreModal={props.showHighScoreModal} handleShowHighScoreModal={props.handleShowHighScoreModal}/>}
+            {props.entity === "Player" &&
+                <PlayerMenu
+                    money={props.money}
+                    inventorySpace={props.inventorySpace}
+                    unlockInventory={props.unlockInventory}
+                />
+            }
+            {props.entity === "Merchant" &&
+                <StatisticsMenu
+                    day={props.day}
+                    showHighScoreModal={props.showHighScoreModal}
+                    handleShowHighScoreModal={props.handleShowHighScoreModal}
+                    handleEndGame={props.handleEndGame}
+                />
+            }
             <div className="grid-container">
-                {props.entity === "Merchant" && <InventoryRow itemList={activeMerchantItems} entity={props.entity} handleFocusItem={props.handleFocusItem}/>}
-                {props.entity === "Player" && <InventoryRow itemList={firstRowList} entity={props.entity} handleFocusItem={props.handleFocusItem}/>}
-                {props.entity === "Player" && props.inventorySpace > 10 && <InventoryRow itemList={secondRowList} entity={props.entity} handleFocusItem={props.handleFocusItem}/>}
-                {props.entity === "Player" && props.inventorySpace > 20 && <InventoryRow itemList={thirdRowList} entity={props.entity} handleFocusItem={props.handleFocusItem}/>}
+                {props.entity === "Merchant" &&
+                    <InventoryRow
+                        itemList={activeMerchantItems}
+                        entity={props.entity}
+                        handleFocusItem={props.handleFocusItem}
+                    />
+                }
+                {props.entity === "Player" &&
+                    <InventoryRow
+                        itemList={firstRowList}
+                        entity={props.entity}
+                        handleFocusItem={props.handleFocusItem}
+                    />
+                }
+                {props.entity === "Player" && props.inventorySpace > 10 &&
+                    <InventoryRow
+                        itemList={secondRowList}
+                        entity={props.entity}
+                        handleFocusItem={props.handleFocusItem}
+                    />
+                }
+                {props.entity === "Player" && props.inventorySpace > 20 &&
+                    <InventoryRow
+                        itemList={thirdRowList}
+                        entity={props.entity}
+                        handleFocusItem={props.handleFocusItem}
+                    />
+                }
             </div>
         </div>
     );

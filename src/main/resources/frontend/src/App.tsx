@@ -144,6 +144,22 @@ function App() {
         setFocusItem(focusItem)
     }
 
+    const handleEndGame = () => {
+        axios.post('http://localhost:8080/interaction/endGame', {
+            headers: {
+                "Content-Type": "text/plain"
+            }
+        })
+            .then(response => {
+                console.log(response.data);
+            })
+
+        setFocusItem(null)
+        setAmount(0)
+        setTotalPrice("0.00")
+        setEnoughMoney(true)
+    }
+
     // @ts-ignore
     const handleItemTrade = async (isBuying: boolean, amount: number) => {
         try {
@@ -266,6 +282,7 @@ function App() {
             handleFocusItem={handleFocusItem}
             showHighScoreModal={showHighScoreModal}
             handleShowHighScoreModal={handleHighScoreModal}
+            handleEndGame={handleEndGame}
         />
         <div className="game-container">
             <Marketplace handleActiveMerchant={handleActiveMerchant}/>
